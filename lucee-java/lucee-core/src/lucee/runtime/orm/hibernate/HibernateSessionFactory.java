@@ -114,7 +114,7 @@ public class HibernateSessionFactory {
 		Class<? extends RegionFactory> regionFactory=null;
 
 		if(Util.isEmpty(cacheProvider) || "EHCache".equalsIgnoreCase(cacheProvider)) {
-			// TODO: Think about this.
+			// We don't use EHCache at MasterControl and isn't compatible with luceehibernate change so commented out.
 			//regionFactory=net.sf.ehcache.hibernate.EhCacheRegionFactory.class;
 			cacheProvider=regionFactory.getName();//"org.hibernate.cache.EhCacheProvider";
 
@@ -174,7 +174,7 @@ public class HibernateSessionFactory {
     	.setProperty("hibernate.show_sql", CommonUtil.toString(ormConf.logSQL()))
     	.setProperty("hibernate.format_sql", CommonUtil.toString(ormConf.logSQL()))
     	// Specifies whether secondary caching should be enabled
-    	.setProperty("hibernate.cache.use_second_level_cache", "false")
+    	.setProperty("hibernate.cache.use_second_level_cache", CommonUtil.toString(ormConf.secondaryCacheEnabled()))
 		// Drop and re-create the database schema on startup
     	.setProperty("hibernate.exposeTransactionAwareSessionFactory", "false")
 		//.setProperty("hibernate.hbm2ddl.auto", "create")
@@ -186,7 +186,7 @@ public class HibernateSessionFactory {
 			configuration.setProperty("hibernate.default_schema",ormConf.getSchema());
 
 
-		if(ormConf.secondaryCacheEnabled() && false){
+		if(ormConf.secondaryCacheEnabled()){
 			if(cacheConfig!=null && cacheConfig.isFile())
 				configuration.setProperty("hibernate.cache.provider_configuration_file_resource_path",cacheConfig.getAbsolutePath());
 			if(regionFactory!=null || Reflector.isInstaneOf(cacheProvider, RegionFactory.class))
@@ -194,7 +194,7 @@ public class HibernateSessionFactory {
 			else
 				configuration.setProperty("hibernate.cache.provider_class", cacheProvider);
 
-			//configuration.setProperty("hibernate.cache.use_query_cache", "true");
+			configuration.setProperty("hibernate.cache.use_query_cache", "true");
 
 	    	//hibernate.cache.provider_class=org.hibernate.cache.EhCacheProvider
 		}
