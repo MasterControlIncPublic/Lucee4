@@ -113,13 +113,13 @@ public class HibernateSessionFactory {
 		String cacheProvider = ormConf.getCacheProvider();
 		Class<? extends RegionFactory> regionFactory=null;
 
-		if(Util.isEmpty(cacheProvider) || "EHCache".equalsIgnoreCase(cacheProvider)) {
-			// We don't use EHCache at MasterControl and isn't compatible with luceehibernate change so commented out.
-			//regionFactory=net.sf.ehcache.hibernate.EhCacheRegionFactory.class;
+        // We don't use EHCache at MasterControl and isn't compatible with luceehibernate change so commented out.
+		/*if(Util.isEmpty(cacheProvider) || "EHCache".equalsIgnoreCase(cacheProvider)) {
+			regionFactory=net.sf.ehcache.hibernate.EhCacheRegionFactory.class;
 			cacheProvider=regionFactory.getName();//"org.hibernate.cache.EhCacheProvider";
-
 		}
-		else if("JBossCache".equalsIgnoreCase(cacheProvider)) 	cacheProvider="org.hibernate.cache.TreeCacheProvider";
+		else*/
+		if("JBossCache".equalsIgnoreCase(cacheProvider)) 	cacheProvider="org.hibernate.cache.TreeCacheProvider";
 		else if("HashTable".equalsIgnoreCase(cacheProvider)) 	cacheProvider="org.hibernate.cache.HashtableCacheProvider";
 		else if("SwarmCache".equalsIgnoreCase(cacheProvider)) 	cacheProvider="org.hibernate.cache.SwarmCacheProvider";
 		else if("OSCache".equalsIgnoreCase(cacheProvider)) 		cacheProvider="org.hibernate.cache.OSCacheProvider";
