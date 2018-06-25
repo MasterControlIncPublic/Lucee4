@@ -39,6 +39,7 @@ import lucee.runtime.config.ConfigWebImpl;
 import lucee.runtime.config.ConfigWebUtil;
 import lucee.runtime.config.Constants;
 import lucee.runtime.db.DataSource;
+import lucee.runtime.db.DataSourceImpl;
 import lucee.runtime.db.DatasourceConnection;
 import lucee.runtime.db.DatasourceManagerImpl;
 import lucee.runtime.db.HSQLDBHandler;
@@ -161,7 +162,9 @@ public final class Query extends BodyTagTryCatchFinallyImpl {
 	private boolean setReturnVariable=false;
 	private Object rtn;
 	
-	
+
+	private boolean literalTimestampWithTSOffset;
+	private boolean previousLiteralTimestampWithTSOffset;
 	
 	@Override
 	public void release()	{
@@ -195,6 +198,8 @@ public final class Query extends BodyTagTryCatchFinallyImpl {
 		params=null;
 		nestingLevel=0;
 		setReturnVariable=false;
+		literalTimestampWithTSOffset=false;
+		previousLiteralTimestampWithTSOffset=false;
 	}
 	
 	
@@ -490,6 +495,7 @@ public final class Query extends BodyTagTryCatchFinallyImpl {
 			datasource=obj instanceof DataSource?(DataSource)obj:((PageContextImpl)pageContext).getDataSource(Caster.toString(obj));
 		}
 		
+		PageContextImpl pci = ((PageContextImpl)pageContext);
 		
 		// timezone
 		if(timezone!=null || (datasource!=null && (timezone=datasource.getTimeZone())!=null)) {
@@ -497,16 +503,16 @@ public final class Query extends BodyTagTryCatchFinallyImpl {
 			pageContext.setTimeZone(timezone);
 		}
 		
+		// literal timestamp with TSOffset
+		if(datasource instanceof DataSourceImpl) 
+			literalTimestampWithTSOffset=((DataSourceImpl)datasource).getLiteralTimestampWithTSOffset();
+		else 
+			literalTimestampWithTSOffset=false;
 		
+		previousLiteralTimestampWithTSOffset=pci.getTimestampWithTSOffset();
+		pci.setTimestampWithTSOffset(literalTimestampWithTSOffset);
+				
 		return EVAL_BODY_BUFFERED;
-	}
-	
-	@Override
-	public void doFinally() {
-		if(tmpTZ!=null) {
-			pageContext.setTimeZone(tmpTZ);
-		}
-		super.doFinally();
 	}
 
 	@Override
@@ -713,6 +719,12 @@ public final class Query extends BodyTagTryCatchFinallyImpl {
 			
 			throw pe;
 		}
+		finally {
+			((PageContextImpl)pageContext).setTimestampWithTSOffset(previousLiteralTimestampWithTSOffset);
+			if(tmpTZ!=null) {
+				pageContext.setTimeZone(tmpTZ);
+			}
+		}
 		
 		return EVAL_PAGE;
 	}
@@ -741,6 +753,7 @@ public final class Query extends BodyTagTryCatchFinallyImpl {
 	private Object executeORM(SQL sql, int returnType, Struct ormoptions) throws PageException {
 		ORMSession session=ORMUtil.getSession(pageContext);
 		
+		if(ormoptions==null) ormoptions=new StructImpl();
 		String dsn = null;
 		if (ormoptions!=null) dsn =	Caster.toString(ormoptions.get(KeyConstants._datasource,null),null);
 		if(StringUtil.isEmpty(dsn,true)) dsn=ORMUtil.getDefaultDataSource(pageContext).getName();

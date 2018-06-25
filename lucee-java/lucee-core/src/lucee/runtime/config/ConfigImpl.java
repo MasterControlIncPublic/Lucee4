@@ -255,7 +255,7 @@ public abstract class ConfigImpl implements Config {
 
     private int spoolInterval=30;
     private boolean spoolEnable=true;
-
+    private boolean sendPartial=false;
     private Server[] mailServers;
 
     private int mailTimeout=30;
@@ -622,6 +622,9 @@ public abstract class ConfigImpl implements Config {
     @Override
     public boolean isMailSpoolEnable() {
         return spoolEnable;
+    }
+    public boolean isMailSendPartial() {
+        return sendPartial;
     }
     
     @Override
@@ -1533,6 +1536,10 @@ public abstract class ConfigImpl implements Config {
         this.spoolInterval = spoolInterval;
     }
     
+	protected void setMailSendPartial(boolean sendPartial) {
+		 this.sendPartial = sendPartial;
+	}
+    
     /**
      * sets the timezone
      * @param timeZone
@@ -1813,6 +1820,7 @@ public abstract class ConfigImpl implements Config {
 			return Md5.getDigestAsString(key+token);
 		} 
     	catch (Throwable t) {
+        	ExceptionUtil.rethrowIfNecessary(t);
 			return defaultValue;
 		}
 	}
@@ -3364,7 +3372,9 @@ public abstract class ConfigImpl implements Config {
 				it.next().close();
 			}
 		}
-		catch(Throwable t){}
+		catch(Throwable t){
+        	ExceptionUtil.rethrowIfNecessary(t);
+        }
 		loggers.clear();
 	}
 	

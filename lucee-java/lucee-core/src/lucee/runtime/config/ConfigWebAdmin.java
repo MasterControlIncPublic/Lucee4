@@ -50,6 +50,7 @@ import lucee.commons.io.res.type.s3.S3ResourceProvider;
 import lucee.commons.io.res.util.ResourceUtil;
 import lucee.commons.lang.ClassException;
 import lucee.commons.lang.ClassUtil;
+import lucee.commons.lang.ExceptionUtil;
 import lucee.commons.lang.StringUtil;
 import lucee.commons.lang.SystemOut;
 import lucee.commons.net.HTTPUtil;
@@ -235,6 +236,7 @@ public final class ConfigWebAdmin {
 			SystemOut.printDate(ci.getOutWriter(), "reloaded the configuration ["+file+"] automaticly");
 		} 
 		catch (Throwable t) {
+        	ExceptionUtil.rethrowIfNecessary(t);
 			t.printStackTrace();
 		}
 	}
@@ -338,7 +340,9 @@ public final class ConfigWebAdmin {
     	try {
 	    	ConfigWebFactory.getChildByName(doc.getDocumentElement(),"cfabort",true);
     	}
-    	catch(Throwable t) {}
+    	catch(Throwable t) {
+        	ExceptionUtil.rethrowIfNecessary(t);
+        }
     }
 
 
@@ -1406,12 +1410,13 @@ public final class ConfigWebAdmin {
      * @param allow 
      * @param storage 
      * @param custom 
+     * @param literalTimestampWithTSOffset 
      * @throws ExpressionException
      * @throws SecurityException
      */
     public void updateDataSource(String name, String newName, String clazzName, String dsn, String username, String password,
             String host, String database, int port, int connectionLimit, int connectionTimeout, long metaCacheTimeout,
-            boolean blob, boolean clob, int allow, boolean validate, boolean storage, String timezone, Struct custom, String dbdriver) throws ExpressionException, SecurityException {
+            boolean blob, boolean clob, int allow, boolean validate, boolean storage, String timezone, Struct custom, String dbdriver, boolean literalTimestampWithTSOffset) throws ExpressionException, SecurityException {
 
     	checkWriteAccess();
     	SecurityManager sm = config.getSecurityManager();
@@ -1481,9 +1486,13 @@ public final class ConfigWebAdmin {
                 el.setAttribute("storage",Caster.toString(storage));
                 el.setAttribute("custom",toStringURLStyle(custom));
 
-	            if (!StringUtil.isEmpty( dbdriver ))
+                if (!StringUtil.isEmpty( dbdriver ))
 		            el.setAttribute("dbdriver", Caster.toString(dbdriver));
-
+                
+                if (literalTimestampWithTSOffset)
+		            el.setAttribute("literal-timestamp-with-tsoffset", Caster.toString(literalTimestampWithTSOffset));
+                else 
+                	el.removeAttribute("literal-timestamp-with-tsoffset");
 	      		return;
   			}
       	}
@@ -1520,7 +1529,10 @@ public final class ConfigWebAdmin {
 
 	    if (!StringUtil.isEmpty( dbdriver ))
 		    el.setAttribute("dbdriver", Caster.toString(dbdriver));
-
+	    
+	    if (literalTimestampWithTSOffset)
+            el.setAttribute("literal-timestamp-with-tsoffset", Caster.toString(literalTimestampWithTSOffset));
+        
         /*
   		    String host,String database,int port,String connectionLimit, String connectionTimeout,
             boolean blob,boolean clob,int allow,Struct custom
@@ -3145,7 +3157,9 @@ public final class ConfigWebAdmin {
         try {
 			location=HTTPUtil.toURL(location,true).toString();
 		} 
-        catch (Throwable e) {}
+        catch (Throwable e) {
+        	ExceptionUtil.rethrowIfNecessary(e);
+        }
         update.setAttribute("location",location);
     }
     
@@ -3263,6 +3277,7 @@ public final class ConfigWebAdmin {
         			factory.removeLatestUpdate(cs.getPassword().password);
         		}
         		catch(Throwable t)	{
+	            	ExceptionUtil.rethrowIfNecessary(t);
         			removeLatestUpdateOld(factory,cs.getPassword().password);
         		}
         	}
@@ -4057,12 +4072,16 @@ public final class ConfigWebAdmin {
 	        	try{
 	        		root.removeAttribute("serial-number");
 	        	}
-	        	catch(Throwable t){}
+	        	catch(Throwable t){
+	            	ExceptionUtil.rethrowIfNecessary(t);
+	            }
 	        }
         	try{
         		root.removeAttribute("serial");
         	}
-        	catch(Throwable t){}
+        	catch(Throwable t){
+            	ExceptionUtil.rethrowIfNecessary(t);
+            }
 	    }
 
 

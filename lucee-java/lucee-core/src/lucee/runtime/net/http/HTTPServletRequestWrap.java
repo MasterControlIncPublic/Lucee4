@@ -38,6 +38,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import lucee.commons.io.IOUtil;
+import lucee.commons.lang.ExceptionUtil;
 import lucee.commons.lang.StringUtil;
 import lucee.commons.net.URLItem;
 import lucee.runtime.PageContext;
@@ -190,13 +191,13 @@ public final class HTTPServletRequestWrap implements HttpServletRequest,Serializ
 	}
 
 	@Override
-	public void removeAttribute(String name) {
+	public synchronized void removeAttribute(String name) {
 		if(disconnected) disconnectData.attributes.remove(name); 
 		else req.removeAttribute(name);
 	}
 
 	@Override
-	public void setAttribute(String name, Object value) {
+	public synchronized void setAttribute(String name, Object value) {
 		if(disconnected) disconnectData.attributes.put(name, value);
 		else req.setAttribute(name, value);
 	}
@@ -207,12 +208,12 @@ public final class HTTPServletRequestWrap implements HttpServletRequest,Serializ
 
 
 	@Override
-	public Object getAttribute(String name) {
+	public synchronized Object getAttribute(String name) {
 		if(disconnected) return disconnectData.attributes.get(name);
 		return req.getAttribute(name);
 	}
 
-	public Enumeration getAttributeNames() {
+	public synchronized Enumeration getAttributeNames() {
 		if(disconnected) {
 			return new EnumerationWrapper(disconnectData.attributes);
 		}
@@ -246,6 +247,7 @@ public final class HTTPServletRequestWrap implements HttpServletRequest,Serializ
 				
 			}
 			catch(Throwable t) {
+				ExceptionUtil.rethrowIfNecessary(t);
 				barr=null;
 				return new ServletInputStreamDummy(new byte[]{});	 
 			}
@@ -341,7 +343,7 @@ public final class HTTPServletRequestWrap implements HttpServletRequest,Serializ
 		return req;
 	}
 
-	public void disconnect(PageContextImpl pc) {
+	public synchronized void disconnect(PageContextImpl pc) {
 		if(disconnected) return;
 		disconnectData=new DisconnectData();
 		
@@ -641,7 +643,9 @@ public final class HTTPServletRequestWrap implements HttpServletRequest,Serializ
 		try{
 			return req.isUserInRole(role);
 		}
-		catch(Throwable t){}
+		catch(Throwable t){
+			ExceptionUtil.rethrowIfNecessary(t);
+		}
 		// TODO add support for this
 		throw new RuntimeException("this method is not supported when root request is gone");
 	}
@@ -653,7 +657,9 @@ public final class HTTPServletRequestWrap implements HttpServletRequest,Serializ
 		try{
 			return req.getLocales();
 		}
-		catch(Throwable t){}
+		catch(Throwable t){
+			ExceptionUtil.rethrowIfNecessary(t);
+		}
 		// TODO add support for this
 		throw new RuntimeException("this method is not supported when root request is gone");
 	}
@@ -665,7 +671,9 @@ public final class HTTPServletRequestWrap implements HttpServletRequest,Serializ
 		try{
 			return req.getRealPath(path);
 		}
-		catch(Throwable t){}
+		catch(Throwable t){
+			ExceptionUtil.rethrowIfNecessary(t);
+		}
 		// TODO add support for this
 		throw new RuntimeException("this method is not supported when root request is gone");
 	}

@@ -28,6 +28,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import lucee.commons.io.SystemUtil;
 import lucee.commons.io.cache.CacheEntry;
+import lucee.commons.lang.ExceptionUtil;
 import lucee.runtime.cache.CacheSupport;
 import lucee.runtime.config.Config;
 import lucee.runtime.op.Caster;
@@ -61,8 +62,8 @@ public class RamCache extends CacheSupport {
 		long idleTime=Caster.toLongValue(arguments.get("timeToIdleSeconds",Constants.LONG_ZERO),Constants.LONG_ZERO)*1000;
 		Object ci = arguments.get("controlIntervall",null);
 		if(ci==null)ci = arguments.get("controlInterval",null);
-		int controlInterval=Caster.toIntValue(ci,DEFAULT_CONTROL_INTERVAL)*1000;
-		init(until,idleTime,controlInterval);
+		int intervalInSeconds=Caster.toIntValue(ci,DEFAULT_CONTROL_INTERVAL);
+		init(until,idleTime,intervalInSeconds);
 	}
 
 	public RamCache init(long until, long idleTime, int intervalInSeconds) {
@@ -161,6 +162,7 @@ public class RamCache extends CacheSupport {
 					_run();
 				}
 				catch(Throwable t){
+	            	ExceptionUtil.rethrowIfNecessary(t);
 					t.printStackTrace();
 				}
 				SystemUtil.sleep(ramCache.controlInterval);

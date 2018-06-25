@@ -30,6 +30,7 @@ import java.util.Map;
 import java.util.Set;
 
 import lucee.commons.date.DateTimeUtil;
+import lucee.commons.lang.ExceptionUtil;
 import lucee.runtime.Component;
 import lucee.runtime.PageContext;
 import lucee.runtime.exp.ExpressionException;
@@ -307,7 +308,9 @@ public final class Operator {
 					try{
 						return new BigDecimal(left).compareTo(new BigDecimal(right));
 					}
-					catch(Throwable t){}
+					catch(Throwable t){
+						ExceptionUtil.rethrowIfNecessary(t);
+					}
 				}
 				return compare(Caster.toDoubleValue(left,Double.NaN),Caster.toDoubleValue(right,Double.NaN));
 			}
@@ -332,7 +335,9 @@ public final class Operator {
             	try{
             		return new BigDecimal(left).compareTo(new BigDecimal(right));
             	}
-            	catch(Throwable t){}
+            	catch(Throwable t){
+        			ExceptionUtil.rethrowIfNecessary(t);
+        		}
             }
     		return compare(Caster.toDoubleValue(left,Double.NaN),right); 
     	}
@@ -916,98 +921,186 @@ public final class Operator {
 		return Caster.toDouble(Caster.toDoubleValue(left)*Caster.toDoubleValue(right));
 	}
 
+// post plus
     public static Double unaryPostPlus(PageContext pc,Collection.Key[] keys,double value) throws PageException {
     	VariableReference ref = VariableInterpreter.getVariableReference(pc, keys,true);
     	double rtn=Caster.toDoubleValue(ref.get(pc));
     	ref.set(rtn+value);
 		return rtn;
 	}
+    public static Double unaryPostPlus(Collection coll,Collection.Key key,double value) throws PageException {
+    	double rtn = Caster.toDoubleValue(coll.get(key));
+    	coll.set(key, rtn+value);
+    	return rtn;
+	}
+    public static double unaryPoPl(PageContext pc,Collection.Key[] keys,double value) throws PageException {
+    	VariableReference ref = VariableInterpreter.getVariableReference(pc, keys,true);
+    	double rtn=Caster.toDoubleValue(ref.get(pc));
+    	ref.set(rtn+value);
+		return rtn;
+	}
+    public static double unaryPoPl(PageContext pc,Collection.Key key,double value) throws PageException {
+    	return unaryPoPl(pc.undefinedScope(),key,value);
+	}
+    public static double unaryPoPl(Collection coll,Collection.Key key,double value) throws PageException {
+    	double rtn = Caster.toDoubleValue(coll.get(key));
+    	coll.set(key, rtn+value);
+    	return rtn;
+	}
+    
+    
 
-
+// post minus
     public static Double unaryPostMinus(PageContext pc,Collection.Key[] keys,double value) throws PageException {
     	VariableReference ref = VariableInterpreter.getVariableReference(pc, keys,true);
     	double rtn=Caster.toDoubleValue(ref.get(pc));
     	ref.set(rtn-value);
 		return rtn;
 	}
+    public static Double unaryPostMinus(Collection coll,Collection.Key key,double value) throws PageException {
+    	double rtn = Caster.toDoubleValue(coll.get(key));
+    	coll.set(key, rtn-value);
+    	return rtn;
+	}
+    public static double unaryPoMi(PageContext pc,Collection.Key[] keys,double value) throws PageException {
+    	VariableReference ref = VariableInterpreter.getVariableReference(pc, keys,true);
+    	double rtn=Caster.toDoubleValue(ref.get(pc));
+    	ref.set(rtn-value);
+		return rtn;
+	}
+    public static double unaryPoMi(PageContext pc,Collection.Key key,double value) throws PageException {
+    	return unaryPoMi(pc.undefinedScope(),key,value);
+	}
+    public static double unaryPoMi(Collection coll,Collection.Key key,double value) throws PageException {
+    	double rtn = Caster.toDoubleValue(coll.get(key));
+    	coll.set(key, rtn-value);
+    	return rtn;
+	}
     
+// pre plus
     public static Double unaryPrePlus(PageContext pc,Collection.Key[] keys,double value) throws PageException {
     	VariableReference ref = VariableInterpreter.getVariableReference(pc, keys,true);
     	double rtn=Caster.toDoubleValue(ref.get(pc))+value;
     	ref.set(rtn);
 		return rtn;
 	}
+    public static Double unaryPrePlus(Collection coll,Collection.Key key,double value) throws PageException {
+    	double rtn = Caster.toDoubleValue(coll.get(key))+value;
+    	coll.set(key, rtn);
+    	return rtn;
+	}
+    public static double unaryPrPl(PageContext pc,Collection.Key[] keys,double value) throws PageException {
+    	VariableReference ref = VariableInterpreter.getVariableReference(pc, keys,true);
+    	double rtn=Caster.toDoubleValue(ref.get(pc))+value;
+    	ref.set(rtn);
+		return rtn;
+	}
+    public static double unaryPrPl(PageContext pc,Collection.Key key,double value) throws PageException {
+    	return unaryPrPl(pc.undefinedScope(),key,value);
+	}
+    public static double unaryPrPl(Collection coll,Collection.Key key,double value) throws PageException {
+    	double rtn = Caster.toDoubleValue(coll.get(key))+value;
+    	coll.set(key, rtn);
+    	return rtn;
+	}
 
+// pre minus
     public static Double unaryPreMinus(PageContext pc,Collection.Key[] keys,double value) throws PageException {
     	VariableReference ref = VariableInterpreter.getVariableReference(pc, keys,true);
     	double rtn=Caster.toDoubleValue(ref.get(pc))-value;
     	ref.set(rtn);
 		return rtn;
 	}
+    public static Double unaryPreMinus(Collection coll,Collection.Key key,double value) throws PageException {
+    	double rtn = Caster.toDoubleValue(coll.get(key))-value;
+    	coll.set(key, rtn);
+    	return rtn;
+	}
+    public static double unaryPrMi(PageContext pc,Collection.Key[] keys,double value) throws PageException {
+    	VariableReference ref = VariableInterpreter.getVariableReference(pc, keys,true);
+    	double rtn=Caster.toDoubleValue(ref.get(pc))-value;
+    	ref.set(rtn);
+		return rtn;
+	}
+    public static double unaryPrMi(PageContext pc,Collection.Key key,double value) throws PageException {
+    	return unaryPrMi(pc.undefinedScope(),key,value);
+	}
+    public static double unaryPrMi(Collection coll,Collection.Key key,double value) throws PageException {
+    	double rtn = Caster.toDoubleValue(coll.get(key))-value;
+    	coll.set(key, rtn);
+    	return rtn;
+	}
     
+// pre multiply
     public static Double unaryPreMultiply(PageContext pc,Collection.Key[] keys,double value) throws PageException {
     	VariableReference ref = VariableInterpreter.getVariableReference(pc, keys,true);
     	double rtn=Caster.toDoubleValue(ref.get(pc))*value;
     	ref.set(rtn);
 		return rtn;
 	}
-    
+    public static Double unaryPreMultiply(Collection coll,Collection.Key key,double value) throws PageException {
+    	double rtn = Caster.toDoubleValue(coll.get(key))*value;
+    	coll.set(key, rtn);
+    	return rtn;
+	}
+    public static double unaryPrMu(PageContext pc,Collection.Key[] keys,double value) throws PageException {
+    	VariableReference ref = VariableInterpreter.getVariableReference(pc, keys,true);
+    	double rtn=Caster.toDoubleValue(ref.get(pc))*value;
+    	ref.set(rtn);
+		return rtn;
+	}
+    public static double unaryPrMu(PageContext pc,Collection.Key key,double value) throws PageException {
+    	return unaryPrMu(pc.undefinedScope(),key,value);
+	}
+    public static double unaryPrMu(Collection coll,Collection.Key key,double value) throws PageException {
+    	double rtn = Caster.toDoubleValue(coll.get(key))*value;
+    	coll.set(key, rtn);
+    	return rtn;
+	}
+
+// pre divide    
     public static Double unaryPreDivide(PageContext pc,Collection.Key[] keys,double value) throws PageException {
     	VariableReference ref = VariableInterpreter.getVariableReference(pc, keys,true);
     	double rtn=Caster.toDoubleValue(ref.get(pc))/value;
     	ref.set(rtn);
 		return rtn;
 	}
+    public static Double unaryPreDivide(Collection coll,Collection.Key key,double value) throws PageException {
+    	double rtn = Caster.toDoubleValue(coll.get(key))/value;
+    	coll.set(key, rtn);
+    	return rtn;
+	}    
+    public static double unaryPrDi(PageContext pc,Collection.Key[] keys,double value) throws PageException {
+    	VariableReference ref = VariableInterpreter.getVariableReference(pc, keys,true);
+    	double rtn=Caster.toDoubleValue(ref.get(pc))/value;
+    	ref.set(rtn);
+		return rtn;
+	}    
+    public static double unaryPrDi(PageContext pc,Collection.Key key,double value) throws PageException {
+    	return unaryPrDi(pc.undefinedScope(),key,value);
+	}
+    public static double unaryPrDi(Collection coll,Collection.Key key,double value) throws PageException {
+    	double rtn = Caster.toDoubleValue(coll.get(key))/value;
+    	coll.set(key, rtn);
+    	return rtn;
+	} 
     
+//Concat
     public static String unaryPreConcat(PageContext pc,Collection.Key[] keys,String value) throws PageException {
     	VariableReference ref = VariableInterpreter.getVariableReference(pc, keys,true);
     	String rtn=Caster.toString(ref.get(pc)).concat(value);
     	ref.set(pc,rtn);
 		return rtn;
 	}
-
-
-
-
-    public static Double unaryPostPlus(Collection coll,Collection.Key key,double value) throws PageException {
-    	double rtn = Caster.toDoubleValue(coll.get(key));
-    	coll.set(key, rtn+value);
-    	return rtn;
-	}
-
-    public static Double unaryPostMinus(Collection coll,Collection.Key key,double value) throws PageException {
-    	double rtn = Caster.toDoubleValue(coll.get(key));
-    	coll.set(key, rtn-value);
-    	return rtn;
-	}
-    
-    public static Double unaryPrePlus(Collection coll,Collection.Key key,double value) throws PageException {
-    	double rtn = Caster.toDoubleValue(coll.get(key))+value;
-    	coll.set(key, rtn);
-    	return rtn;
-	}
-
-    public static Double unaryPreMinus(Collection coll,Collection.Key key,double value) throws PageException {
-    	double rtn = Caster.toDoubleValue(coll.get(key))-value;
-    	coll.set(key, rtn);
-    	return rtn;
-	}
-    
-    public static Double unaryPreMultiply(Collection coll,Collection.Key key,double value) throws PageException {
-    	double rtn = Caster.toDoubleValue(coll.get(key))*value;
-    	coll.set(key, rtn);
-    	return rtn;
-	}
-    
-    public static Double unaryPreDivide(Collection coll,Collection.Key key,double value) throws PageException {
-    	double rtn = Caster.toDoubleValue(coll.get(key))/value;
-    	coll.set(key, rtn);
-    	return rtn;
-	}
-    
     public static String unaryPreConcat(Collection coll,Collection.Key key,String value) throws PageException {
     	String rtn = Caster.toString(coll.get(key)).concat(value);
     	coll.set(key, rtn);
     	return rtn;
+	}
+    public static String unaryPreConcat(PageContext pc,Collection.Key key,String value) throws PageException {
+    	VariableReference ref = VariableInterpreter.getVariableReference(pc, key,true);
+    	String rtn=Caster.toString(ref.get(pc)).concat(value);
+    	ref.set(pc,rtn);
+		return rtn;
 	}
 }

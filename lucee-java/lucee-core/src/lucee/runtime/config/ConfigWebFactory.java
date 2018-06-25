@@ -196,6 +196,7 @@ public final class ConfigWebFactory extends ConfigFactory {
 			new LabelBlockImpl("aa");
 		}
 		catch (Throwable t) {
+        	ExceptionUtil.rethrowIfNecessary(t);
 
 		}
 
@@ -281,6 +282,7 @@ public final class ConfigWebFactory extends ConfigFactory {
 				IOUtil.copy(new ByteArrayInputStream(content.getBytes()), htAccess, true);
 			}
 			catch (Throwable t) {
+            	ExceptionUtil.rethrowIfNecessary(t);
 			}
 		}
 	}
@@ -678,6 +680,7 @@ public final class ConfigWebFactory extends ConfigFactory {
 					}
 				}
 				catch (Throwable t) {
+	            	ExceptionUtil.rethrowIfNecessary(t);
 					t.printStackTrace(config.getErrWriter());
 
 				}
@@ -950,6 +953,7 @@ public final class ConfigWebFactory extends ConfigFactory {
 			createFileFromResourceCheckSizeDiff(resource, file);
 		}
 		catch (Throwable e) {
+        	ExceptionUtil.rethrowIfNecessary(e);
 			aprint.err(resource);
 			aprint.err(file);
 			//e.printStackTrace();
@@ -1379,6 +1383,10 @@ public final class ConfigWebFactory extends ConfigFactory {
 		// full null support
 		sb.append(config.getFullNullSupport());
 		sb.append(';');
+		
+		// fusiondebug or not (FD uses full path name)
+		sb.append(config.allowRequestTimeout());
+		sb.append(';');
 
 		// tld
 		for (int i = 0; i < tlds.length; i++) {
@@ -1782,6 +1790,7 @@ public final class ConfigWebFactory extends ConfigFactory {
 				}
 			}
 			catch (Throwable e) {
+            	ExceptionUtil.rethrowIfNecessary(e);
 				e.printStackTrace();
 				clazz = ConsoleExecutionLog.class;
 			}
@@ -1854,7 +1863,7 @@ public final class ConfigWebFactory extends ConfigFactory {
 		 */
 		// Default query of query DB
 		setDatasource(config, datasources, QOQ_DATASOURCE_NAME, "org.hsqldb.jdbcDriver", "", "", -1, "jdbc:hsqldb:.", "sa", "", -1, -1, 60000, true, true, DataSource.ALLOW_ALL,
-				false, false, null, new StructImpl(), "");
+				false, false, null, new StructImpl(), "",false);
 
 		SecurityManager sm = config.getSecurityManager();
 		short access = sm.getAccess(SecurityManager.TYPE_DATASOURCE);
@@ -1905,7 +1914,9 @@ public final class ConfigWebFactory extends ConfigFactory {
 						toInt(dataSource.getAttribute("connectionTimeout"), -1), toLong(dataSource.getAttribute("metaCacheTimeout"), 60000),
 						toBoolean(dataSource.getAttribute("blob"), true), toBoolean(dataSource.getAttribute("clob"), true),
 						toInt(dataSource.getAttribute("allow"), DataSource.ALLOW_ALL), toBoolean(dataSource.getAttribute("validate"), false),
-						toBoolean(dataSource.getAttribute("storage"), false), dataSource.getAttribute("timezone"), toStruct(dataSource.getAttribute("custom")), dataSource.getAttribute("dbdriver"));
+						toBoolean(dataSource.getAttribute("storage"), false), dataSource.getAttribute("timezone"), 
+						toStruct(dataSource.getAttribute("custom")), dataSource.getAttribute("dbdriver"),
+						toBoolean(dataSource.getAttribute("literal-timestamp-with-tsoffset"), false));
 			}
 		}
 		// }
@@ -2127,6 +2138,7 @@ public final class ConfigWebFactory extends ConfigFactory {
 					SystemOut.print(config.getErrWriter(), "missing method [public static init(Config,String[],Struct[]):void] for class [" + clazz.getName() + "] ");
 				}
 				catch (Throwable e) {
+	            	ExceptionUtil.rethrowIfNecessary(e);
 					e.printStackTrace();
 				}
 			}
@@ -2161,6 +2173,7 @@ public final class ConfigWebFactory extends ConfigFactory {
 			loadGateway(configServer, config, doc);
 		}
 		catch (Throwable t) {
+        	ExceptionUtil.rethrowIfNecessary(t);
 			t.printStackTrace();
 		}
 	}
@@ -2267,22 +2280,23 @@ public final class ConfigWebFactory extends ConfigFactory {
 
 	private static void setDatasource(ConfigImpl config, Map<String, DataSource> datasources, String datasourceName, String className, String server, String databasename,
 			int port, String dsn, String user, String pass, int connectionLimit, int connectionTimeout, long metaCacheTimeout, boolean blob, boolean clob, int allow,
-			boolean validate, boolean storage, String timezone, Struct custom, String dbdriver) throws ClassException {
+			boolean validate, boolean storage, String timezone, Struct custom, String dbdriver, boolean literalTimestampWithTSOffset) throws ClassException {
 
 		datasources.put( datasourceName.toLowerCase(),
 				new DataSourceImpl(datasourceName, className, server, dsn, databasename, port, user, pass, connectionLimit, connectionTimeout, metaCacheTimeout, blob, clob, allow,
-						custom, false, validate, storage, StringUtil.isEmpty(timezone, true) ? null : TimeZoneUtil.toTimeZone(timezone, null), dbdriver) );
+						custom, false, validate, storage, StringUtil.isEmpty(timezone, true) ? null : TimeZoneUtil.toTimeZone(timezone, null), dbdriver,literalTimestampWithTSOffset) );
 
 	}
 
 	private static void setDatasourceEL(ConfigImpl config, Map<String, DataSource> datasources, String datasourceName, String className, String server, String databasename,
 			int port, String dsn, String user, String pass, int connectionLimit, int connectionTimeout, long metaCacheTimeout, boolean blob, boolean clob, int allow,
-			boolean validate, boolean storage, String timezone, Struct custom, String dbdriver) {
+			boolean validate, boolean storage, String timezone, Struct custom, String dbdriver, boolean literalTimestampWithTSOffset) {
 		try {
 			setDatasource(config, datasources, datasourceName, className, server, databasename, port, dsn, user, pass, connectionLimit, connectionTimeout, metaCacheTimeout, blob,
-					clob, allow, validate, storage, timezone, custom, dbdriver);
+					clob, allow, validate, storage, timezone, custom, dbdriver,literalTimestampWithTSOffset);
 		}
 		catch (Throwable t) {
+        	ExceptionUtil.rethrowIfNecessary(t);
 		}
 	}
 
@@ -2891,6 +2905,7 @@ public final class ConfigWebFactory extends ConfigFactory {
 				clazz = ClassUtil.loadClass(config.getClassLoader(), str);
 			}
 			catch (Throwable t) {
+            	ExceptionUtil.rethrowIfNecessary(t);
 				t.printStackTrace();
 			}
 			if (clazz==null)
@@ -3169,6 +3184,7 @@ public final class ConfigWebFactory extends ConfigFactory {
 					return (PrintWriter) ClassUtil.loadInstance(classname);
 				}
 				catch (Throwable t) {
+	            	ExceptionUtil.rethrowIfNecessary(t);
 					t.printStackTrace();
 				}
 			}
@@ -3181,6 +3197,7 @@ public final class ConfigWebFactory extends ConfigFactory {
 						return new PrintWriter(res.getOutputStream(), true);
 				}
 				catch (Throwable t) {
+	            	ExceptionUtil.rethrowIfNecessary(t);
 					t.printStackTrace();
 				}
 			}
@@ -3665,7 +3682,17 @@ public final class ConfigWebFactory extends ConfigFactory {
 
 		boolean hasCS = configServer != null;
 		Element mail = getChildByName(doc.getDocumentElement(), "mail");
+		
 
+		// Send partial 
+		String strSendPartial = mail.getAttribute("send-partial");
+		if (!StringUtil.isEmpty(strSendPartial) && hasAccess) {
+			config.setMailSendPartial(toBoolean(strSendPartial, false));
+		}
+		else if (hasCS)
+			config.setMailSendPartial(configServer.isMailSendPartial());
+
+		
 		// Spool Interval
 		String strSpoolInterval = mail.getAttribute("spool-interval");
 		if (!StringUtil.isEmpty(strSpoolInterval) && hasAccess) {
@@ -3794,6 +3821,7 @@ public final class ConfigWebFactory extends ConfigFactory {
 					}
 				}
 				catch (Throwable t) {
+	            	ExceptionUtil.rethrowIfNecessary(t);
 					SystemOut.printDate(config.getErrWriter(), ExceptionUtil.getStacktrace(t, true));
 				}
 			}

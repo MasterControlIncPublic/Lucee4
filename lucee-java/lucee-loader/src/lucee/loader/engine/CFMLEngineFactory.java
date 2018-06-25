@@ -449,6 +449,7 @@ public class CFMLEngineFactory {
 		engine.reset();
 		}
 		catch(Throwable t) {
+			if(t instanceof ThreadDeath) throw (ThreadDeath)t;
 			t.printStackTrace();
 		}
 		
@@ -610,7 +611,10 @@ public class CFMLEngineFactory {
 						ZipUtil.zip(railoRoot, new File(p,"railo-server-context-old.zip"));
 						Util.delete(railoRoot);
 					}
-					catch(Throwable t){t.printStackTrace();}
+					catch(Throwable t){
+						if(t instanceof ThreadDeath) throw (ThreadDeath)t;
+						t.printStackTrace();
+					}
 				}
 				else {
 					resourceRoot.mkdirs();
@@ -800,7 +804,10 @@ public class CFMLEngineFactory {
 	 			file.createNewFile();
 	 			out=new PrintWriter(file);
 	 			}
-	 			catch(Throwable t){t.printStackTrace();}
+	 			catch(Throwable t){
+					if(t instanceof ThreadDeath) throw (ThreadDeath)t;
+					t.printStackTrace();
+				}
 	 		}
 	 		if(out==null)out=new PrintWriter(System.out);
 	 	}

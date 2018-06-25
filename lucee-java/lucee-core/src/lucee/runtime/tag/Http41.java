@@ -32,13 +32,17 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.zip.GZIPInputStream;
+
+import javax.net.ssl.SSLContext;
 
 import lucee.commons.io.CharsetUtil;
 import lucee.commons.io.IOUtil;
 import lucee.commons.io.SystemUtil;
 import lucee.commons.io.res.Resource;
 import lucee.commons.io.res.util.ResourceUtil;
+import lucee.commons.lang.ExceptionUtil;
 import lucee.commons.lang.StringUtil;
 import lucee.commons.lang.mimetype.ContentType;
 import lucee.commons.net.HTTPUtil;
@@ -56,9 +60,13 @@ import lucee.runtime.exp.ExpressionException;
 import lucee.runtime.exp.HTTPException;
 import lucee.runtime.exp.NativeException;
 import lucee.runtime.exp.PageException;
+import lucee.runtime.exp.RequestTimeoutException;
 import lucee.runtime.ext.tag.BodyTagImpl;
 import lucee.runtime.net.http.MultiPartResponseUtils;
 import lucee.runtime.net.http.ReqRspUtil;
+import lucee.runtime.net.http.sni.DefaultHostnameVerifierImpl;
+import lucee.runtime.net.http.sni.SSLConnectionSocketFactoryImpl;
+import lucee.runtime.net.http.sni.DefaultHttpClientConnectionOperatorImpl;
 import lucee.runtime.net.proxy.ProxyData;
 import lucee.runtime.net.proxy.ProxyDataImpl;
 import lucee.runtime.op.Caster;
@@ -91,7 +99,12 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.methods.HttpTrace;
+import org.apache.http.config.Lookup;
+import org.apache.http.config.RegistryBuilder;
 import org.apache.http.config.SocketConfig;
+import org.apache.http.conn.socket.ConnectionSocketFactory;
+import org.apache.http.conn.socket.PlainConnectionSocketFactory;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.FormBodyPart;
 import org.apache.http.entity.mime.HttpMultipartMode;
@@ -103,9 +116,11 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultRedirectStrategy;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
+import org.apache.http.ssl.SSLContexts;
 
 // MUST change behavor of mltiple headers now is a array, it das so?
 
@@ -122,9 +137,7 @@ public final class Http41 extends BodyTagImpl implements Http {
 
 	public static final String MULTIPART_RELATED = "multipart/related";
 	public static final String MULTIPART_FORM_DATA = "multipart/form-data";
-	
-	
-	
+
     /**
      * Maximum redirect count (5)
      */
@@ -630,14 +643,15 @@ public final class Http41 extends BodyTagImpl implements Http {
         finally {
         	System.setOut(out);
         }
-
 	}
 
 	
 	
 	private void _doEndTag(Struct cfhttp) throws PageException, IOException	{
 		HttpClientBuilder builder = HttpClients.custom();
-    	
+		//SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslcontext) {
+		ssl(builder);
+		
     	// redirect
     	if(redirect)  builder.setRedirectStrategy(new DefaultRedirectStrategy());
     	else builder.disableRedirectHandling();
@@ -645,13 +659,11 @@ public final class Http41 extends BodyTagImpl implements Http {
     	// cookies
     	BasicCookieStore cookieStore = new BasicCookieStore();
     	builder.setDefaultCookieStore(cookieStore);
-    	
-		
-    	
+
     	ConfigWeb cw = pageContext.getConfig();
     	HttpRequestBase req=null;
     	HttpContext httpContext=null;
-		//HttpRequestBase req = init(pageContext.getConfig(),this,client,params,url,port);
+    	//HttpRequestBase req = init(pageContext.getConfig(),this,client,params,url,port);
     	{
     		if(StringUtil.isEmpty(charset,true)) charset=((PageContextImpl)pageContext).getWebCharset().name();
     		else charset=charset.trim();
@@ -705,7 +717,7 @@ public final class Http41 extends BodyTagImpl implements Http {
 
     		boolean isBinary = false;
     		boolean doMultiPart=doUploadFile || this.multiPart;
-    		HttpPost post=null;
+    		HttpEntityEnclosingRequest post=null;
     		HttpEntityEnclosingRequest eem=null;
     		
     		
@@ -722,6 +734,7 @@ public final class Http41 extends BodyTagImpl implements Http {
     		else if(this.method==METHOD_PUT) {
     			isBinary=true;
     			HttpPut put = new HttpPut(url);
+    			post=put;
     		    req=put;
     		    eem=put;
     		    
@@ -742,7 +755,7 @@ public final class Http41 extends BodyTagImpl implements Http {
     		else {
     			isBinary=true;
     			post=new HttpPost(url);
-    			req=post;
+    			req=(HttpPost)post;
     			eem=post;
     		}
     		
@@ -943,21 +956,8 @@ public final class Http41 extends BodyTagImpl implements Http {
     			if(!HttpImpl.hasHeaderIgnoreCase(req,"User-Agent"))
     				req.setHeader("User-Agent",this.useragent);
     		
-    			//timeout not defined
-			if(this.timeout==null || ((int)timeout.getSeconds())<=0) { // not set
-				this.timeout=PageContextUtil.remainingTime(pageContext,true);
-    		}
-			// timeout bigger than remaining time
-			else {
-				TimeSpan remaining = PageContextUtil.remainingTime(pageContext,true);
-				if(timeout.getSeconds()>remaining.getSeconds())
-					timeout=remaining;
-			}
-			
-			setTimeout(builder,this.timeout);
-    		
-    		
-    		
+			setTimeout(builder,checkRemainingTimeout());
+
     	// set Username and Password
     		if(this.username!=null) {
     			if(this.password==null)this.password="";
@@ -992,7 +992,7 @@ public final class Http41 extends BodyTagImpl implements Http {
     		
 /////////////////////////////////////////// EXECUTE /////////////////////////////////////////////////
     	client = builder.build();
-		Executor41 e = new Executor41(pageContext,this,client,httpContext,req,redirect);
+    	Executor41 e = new Executor41(pageContext,this,client,httpContext,req,redirect);
 		HTTPResponse4Impl rsp=null;
 		if(timeout==null || timeout.getMillis()<=0) {// never happens
 			try{
@@ -1000,6 +1000,7 @@ public final class Http41 extends BodyTagImpl implements Http {
 			}
 			
 			catch(Throwable t){
+				ExceptionUtil.rethrowIfNecessary(t);
 				if(!throwonerror){
 					if(t instanceof SocketTimeoutException)setRequestTimeout(cfhttp);
 					else setUnknownHost(cfhttp, t);
@@ -1014,7 +1015,7 @@ public final class Http41 extends BodyTagImpl implements Http {
 			e.start();
 			try {
 				synchronized(this){//print.err(timeout);
-					this.wait(timeout.getMillis()+100);
+					this.wait(timeout.getMillis());
 				}
 			} 
 			catch (InterruptedException ie) {
@@ -1162,17 +1163,17 @@ public final class Http41 extends BodyTagImpl implements Http {
                 	}  	
                     try {
                     	try{
-                    	str = is==null?"":IOUtil.toString(is,responseCharset);
+                    	str = is==null?"":IOUtil.toString(is,responseCharset,checkRemainingTimeout().getMillis());
                     	}
                     	catch(EOFException eof){
                     		if(is instanceof CachingGZIPInputStream) {
-                    			str = IOUtil.toString(is=((CachingGZIPInputStream)is).getRawData(),responseCharset);
+                    			str = IOUtil.toString(is=((CachingGZIPInputStream)is).getRawData(),responseCharset,checkRemainingTimeout().getMillis());
                     		}
                     		else throw eof;
                     	}
                     }
                     catch (UnsupportedEncodingException uee) {
-                    	str = IOUtil.toString(is,(Charset)null);
+                    	str = IOUtil.toString(is,(Charset)null,checkRemainingTimeout().getMillis());
                     }
                 }
                 catch (IOException ioe) {
@@ -1271,6 +1272,34 @@ public final class Http41 extends BodyTagImpl implements Http {
 			if(client!=null)client.close();
 		}
 	    
+	}
+	
+	private void ssl(HttpClientBuilder builder) {
+		SSLContext sslcontext = SSLContexts.createSystemDefault();
+		
+		final SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactoryImpl(sslcontext,new DefaultHostnameVerifierImpl());
+		builder.setSSLSocketFactory(sslsf);
+		org.apache.http.config.Registry<ConnectionSocketFactory> reg = RegistryBuilder.<ConnectionSocketFactory>create()
+        .register("http", PlainConnectionSocketFactory.getSocketFactory())
+        .register("https", sslsf)
+        .build();
+		PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager(
+				new DefaultHttpClientConnectionOperatorImpl(reg), null, -1, TimeUnit.MILLISECONDS); // TODO review -1 setting
+		builder.setConnectionManager(cm);
+	}
+
+	private TimeSpan checkRemainingTimeout() throws RequestTimeoutException {
+		//timeout not defined
+		if(this.timeout==null || ((int)timeout.getSeconds())<=0) { // not set
+			this.timeout=PageContextUtil.remainingTime(pageContext,true);
+		}
+		// timeout bigger than remaining time
+		else {
+			TimeSpan remaining = PageContextUtil.remainingTime(pageContext,true);
+			if(timeout.getSeconds()>remaining.getSeconds())
+				timeout=remaining;
+		}
+		return timeout;
 	}
 
 	public static void setTimeout(HttpClientBuilder builder, TimeSpan timeout) {
@@ -1483,6 +1512,7 @@ class Executor41 extends Thread {
 			done=true;
 		} 
 		catch (Throwable t) {
+			ExceptionUtil.rethrowIfNecessary(t);
 			this.t=t;
 		}
 		finally {

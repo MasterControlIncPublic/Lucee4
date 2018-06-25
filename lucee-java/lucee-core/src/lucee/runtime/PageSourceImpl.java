@@ -28,10 +28,12 @@ import lucee.commons.io.CharsetUtil;
 import lucee.commons.io.IOUtil;
 import lucee.commons.io.res.Resource;
 import lucee.commons.io.res.util.ResourceUtil;
+import lucee.commons.lang.ExceptionUtil;
 import lucee.commons.lang.SizeOf;
 import lucee.commons.lang.StringUtil;
 import lucee.commons.lang.types.RefBoolean;
 import lucee.commons.lang.types.RefBooleanImpl;
+import lucee.commons.lang.types.RefIntegerSync;
 import lucee.runtime.config.ConfigImpl;
 import lucee.runtime.config.ConfigWeb;
 import lucee.runtime.config.ConfigWebImpl;
@@ -74,7 +76,7 @@ public final class PageSourceImpl implements PageSource, Sizeable {
     private String compName;
     private Page page;
 	private long lastAccess;	
-	private int accessCount=0;
+	private RefIntegerSync accessCount=new RefIntegerSync(0);
 	private boolean flush=false;
     //private boolean recompileAlways;
     //private boolean recompileAfterStartUp;
@@ -207,15 +209,12 @@ public final class PageSourceImpl implements PageSource, Sizeable {
 		if(page!=null && page.getLoadType()==LOAD_ARCHIVE) return page;
         
         try {
-            synchronized(this) {
-                Class clazz=mapping.getClassLoaderForArchive().loadClass(getClazz());
-                this.page=page=newInstance(clazz);
-                page.setPageSource(this);
-                //page.setTimeCreated(System.currentTimeMillis());
-                page.setLoadType(LOAD_ARCHIVE);
-    			////load=LOAD_ARCHIVE;
-    			return page;
-            }
+            Class clazz=mapping.getClassLoaderForArchive().loadClass(getClazz());
+            page=newInstance(clazz);
+            page.setPageSource(this);
+            page.setLoadType(LOAD_ARCHIVE);
+    		this.page=page;
+            return page;
         } 
         catch (Exception e) {
         	return null;
@@ -247,7 +246,6 @@ public final class PageSourceImpl implements PageSource, Sizeable {
 			}
 		// page doesn't exist
 			else {
-                ///synchronized(this) {
                     Resource classRootDir=mapping.getClassRootDirectory();
                     Resource classFile=classRootDir.getRealResource(getJavaName()+".class");
                     boolean isNew=false;
@@ -262,11 +260,12 @@ public final class PageSourceImpl implements PageSource, Sizeable {
                     else {
                     	try {
 							this.page=page=newInstance(mapping.touchPCLCollection().getClass(this));
-						} catch (Throwable t) {t.printStackTrace();
+						} catch (Throwable t) {
+							ExceptionUtil.rethrowIfNecessary(t);
+							t.printStackTrace();
 							this.page=page=null;
 						}
-                    	if(page==null) this.page=page=compile(config,classRootDir,Boolean.TRUE);
-                              
+                    	if(page==null) this.page=page=compile(config,classRootDir,Boolean.TRUE);     
                     }
                     
                     // check if there is a newwer version
@@ -299,7 +298,7 @@ public final class PageSourceImpl implements PageSource, Sizeable {
 	}
     
 
-	private synchronized Page compile(ConfigWeb config,Resource classRootDir, Boolean resetCL) throws PageException {
+	private Page compile(ConfigWeb config,Resource classRootDir, Boolean resetCL) throws PageException {
 		try {
 			return _compile(config, classRootDir, resetCL);
         }
@@ -325,23 +324,24 @@ public final class PageSourceImpl implements PageSource, Sizeable {
 	private Page _compile(ConfigWeb config,Resource classRootDir, Boolean resetCL) throws IOException, SecurityException, IllegalArgumentException, PageException {
         ConfigWebImpl cwi=(ConfigWebImpl) config;
         
-        //long now; // TODO reenable keywods, double check, inspect template, watch 
-        //if((getPhyscalFile().lastModified()+60000)>(now=System.currentTimeMillis()))
-        //	cwi.getCompiler().watch(this,now);//SystemUtil.get
+        long now; // TODO reenable keywods, double check, inspect template, watch 
+        if((getPhyscalFile().lastModified()+60000)>(now=System.currentTimeMillis()))
+        	cwi.getCompiler().watch(this,now);//SystemUtil.get
         
         
-        
-        byte[] barr = cwi.getCompiler().
-        	compile(cwi,this,cwi.getTLDs(),cwi.getFLDs(),classRootDir,getJavaName());
-        Class<?> clazz = mapping.touchPCLCollection().loadClass(getClazz(), barr,isComponent());
-        try{
-        	return  newInstance(clazz);
-        }
-        catch(Throwable t){
-        	PageException pe = Caster.toPageException(t);
-        	pe.setExtendedInfo("failed to load template "+getDisplayPath());
-        	throw pe;
-        }
+        //synchronized (this) {
+	        byte[] barr = cwi.getCompiler().
+	        	compile(cwi,this,cwi.getTLDs(),cwi.getFLDs(),classRootDir,getJavaName());
+	        Class<?> clazz = mapping.touchPCLCollection().loadClass(getClazz(), barr,isComponent());
+	        try{
+	        	return  newInstance(clazz);
+	        }
+	        catch(Throwable t){
+	        	PageException pe = Caster.toPageException(t);
+	        	pe.setExtendedInfo("failed to load template "+getDisplayPath());
+	        	throw pe;
+	        }
+		//}
     }
 
     private Page newInstance(Class clazz) throws SecurityException, IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException {
@@ -593,14 +593,14 @@ public final class PageSourceImpl implements PageSource, Sizeable {
 	}
 	
 	
-	private synchronized void createClassAndPackage() {
+	private void createClassAndPackage() {
 		String str=relPath;
-		StringBuffer packageName=new StringBuffer();
-		StringBuffer javaName=new StringBuffer();
+		StringBuilder packageName=new StringBuilder();
+		StringBuilder javaName=new StringBuilder();
 		
 		String[] arr=ListUtil.toStringArrayEL(ListUtil.listToArrayRemoveEmpty(str,'/'));
 		
-		String varName;
+		String varName,className=null,fileName=null;
 		for(int i=0;i<arr.length;i++) {
 			if(i==(arr.length-1)) {
 				int index=arr[i].lastIndexOf('.');
@@ -623,9 +623,12 @@ public final class PageSourceImpl implements PageSource, Sizeable {
 			javaName.append('/');
 			javaName.append(varName);
 		}
+			this.fileName=fileName;
+			this.className=className;
+			this.packageName=packageName.toString().toLowerCase();
+			this.javaName=javaName.toString().toLowerCase();
+			
 		
-		this.packageName=packageName.toString().toLowerCase();
-		this.javaName=javaName.toString().toLowerCase();
 
 		
 		
@@ -633,8 +636,9 @@ public final class PageSourceImpl implements PageSource, Sizeable {
 	
 	
 
-	private synchronized void createComponentName() {
+	private void createComponentName() {
 		Resource res = this.getPhyscalFile();
+		String relPath=this.relPath;
 	    String str=null;
 		if(res!=null) {
 			str=res.getAbsolutePath();
@@ -648,7 +652,7 @@ public final class PageSourceImpl implements PageSource, Sizeable {
 		}
 		else str=relPath;
 	    
-		StringBuffer compName=new StringBuffer();
+		StringBuilder compName=new StringBuilder();
 		String[] arr;
 		
 		// virtual part
@@ -670,6 +674,7 @@ public final class PageSourceImpl implements PageSource, Sizeable {
 			else compName.append(arr[i]);
 		}
 		this.compName=compName.toString();
+		
 	}
 
     @Override
@@ -784,14 +789,14 @@ public final class PageSourceImpl implements PageSource, Sizeable {
 	}
 
 	@Override
-	public synchronized final void setLastAccessTime() {
-		accessCount++;
+	public final void setLastAccessTime() {
+		accessCount.plus(1);
 		this.lastAccess=System.currentTimeMillis();
 	}	
 	
 	@Override
 	public final int getAccessCount() {
-		return accessCount;
+		return accessCount.toInt();
 	}
 
     @Override

@@ -25,7 +25,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
+import lucee.commons.lang.ExceptionUtil;
 import lucee.commons.lang.SizeOf;
+import lucee.commons.lang.types.RefBoolean;
+import lucee.commons.lang.types.RefBooleanImpl;
 import lucee.runtime.PageContext;
 import lucee.runtime.config.NullSupportHelper;
 import lucee.runtime.dump.DumpData;
@@ -519,38 +522,39 @@ public class QueryColumnImpl implements QueryColumnPro,Sizeable,Objects {
 	}
 
     @Override
-    public synchronized Object clone() {
-        return duplicate(true);
+    public Object clone() {
+        return cloneColumnImpl(true);
     }
 
-    public synchronized Collection duplicate(boolean deepCopy) {
-        return cloneColumn(query,deepCopy);
-    }
-    
-    public synchronized QueryColumnPro cloneColumn(Query query, boolean deepCopy) {
+    public Collection duplicate(boolean deepCopy) {
         return cloneColumnImpl(deepCopy);
     }
     
-    public synchronized QueryColumnImpl cloneColumnImpl(boolean deepCopy) {
+    public QueryColumnPro cloneColumn(Query query, boolean deepCopy) {
+        return cloneColumnImpl(deepCopy);
+    }
+    
+    public QueryColumnImpl cloneColumnImpl(boolean deepCopy) {
         QueryColumnImpl clone=new QueryColumnImpl();
-        populate(this, clone, deepCopy);
+        populate(clone, deepCopy);
         return clone;
     }
     
-    protected static void populate(QueryColumnImpl src,QueryColumnImpl trg, boolean deepCopy) {
-        
-        boolean inside=ThreadLocalDuplication.set(src, trg);
+    protected void populate(QueryColumnImpl trg, boolean deepCopy) {
+        boolean inside=deepCopy?ThreadLocalDuplication.set(this, trg):true;
         try{
-	        trg.key=src.key;
-	        trg.query=src.query;
-	        trg.size=src.size;
-	        trg.type=src.type;
-	        trg.key=src.key;
+	        trg.key=this.key;
+	        trg.query=this.query;
+	        trg.size=this.size;
+	        trg.type=this.type;
+	        trg.key=this.key;
 	        
-	        trg.data=new Object[src.data.length];
-	        for(int i=0;i<src.data.length;i++) {
-	            trg.data[i]=deepCopy?Duplicator.duplicate(src.data[i],true):src.data[i];
-	        }
+	        // we first get data local, because length of the object cannot be changed, the safes us from modifications from outside
+	        Object[] data=this.data;
+        	trg.data=new Object[data.length];
+			for(int i=0;i<data.length;i++) {
+				trg.data[i]=deepCopy?Duplicator.duplicate(data[i],true):data[i];
+			}
         }
         finally {
         	if(!inside)ThreadLocalDuplication.reset();
@@ -620,6 +624,7 @@ public class QueryColumnImpl implements QueryColumnPro,Sizeable,Objects {
 			try {
 				return mi.invoke(this);
 			} catch (Throwable t) {
+				ExceptionUtil.rethrowIfNecessary(t);
 				try {
 					return pc.getFunction(QueryUtil.getValue(this,query.getCurrentrow(pc.getId())), methodName, arguments);
 				} catch (PageException pe) {

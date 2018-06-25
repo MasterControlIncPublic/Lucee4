@@ -33,6 +33,7 @@ import java.util.TimeZone;
 
 import lucee.commons.date.JREDateTimeUtil;
 import lucee.commons.io.IOUtil;
+import lucee.commons.lang.ExceptionUtil;
 import lucee.commons.lang.StringUtil;
 import lucee.commons.sql.SQLUtil;
 import lucee.runtime.config.NullSupportHelper;
@@ -180,6 +181,7 @@ public final class SQLCaster {
     					stat.setString(parameterIndex,Caster.toString(value));
     				}
     				catch(Throwable t){
+	            	ExceptionUtil.rethrowIfNecessary(t);
     					stat.setClob(parameterIndex,SQLUtil.toClob(stat.getConnection(),value));
     				}
     				
@@ -370,8 +372,12 @@ public final class SQLCaster {
 			if(type==Types.VARCHAR ||type==Types.LONGVARCHAR || type==Types.CHAR || type==Types.CLOB || type==Types.NVARCHAR) {
 				return (matchString(item));
 			}
+		// long types
+			else if(type==Types.BIGINT) {
+				return Caster.toString(Caster.toLongValue(item.getValue()));
+			}
 		// int types
-			else if(type==Types.BIGINT || type==Types.INTEGER || type==Types.SMALLINT || type==Types.BIGINT || type==Types.TINYINT) {
+			else if(type==Types.INTEGER || type==Types.SMALLINT || type==Types.TINYINT) {
 				return Caster.toString(Caster.toIntValue(item.getValue()));
 			}
 		// numeric types
@@ -440,8 +446,12 @@ public final class SQLCaster {
 			else if(type==Types.CHAR || type==Types.NCHAR) {
 				return Caster.toString(item.getValue());
 			}
+		// long types
+			else if(type==Types.BIGINT) {
+				return Caster.toLong(item.getValue());
+			}
 		// int types
-			else if(type==Types.BIGINT || type==Types.INTEGER || type==Types.SMALLINT || type==Types.BIGINT || type==Types.TINYINT) {
+			else if(type==Types.INTEGER || type==Types.SMALLINT || type==Types.TINYINT) {
 				return Caster.toInteger(item.getValue());
 			}
 		// numeric types
@@ -519,8 +529,12 @@ public final class SQLCaster {
 			else if(type==Types.CHAR || type==Types.NCHAR) {
 				return Caster.toString(value);
 			}
+		// long types
+			else if(type==Types.BIGINT) {
+				return Caster.toLong(value);
+			}
 		// int types
-			else if(type==Types.BIGINT || type==Types.INTEGER || type==Types.SMALLINT || type==Types.BIGINT || type==Types.TINYINT) {
+			else if(type==Types.INTEGER || type==Types.SMALLINT || type==Types.TINYINT) {
 				return Caster.toInteger(value);
 			}
 		// numeric types

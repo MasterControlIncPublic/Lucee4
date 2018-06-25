@@ -20,9 +20,13 @@ package lucee.runtime.functions.system;
 
 import java.util.Iterator;
 
+import lucee.commons.io.res.Resource;
 import lucee.commons.io.res.util.ResourceUtil;
+import lucee.commons.lang.ExceptionUtil;
 import lucee.runtime.PageContext;
 import lucee.runtime.PageContextImpl;
+import lucee.runtime.PageSource;
+import lucee.runtime.config.ConfigWeb;
 import lucee.runtime.converter.JSONConverter;
 import lucee.runtime.exp.FunctionException;
 import lucee.runtime.exp.PageException;
@@ -59,13 +63,11 @@ public final class CallStackGet implements Function {
 			return arr;
 
 		if ( type.equalsIgnoreCase( "json" ) ) {
-
 			try {
-
 				return new JSONConverter(true,null).serialize( pc, arr, false );
 			}
 			catch (Throwable t) {
-
+	    		ExceptionUtil.rethrowIfNecessary(t);
 				throw Caster.toPageException( t );
 			}
 		}
@@ -161,9 +163,25 @@ public final class CallStackGet implements Function {
 				template=ExpandPath.call(pc, template);
 			}catch (PageException e) {}*/
 			// TODO AbsRel
-			item.setEL(KeyConstants._template,template);
+			item.setEL(KeyConstants._template,abs((PageContextImpl) pc,template));
 			item.setEL(lineNumberName,new Double(line));
 			tagContext.appendEL(item);
 		}
+	}
+
+	private static String abs(PageContextImpl pc, String template) {
+		ConfigWeb config = pc.getConfig();
+		
+		Resource res = config.getResource(template);
+		if(res.exists()) return template;
+		
+		PageSource ps = pc==null?null:pc.getPageSource(template);
+		res = ps==null?null:ps.getPhyscalFile();
+		if(res==null || !res.exists()) {
+			res=config.getResource(ps.getDisplayPath());
+			if(res!=null && res.exists()) return res.getAbsolutePath();
+		}
+		else return res.getAbsolutePath();
+		return template;
 	}
 }

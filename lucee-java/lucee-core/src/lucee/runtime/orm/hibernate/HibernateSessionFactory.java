@@ -115,7 +115,8 @@ public class HibernateSessionFactory {
 
         // We don't use EHCache at MasterControl and isn't compatible with luceehibernate change so commented out.
 		/*if(Util.isEmpty(cacheProvider) || "EHCache".equalsIgnoreCase(cacheProvider)) {
-			regionFactory=net.sf.ehcache.hibernate.EhCacheRegionFactory.class;
+			//regionFactory=net.sf.ehcache.hibernate.EhCacheRegionFactory.class;
+			regionFactory=net.sf.ehcache.hibernate.SingletonEhCacheRegionFactory.class;
 			cacheProvider=regionFactory.getName();//"org.hibernate.cache.EhCacheProvider";
 		}
 		else*/
@@ -135,6 +136,7 @@ public class HibernateSessionFactory {
 				configuration.configure(doc);
 			}
 			catch (Throwable t) {
+				lucee.commons.lang.ExceptionUtil.rethrowIfNecessary(t);
 				LogUtil.log(log, Log.LEVEL_ERROR, "hibernate", t);
 
 			}
@@ -314,7 +316,9 @@ public class HibernateSessionFactory {
 			try {
 				Component base = data.getEntityByCFCName(ext, false);
 				ext=HibernateCaster.getEntityName(base);
-			} catch (Throwable t) {}
+			} catch (Throwable t) {
+				lucee.commons.lang.ExceptionUtil.rethrowIfNecessary(t);
+			}
 
 
 			ext=HibernateUtil.id(CommonUtil.last(ext, '.').trim());
