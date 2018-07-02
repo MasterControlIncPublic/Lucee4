@@ -175,8 +175,6 @@ artifactory {
             }
             username = "${artifactory_user}"
             password = "${artifactory_password}"
-            maven = true
-
         }
         defaults {
             publications('LuceeCore')
@@ -187,8 +185,6 @@ artifactory {
             repoKey = 'libs-release'
             username = "${artifactory_user}"
             password = "${artifactory_password}"
-            maven = true
-
         }
     }
 }
