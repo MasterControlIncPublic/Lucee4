@@ -1060,6 +1060,11 @@ class StopThread extends Thread {
 	}
 
 	public void run(){
+	    if (thread.getName().startsWith("mc-")) {
+            LogUtil.log(log, Log.LEVEL_ERROR, "", "Trying to stop a tomcat thread. This action is being skipped", thread.getStackTrace());
+            return;
+        }
+
 		if(pc!=null){
 			PageContextImpl pci=(PageContextImpl) pc;
 			pci.stop(t);
