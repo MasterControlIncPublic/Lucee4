@@ -135,7 +135,7 @@ public final class Directory extends TagImpl  {
 	private int listInfo=LIST_INFO_QUERY_ALL;
 	//private int acl=S3Constants.ACL_UNKNOW;
 	private Object acl=null;
-	private int storage=S3Constants.STORAGE_UNKNOW;
+	private int storage=S3Constants.STORAGE_UNKNOWN;
 	private String destination; 
 
 	private int nameconflict = NAMECONFLICT_DEFAULT;
@@ -147,7 +147,7 @@ public final class Directory extends TagImpl  {
 	public void release()	{
 		super.release();
 		acl=null;
-		storage=S3Constants.STORAGE_UNKNOW;
+		storage=S3Constants.STORAGE_UNKNOWN;
 
 
 		type=TYPE_ALL;
@@ -635,7 +635,7 @@ public final class Directory extends TagImpl  {
 				}
 			}
 			
-			if(storage!=S3Constants.STORAGE_UNKNOW) s3r.setStorage(storage);
+			if(storage!=S3Constants.STORAGE_UNKNOWN) s3r.setStorage(storage);
 		}
 	}
 

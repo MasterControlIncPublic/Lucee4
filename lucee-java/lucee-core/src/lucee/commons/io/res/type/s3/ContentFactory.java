@@ -36,7 +36,7 @@ public final class ContentFactory extends S3Factory {
 
 	private Content content; 
 	private List contents=new ArrayList();
-	private final S3 s3;
+	private final S3SDK s3;
 	private String bucketName;
 	private boolean isTruncated; 
 
@@ -47,7 +47,7 @@ public final class ContentFactory extends S3Factory {
 	 * @throws IOException 
 	 * @throws SAXException 
 	 */
-	public ContentFactory(InputStream in,S3 s3) throws IOException, SAXException {
+	public ContentFactory(InputStream in,S3SDK s3) throws IOException, SAXException {
 		super();
 		this.s3=s3;
 		init(in);
@@ -79,7 +79,7 @@ public final class ContentFactory extends S3Factory {
 						content.setKey(value);
 					}
 					else if(inside.equals("LastModified"))	content.setLastModified(
-							S3.toDate(value,s3.getTimeZone()).getTime());
+							S3.toDate(value,null).getTime());
 					else if(inside.equals("ETag"))			content.setETag(value); // MUST HTML Encoder
 					else if(inside.equals("Size")) 			content.setSize(Caster.toLongValue(value,0L));
 					else if(inside.equals("StorageClass")) 	content.setStorageClass(value);

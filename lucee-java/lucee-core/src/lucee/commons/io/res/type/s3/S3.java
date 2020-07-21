@@ -314,7 +314,7 @@ public final class S3 implements S3Constants {
 		List<Content[]> list = new ArrayList<Content[]>();
 		int size=0;
 		while(true) {
-			factory = new ContentFactory(listContentsRaw(bucketName, prefix, marker, -1),this);
+			factory = new ContentFactory(listContentsRaw(bucketName, prefix, marker, -1),null);
 			contents = factory.getContents();
 			list.add(contents);
 			size+=contents.length;
@@ -345,7 +345,7 @@ public final class S3 implements S3Constants {
 	public Content[] listContents(String bucketName,String prefix,String marker,int maxKeys) throws InvalidKeyException, MalformedURLException, NoSuchAlgorithmException, IOException, SAXException {
 		InputStream raw = listContentsRaw(bucketName, prefix, marker, maxKeys);
 		//print.o(IOUtil.toString(raw, null));
-		ContentFactory factory = new ContentFactory(raw,this);
+		ContentFactory factory = new ContentFactory(raw,null);
 		return factory.getContents();
 	}
 	
@@ -534,12 +534,6 @@ public final class S3 implements S3Constants {
 	
 	// --------------------------------
 	public static String toStringACL(int acl) throws S3Exception {
-		switch(acl) {
-			case ACL_AUTH_READ:return "authenticated-read";
-			case ACL_PUBLIC_READ:return "public-read";
-			case ACL_PRIVATE:return "private";
-			case ACL_PUBLIC_READ_WRITE:return "public-read-write";
-		}
 		throw new S3Exception("invalid acl definition");
 	}
 
@@ -559,20 +553,6 @@ public final class S3 implements S3Constants {
 	}
 	
 	public static int toIntACL(String acl) throws S3Exception {
-		acl=acl.toLowerCase().trim();
-		if("public-read".equals(acl)) return ACL_PUBLIC_READ;
-		if("private".equals(acl)) return ACL_PRIVATE;
-		if("public-read-write".equals(acl)) return ACL_PUBLIC_READ_WRITE;
-		if("authenticated-read".equals(acl)) return ACL_AUTH_READ;
-		
-		if("public_read".equals(acl)) return ACL_PUBLIC_READ;
-		if("public_read_write".equals(acl)) return ACL_PUBLIC_READ_WRITE;
-		if("authenticated_read".equals(acl)) return ACL_AUTH_READ;
-		
-		if("publicread".equals(acl)) return ACL_PUBLIC_READ;
-		if("publicreadwrite".equals(acl)) return ACL_PUBLIC_READ_WRITE;
-		if("authenticatedread".equals(acl)) return ACL_AUTH_READ;
-		
 		throw new S3Exception("invalid acl value, valid values are [public-read, private, public-read-write, authenticated-read]");
 	}
 

@@ -25,24 +25,21 @@ import java.net.SocketException;
 import lucee.commons.io.TemporaryStream;
 import lucee.commons.lang.ExceptionUtil;
 import lucee.commons.lang.StringUtil;
-import lucee.commons.net.http.httpclient3.HTTPEngine3Impl;
 
 public final class S3ResourceOutputStream extends OutputStream {
 	
-	private final S3 s3;
+	private final S3SDK s3;
 	
 	private final String contentType="application";
 	private final String bucketName;
 	private final String objectName;
-	private final int acl;
 
 	private TemporaryStream ts;
 	
-	public S3ResourceOutputStream(S3 s3,String bucketName,String objectName,int acl) {
+	public S3ResourceOutputStream(S3SDK s3,String bucketName,String objectName) {
 		this.s3=s3;
 		this.bucketName=bucketName;
 		this.objectName=objectName;
-		this.acl=acl;
 		
 		ts = new TemporaryStream();
 	}
@@ -50,18 +47,15 @@ public final class S3ResourceOutputStream extends OutputStream {
 	@Override
 	public void close() throws IOException {
 		ts.close();
-		
-		//InputStream is = ts.getInputStream();
-		try {
-			s3.put(bucketName, objectName, acl, HTTPEngine3Impl.getTemporaryStreamEntity(ts,contentType));
-		} 
 
-		catch (SocketException se) {
+		try {
+			s3.put(bucketName, objectName, ts);
+		} catch (SocketException se) {
 			String msg = StringUtil.emptyIfNull(se.getMessage());
-			if(StringUtil.indexOfIgnoreCase(msg, "Socket closed")==-1)
+			if (StringUtil.indexOfIgnoreCase(msg, "Socket closed")==-1) {
 				throw se;
-		}
-		catch (Exception e) {
+			}
+		} catch (Exception e) {
 			throw ExceptionUtil.toIOException(e);
 		}
 	}

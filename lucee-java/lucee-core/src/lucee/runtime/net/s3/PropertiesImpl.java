@@ -27,7 +27,7 @@ import lucee.runtime.type.StructImpl;
 public final class PropertiesImpl implements Properties {
 	private String accessKeyId;
 	private String secretAccessKey;
-	private int defaultLocation=S3Constants.STORAGE_UNKNOW;
+	private int defaultLocation=S3Constants.STORAGE_UNKNOWN;
 	private String host=S3.HOST;
 	
 	
@@ -72,7 +72,7 @@ public final class PropertiesImpl implements Properties {
 	 * @param defaultLocation the defaultLocation to set
 	 */
 	public void setDefaultLocation(String defaultLocation) {
-		this.defaultLocation = S3.toIntStorage(defaultLocation,S3Constants.STORAGE_UNKNOW);
+		this.defaultLocation = S3.toIntStorage(defaultLocation,S3Constants.STORAGE_UNKNOWN);
 	}
 	/**
 	 * @param accessKeyId the accessKeyId to set

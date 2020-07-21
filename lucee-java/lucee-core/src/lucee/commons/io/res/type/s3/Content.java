@@ -23,6 +23,7 @@ import java.io.InputStream;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
+import com.amazonaws.services.s3.model.S3ObjectSummary;
 import org.xml.sax.SAXException;
 
 public final class Content implements S3Info {
@@ -36,7 +37,7 @@ public final class Content implements S3Info {
 	private String ownerIdKey;
 	private String ownerDisplayName;
 	private String bucketName;
-	private final S3 s3;
+	private final S3SDK s3;
 	private boolean truncated;
 	
 	/**
@@ -57,7 +58,7 @@ public final class Content implements S3Info {
 	public void setBucketName(String bucketName) {
 		this.bucketName = bucketName;
 	}
-	public Content(S3 s3) {
+	public Content(S3SDK s3) {
 		this.s3=s3;
 	}
 	/**
@@ -146,7 +147,8 @@ public final class Content implements S3Info {
 	}
 	
 	public String getLink(int secondsValid) throws InvalidKeyException, NoSuchAlgorithmException, IOException {
-		return s3.getObjectLink(bucketName, key, secondsValid);
+		// todo do we need this?
+		return "";//s3.getObjectLink(bucketName, key, secondsValid);
 	}
 	
 	public InputStream getInputStream() throws InvalidKeyException, NoSuchAlgorithmException, IOException, SAXException {
@@ -179,6 +181,37 @@ public final class Content implements S3Info {
 	public void setTruncated(boolean truncated) {
 		this.truncated = truncated;
 	}
-	
-	
+
+	public static Content fromObjectSummary(S3SDK s3, S3ObjectSummary s3ObjectSummary) {
+		Content content = new Content(s3);
+		content.setBucketName(s3ObjectSummary.getBucketName());
+		content.setETag(s3ObjectSummary.getETag());
+		content.setKey(s3ObjectSummary.getKey());
+		content.setLastModified(s3ObjectSummary.getLastModified().getTime());
+		//todo, do we even need this info?
+		if (s3ObjectSummary.getOwner() != null) {
+			content.setOwnerDisplayName(s3ObjectSummary.getOwner().getDisplayName());
+			content.setOwnerIdKey(s3ObjectSummary.getOwner().getId());
+		}
+		content.setSize(s3ObjectSummary.getSize());
+		content.setStorageClass(s3ObjectSummary.getStorageClass());
+		// todo seems unnecessary
+		content.setTruncated(false);
+		return content;
+	}
+
+	public static Content forFolder(S3SDK s3, String bucketName, String folderName) {
+		Content content = new Content(s3);
+		content.setBucketName(bucketName);
+		content.setETag("");
+		content.setKey(folderName);
+		content.setLastModified(0);
+		content.setOwnerDisplayName("");
+		content.setOwnerIdKey("");
+		content.setSize(0);
+		content.setStorageClass("");
+		// todo seems unnecessary
+		content.setTruncated(false);
+		return content;
+	}
 }
