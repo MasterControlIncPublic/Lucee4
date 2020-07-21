@@ -3,6 +3,7 @@ package lucee.commons.io.res.type.s3;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.ListObjectsV2Request;
@@ -49,7 +50,7 @@ public class S3SDK {
         if (client == null) {
             AWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey);
             AWSStaticCredentialsProvider credentialsProvider = new AWSStaticCredentialsProvider(credentials);
-            client = AmazonS3ClientBuilder.standard().withCredentials(credentialsProvider).build();
+            client = AmazonS3ClientBuilder.standard().withCredentials(credentialsProvider).withRegion(Regions.US_WEST_2).build();
         }
         return client;
     }

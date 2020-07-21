@@ -22,37 +22,44 @@ idea {
 buildscript {
     repositories {
         maven {
-            url 'https://labs.mastercontrol.com/artifactory/plugins-release'
             credentials {
-                username = "${artifactory_user}"
-                password = "${artifactory_password}"
+                username "${artifactory_user}"
+                password "${artifactory_password}"
+            }
+            url 'https://labs.mastercontrol.com/artifactory/repo'
+            metadataSources {
+                mavenPom()
+                artifact()
             }
         }
-    }
-    dependencies {
-        //Check for the latest version here: http://plugins.gradle.org/plugin/com.jfrog.artifactory
-        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:3.1.1"
+        dependencies {
+            classpath 'org.gradle:gradle-tooling-api:4.3'
+            classpath "org.jfrog.buildinfo:build-info-extractor-gradle:3.1.1"
+        }
     }
 }
 
-
-
-
 repositories {
+    mavenLocal()
+
     maven {
         credentials {
             username "${artifactory_user}"
             password "${artifactory_password}"
         }
-        url "${artifactory_contextUrl}"
+        url 'https://labs.mastercontrol.com/artifactory/repo'
+        metadataSources {
+            mavenPom()
+            artifact()
+        }
     }
-    mavenLocal()
 }
 configurations {
     compile.extendsFrom provided
 }
 
 dependencies {
+    compile 'com.amazonaws:aws-java-sdk-s3:1.11.823'
     compile 'antlr:antlr:2.7.6'
     compile 'org.apache.sanselan:sanselan:0.97-incubator'
     compile 'org.apache.commons:commons-compress:1.3'
