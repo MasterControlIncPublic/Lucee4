@@ -1,8 +1,35 @@
-apply plugin: 'idea' // allows us to make an intelliJ IDEA project
-apply plugin: "com.jfrog.artifactory"
-apply plugin: 'java'
-apply plugin: 'maven'
-apply plugin: 'maven-publish'
+//apply plugin: 'idea' // allows us to make an intelliJ IDEA project
+//apply plugin: "com.jfrog.artifactory"
+//apply plugin: 'java'
+//apply plugin: 'maven'
+//apply plugin: 'maven-publish'
+buildscript {
+    repositories {
+        maven {
+            credentials {
+                username "${artifactory_user}"
+                password "${artifactory_password}"
+            }
+            url 'https://labs.mastercontrol.com/artifactory/repo'
+            metadataSources {
+                mavenPom()
+                artifact()
+            }
+        }
+        dependencies {
+            classpath 'org.gradle:gradle-tooling-api:4.3'
+            //classpath "org.jfrog.buildinfo:build-info-extractor-gradle:3.1.1"
+        }
+    }
+}
+
+plugins {
+    id 'idea'
+    id 'java'
+    id 'maven'
+    id 'maven-publish'
+    id 'com.jfrog.artifactory' version '4.15.1'
+}
 buildDir = 'builddir'
 group = 'lucee'
 
@@ -19,25 +46,7 @@ idea {
 
     }
 }
-buildscript {
-    repositories {
-        maven {
-            credentials {
-                username "${artifactory_user}"
-                password "${artifactory_password}"
-            }
-            url 'https://labs.mastercontrol.com/artifactory/repo'
-            metadataSources {
-                mavenPom()
-                artifact()
-            }
-        }
-        dependencies {
-            classpath 'org.gradle:gradle-tooling-api:4.3'
-            classpath "org.jfrog.buildinfo:build-info-extractor-gradle:3.1.1"
-        }
-    }
-}
+
 
 repositories {
     mavenLocal()
@@ -59,6 +68,7 @@ configurations {
 }
 
 dependencies {
+    compile 'com.mastercontrol:common-spring-components:5.6.0-20200722.210904-5'
     compile 'com.amazonaws:aws-java-sdk-s3:1.11.823'
     compile 'antlr:antlr:2.7.6'
     compile 'org.apache.sanselan:sanselan:0.97-incubator'
@@ -140,6 +150,7 @@ defaultTasks 'build'
 ant.importBuild 'build.xml'
 def libversion = ant.properties['number'] //from ant build.xml
 def snapshotText = "-SNAPSHOT"
+def release = false
 if (release == "true") {
     snapshotText = ""
 }
@@ -159,9 +170,9 @@ build.dependsOn {
     renameFile
 }
 
-artifactoryPublish.dependsOn {
-    build
-}
+//artifactoryPublish.dependsOn {
+//    build
+//}
 
 task renameFile(dependsOn: 'core') {
     doLast {

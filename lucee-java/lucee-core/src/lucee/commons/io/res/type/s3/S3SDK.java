@@ -10,6 +10,7 @@ import com.amazonaws.services.s3.model.ListObjectsV2Request;
 import com.amazonaws.services.s3.model.ListObjectsV2Result;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.mastercontrol.resource.S3ClientManager;
 import lucee.commons.io.StreamWithSize;
 import org.apache.commons.collections.map.ReferenceMap;
 import java.io.IOException;
@@ -47,12 +48,7 @@ public class S3SDK {
     }
 
     private AmazonS3 getClient() {
-        if (client == null) {
-            AWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey);
-            AWSStaticCredentialsProvider credentialsProvider = new AWSStaticCredentialsProvider(credentials);
-            client = AmazonS3ClientBuilder.standard().withCredentials(credentialsProvider).withRegion(Regions.US_WEST_2).build();
-        }
-        return client;
+        return S3ClientManager.getClient();
     }
 
     public void releaseCache(String path) {
