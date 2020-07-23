@@ -55,20 +55,18 @@ public final class S3Resource extends ResourceSupport {
 	private String objectName;
 	private final S3SDK s3;
 	long infoLastAccess=0;
-	private int storage=S3.STORAGE_UNKNOWN;
 
 	private final boolean newPattern;
 
-	private S3Resource(S3SDK s3, int storage, S3ResourceProvider provider, String buckedName,String objectName, boolean newPattern) {
+	private S3Resource(S3SDK s3, S3ResourceProvider provider, String buckedName,String objectName, boolean newPattern) {
 		this.s3=s3;
 		this.provider=provider;
 		this.bucketName=buckedName;
 		this.objectName=objectName;
-		this.storage=storage;
 		this.newPattern=newPattern;
 	}
 
-	S3Resource(S3SDK s3, int storage, S3ResourceProvider provider, String path, boolean newPattern) {
+	S3Resource(S3SDK s3, S3ResourceProvider provider, String path, boolean newPattern) {
 		this.s3=s3;
 		this.provider=provider;
 		this.newPattern=newPattern;
@@ -91,7 +89,6 @@ public final class S3Resource extends ResourceSupport {
 				objectName="";
 			}
 		}
-		this.storage=storage;
 	}
 
 	public  static String[] toStringArray(Array array) {
@@ -199,7 +196,7 @@ public final class S3Resource extends ResourceSupport {
 	@Override
 	public Resource getParentResource() {
 		// MUST make more direct
-		return new S3Resource(s3, isBucket()?S3.STORAGE_UNKNOWN :storage, provider, getInnerParent(), newPattern);
+		return new S3Resource(s3, provider, getInnerParent(), newPattern);
 	}
 	
 	private boolean isBucket() {
@@ -253,7 +250,7 @@ public final class S3Resource extends ResourceSupport {
 		if(relpath.startsWith("../")) {
 			return null;
 		}
-		return new S3Resource(s3, S3.STORAGE_UNKNOWN, provider, relpath, newPattern);
+		return new S3Resource(s3, provider, relpath, newPattern);
 	}
 
 	@Override
@@ -308,10 +305,10 @@ public final class S3Resource extends ResourceSupport {
 							break;
 						}
 					}
-					// todo if this is folder?
+					// todo if this is folder? I added the `+ "/"` because it wouldn't let me create a folder named a prefix of another.
 					if(!has){
 						for(int i=0;i<contents.length;i++) {
-							if(ResourceUtil.translatePath(contents[i].getKey(),false,false).startsWith(path)) {
+							if(ResourceUtil.translatePath(contents[i].getKey(),false,false).startsWith(path + "/")) {
 								info=UNDEFINED_WITH_CHILDREN;
 								infoLastAccess=System.currentTimeMillis()+provider.getCache();
 								break;
@@ -370,7 +367,7 @@ public final class S3Resource extends ResourceSupport {
 
 				if(path==null){
 					names.add(name);
-					tmp.add(r = new S3Resource(s3,storage,provider,contents[i].getBucketName(),key,newPattern));
+					tmp.add(r = new S3Resource(s3,provider,contents[i].getBucketName(),key,newPattern));
 					s3.setInfo(r.getInnerPath(),contents[i]);
 				} else {
 					pathes.add(path);
@@ -383,7 +380,7 @@ public final class S3Resource extends ResourceSupport {
 				if(names.contains(path)) {
 					continue;
 				}
-				tmp.add(r=new S3Resource(s3,storage,provider,bucketName,path,newPattern));
+				tmp.add(r=new S3Resource(s3,provider,bucketName,path,newPattern));
 				s3.setInfo(r.getInnerPath(),UNDEFINED_WITH_CHILDREN2);
 			}
 
@@ -459,11 +456,6 @@ public final class S3Resource extends ResourceSupport {
 
 	public void setACL(int acl) {
 		// Not managing ACLs here
-	}
-
-
-	public void setStorage(int storage) {
-		this.storage=storage;
 	}
 
 	private static class Dummy implements S3Info {

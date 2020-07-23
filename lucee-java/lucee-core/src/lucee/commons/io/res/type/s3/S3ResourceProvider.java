@@ -96,17 +96,14 @@ public final class S3ResourceProvider implements ResourceProviderPro {
 	public Resource getResource(String path) {
 		path=lucee.commons.io.res.util.ResourceUtil.removeScheme(scheme, path);
 		S3SDK s3 = new S3SDK();
-		RefInteger storage=new RefIntegerImpl(S3.STORAGE_UNKNOWN);
+
+		path=loadWithNewPattern(path);
 		
-		
-		//path=loadWithOldPattern(s3,storage,path);
-		path=loadWithNewPattern(s3,storage,path);
-		
-		return new S3Resource(s3,storage.toInt(),this,path,true);
+		return new S3Resource(s3,this,path,true);
 	}
 
 	
-	public static String loadWithNewPattern(S3SDK s3,RefInteger storage, String path) {
+	public static String loadWithNewPattern(String path) {
 		PageContext pc = ThreadLocalPageContext.get();
 		Properties prop=null; 
 		if(pc!=null){
@@ -117,40 +114,13 @@ public final class S3ResourceProvider implements ResourceProviderPro {
 			prop=new PropertiesImpl();
 		}
 		
-		int defaultLocation = prop.getDefaultLocation();
-		storage.setValue(defaultLocation);
-		String accessKeyId = prop.getAccessKeyId();
-		String secretAccessKey = prop.getSecretAccessKey();
-		
 		int atIndex=path.indexOf('@');
 		int slashIndex=path.indexOf('/');
 		if(slashIndex==-1){
 			path+="/";
 		}
-		int index;
-		
-		// key/id
-		if(atIndex!=-1) {
-			index=path.indexOf(':');
-			if(index!=-1 && index<atIndex) {
-				accessKeyId=path.substring(0,index);
-				secretAccessKey=path.substring(index+1,atIndex);
-				index=secretAccessKey.indexOf(':');
-				if(index!=-1) {
-					String strStorage=secretAccessKey.substring(index+1).trim().toLowerCase();
-					secretAccessKey=secretAccessKey.substring(0,index);
-					storage.setValue(S3.toIntStorage(strStorage, defaultLocation));
-				}
-			}
-			else {
-				accessKeyId=path.substring(0,atIndex);
-			}
-		}
+
 		path=prettifyPath(path.substring(atIndex+1));
-		
-		
-		s3.setSecretKey(secretAccessKey);
-		s3.setAccessKey(accessKeyId);
 		
 		return path;
 	}

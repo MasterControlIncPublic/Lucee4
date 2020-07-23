@@ -29,12 +29,11 @@ import lucee.commons.lang.StringUtil;
 public final class S3ResourceOutputStream extends OutputStream {
 	
 	private final S3SDK s3;
-	
-	private final String contentType="application";
+
 	private final String bucketName;
 	private final String objectName;
 
-	private TemporaryStream ts;
+	private final TemporaryStream ts;
 	
 	public S3ResourceOutputStream(S3SDK s3,String bucketName,String objectName) {
 		this.s3=s3;
