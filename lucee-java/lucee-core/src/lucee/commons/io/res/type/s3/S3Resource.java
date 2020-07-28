@@ -26,6 +26,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.Locale;
 import java.util.Set;
 
 import lucee.commons.io.StreamWithSize;
@@ -64,6 +65,7 @@ public final class S3Resource extends ResourceSupport {
 		this.bucketName=buckedName;
 		this.objectName=objectName;
 		this.newPattern=newPattern;
+		this.objectName = objectName.toLowerCase(Locale.ENGLISH);
 	}
 
 	S3Resource(S3SDK s3, S3ResourceProvider provider, String path, boolean newPattern) {
@@ -89,6 +91,7 @@ public final class S3Resource extends ResourceSupport {
 				objectName="";
 			}
 		}
+		this.objectName = objectName.toLowerCase(Locale.ENGLISH);
 	}
 
 	public  static String[] toStringArray(Array array) {
