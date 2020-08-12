@@ -288,45 +288,51 @@ public final class S3Resource extends ResourceSupport {
 		S3Info info = s3.getInfo(getInnerPath());
 		
 		if(info==null) {
-			try {
-				provider.read(this);
-			} catch (IOException e) {
-				return LOCKED;
-			}
-			try {
+			// Allow operations at the root level
+			if (isBucket()) {
+				info = UNDEFINED_WITH_CHILDREN;
+				infoLastAccess = System.currentTimeMillis() + provider.getCache();
+			} else {
+				try {
+					provider.read(this);
+				} catch (IOException e) {
+					return LOCKED;
+				}
+				try {
 
-				// todo Seems super inefficient!
-				String path = objectName;
-				Content[] contents = s3.listContents(bucketName, path);
-				if(contents.length>0) {
-					boolean has=false;
-					for(int i=0;i<contents.length;i++) {
-						if(ResourceUtil.translatePath(contents[i].getKey(),false,false).equals(path)) {
-							has=true;
-							info=contents[i];
-							infoLastAccess=System.currentTimeMillis()+provider.getCache();
-							break;
-						}
-					}
-					// todo if this is folder? I added the `+ "/"` because it wouldn't let me create a folder named a prefix of another.
-					if(!has){
-						for(int i=0;i<contents.length;i++) {
-							if(ResourceUtil.translatePath(contents[i].getKey(),false,false).startsWith(path + "/")) {
-								info=UNDEFINED_WITH_CHILDREN;
-								infoLastAccess=System.currentTimeMillis()+provider.getCache();
+					// todo Seems super inefficient!
+					String path = objectName;
+					Content[] contents = s3.listContents(bucketName, path);
+					if (contents.length > 0) {
+						boolean has = false;
+						for (int i = 0; i < contents.length; i++) {
+							if (ResourceUtil.translatePath(contents[i].getKey(), false, false).equals(path)) {
+								has = true;
+								info = contents[i];
+								infoLastAccess = System.currentTimeMillis() + provider.getCache();
 								break;
 							}
 						}
+						// todo if this is folder? I added the `+ "/"` because it wouldn't let me create a folder named a prefix of another.
+						if (!has) {
+							for (int i = 0; i < contents.length; i++) {
+								if (ResourceUtil.translatePath(contents[i].getKey(), false, false)
+												.startsWith(path + "/")) {
+									info = UNDEFINED_WITH_CHILDREN;
+									infoLastAccess = System.currentTimeMillis() + provider.getCache();
+									break;
+								}
+							}
+						}
 					}
-				}
 
-			if(info==null){
-				info=UNDEFINED;
-				infoLastAccess=System.currentTimeMillis()+provider.getCache();
-			}
-			}
-			catch(Exception t) {
-				return UNDEFINED;
+					if (info == null) {
+						info = UNDEFINED;
+						infoLastAccess = System.currentTimeMillis() + provider.getCache();
+					}
+				} catch (Exception t) {
+					return UNDEFINED;
+				}
 			}
 			s3.setInfo(getInnerPath(), info);
 		}

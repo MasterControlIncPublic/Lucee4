@@ -68,7 +68,7 @@ configurations {
 }
 
 dependencies {
-    compile 'com.mastercontrol:common-spring-components:5.6.0-20200723.211228-11'
+    compile 'com.mastercontrol:common-spring-components:5.6.1-20200812.134609-5'
     compile 'com.amazonaws:aws-java-sdk-s3:1.11.823'
     compile 'antlr:antlr:2.7.6'
     compile 'org.apache.sanselan:sanselan:0.97-incubator'
