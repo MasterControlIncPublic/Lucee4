@@ -134,7 +134,7 @@ dependencies {
     compile 'org.lucee.lib:xmlparserv2:1.2.2'
     compile 'org.ccil.cowan.tagsoup:tagsoup:1.2.1'
     compile 'org.textmining:tm-extractors:0.4'
-    compile group: 'io.confluent', name: 'confluent-log4j', version: '1.2.17-cp9'
+    compile group: 'io.confluent', name: 'confluent-log4j', version: '1.2.17-cp12'
 	compile 'org.lucee.lib:sun-jndi-ldap:1.2.4'
 	compile 'org.lucee.lib:sun-jndi-ldapbp:1.2.4'
 	compile 'org.lucee.lib:sun-jndi-ldapsec:1.2.4'
