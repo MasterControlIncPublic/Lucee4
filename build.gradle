@@ -86,7 +86,7 @@ dependencies {
     compile 'commons-net:commons-net:3.1'
     compile 'oro:oro:2.0.8'
     compile 'org.apache.axis:axis-ant:1.4'
-    compile 'org.apache.axis:axis:1.4'
+    compile 'org.apache.axis:axis:1.4-20190730'
     compile 'xalan:xalan:2.7.0'
     compile 'xerces:xercesImpl:2.9.0'
     compile 'backport-util-concurrent:backport-util-concurrent:2.2'
