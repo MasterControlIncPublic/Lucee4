@@ -54,6 +54,10 @@ import com.lowagie.text.pdf.PdfImportedPage;
 import com.lowagie.text.pdf.PdfReader;
 import com.lowagie.text.pdf.SimpleBookmark;
 
+import org.apache.pdfbox.cos.COSDocument;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.io.IOUtils;
+
 public final class Document extends BodyTagImpl {
 
 	
@@ -576,32 +580,36 @@ public final class Document extends BodyTagImpl {
 		// merge multiple docs to 1
 		if(documents.size()>1) {
 			PDFDocument[] pdfDocs=new PDFDocument[documents.size()];
-			PdfReader[] pdfReaders = new PdfReader[pdfDocs.length];
+			PDDocument[] pddDocuments = new PDDocument[pdfDocs.length];
+//			PdfReader[] pdfReaders = new PdfReader[pdfDocs.length];
 			Iterator<PDFDocument> it = documents.iterator();
 			int index=0;
 			// generate pdf with pd4ml
 			while(it.hasNext()) {
 				pdfDocs[index]=it.next();
-				pdfReaders[index]=
-					new PdfReader(pdfDocs[index].render(getDimension(),unitFactor,pageContext,doHtmlBookmarks));
+//				pdfReaders[index]=
+//						new PdfReader(pdfDocs[index].render(getDimension(),unitFactor,pageContext,doHtmlBookmarks));
+				pddDocuments[index]= PDDocument.load(pdfDocs[index].render(getDimension(),unitFactor,pageContext,doHtmlBookmarks));
 				index++;
 			}
 			
 			// collect together
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			com.lowagie.text.Document document = 
-				new com.lowagie.text.Document(pdfReaders[0].getPageSizeWithRotation(1));
-			PdfCopy copy = new PdfCopy(document,baos);
-			document.open();
-			String name;
+
+			PDDocument document = pddDocuments[0];
+//			com.lowagie.text.Document document =
+//				new com.lowagie.text.Document(pdfReaders[0].getPageSizeWithRotation(1));
+//			PdfCopy copy = new PdfCopy(document,baos);
+//			document.open();
+//			String name;
 			ArrayList bookmarks=doBookmarks?new ArrayList():null;
+
 			try {
 				int size,totalPage=0;
 				Map parent;
-				for(int doc=0;doc<pdfReaders.length;doc++) {
-					size=pdfReaders[doc].getNumberOfPages();
-					
-					PdfImportedPage ip;
+				for(int doc=0;doc<pddDocuments.length;doc++) {
+					size=pddDocuments[doc].getNumberOfPages();
+
 					
 					// bookmarks
 					if(doBookmarks) {
@@ -612,29 +620,30 @@ public final class Document extends BodyTagImpl {
 						else parent=null;
 						
 						if(doHtmlBookmarks) {
-							java.util.List pageBM = SimpleBookmark.getBookmark(pdfReaders[doc]);
-							if(pageBM!=null) {
-								if(totalPage>0)SimpleBookmark.shiftPageNumbers(pageBM, totalPage, null);
-								if(parent!=null)PDFUtil.setChildBookmarks(parent,pageBM);
-								else bookmarks.addAll(pageBM);
-							}
+//							java.util.List pageBM = SimpleBookmark.getBookmark(pdfReaders[doc]);
+//							if(pageBM!=null) {
+//								if(totalPage>0)SimpleBookmark.shiftPageNumbers(pageBM, totalPage, null);
+//								if(parent!=null)PDFUtil.setChildBookmarks(parent,pageBM);
+//								else bookmarks.addAll(pageBM);
+//							}
 						}
 					}
-					
+
+					PdfImportedPage ip;
 					totalPage++;
 					for(int page=1;page<=size;page++) {
 						if(page>1)totalPage++;
-						ip = copy.getImportedPage(pdfReaders[doc], page);
-						
-						//ip.getPdfDocument().setHeader(arg0);
-						//ip.getPdfDocument().setFooter(arg0);
-						copy.addPage(ip);
+//						ip = copy.getImportedPage(pdfReaders[doc], page);
+//
+//						//ip.getPdfDocument().setHeader(arg0);
+//						//ip.getPdfDocument().setFooter(arg0);
+//						copy.addPage(ip);
 					}
 				}
-				if (doBookmarks && !bookmarks.isEmpty())copy.setOutlines(bookmarks);
+//				if (doBookmarks && !bookmarks.isEmpty())copy.setOutlines(bookmarks);
 			}
 			finally {
-				document.close();
+//				document.close();
 			}
 			pdf=baos.toByteArray();
 		}
