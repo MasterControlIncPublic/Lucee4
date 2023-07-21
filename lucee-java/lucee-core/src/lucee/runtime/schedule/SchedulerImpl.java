@@ -18,20 +18,18 @@
  **/
 package lucee.runtime.schedule;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
+import lucee.commons.io.log.Log;
 import lucee.commons.io.log.LogAndSource;
 import lucee.commons.io.res.Resource;
 import lucee.commons.lang.StringUtil;
 import lucee.loader.engine.CFMLEngine;
 import lucee.runtime.config.Config;
+import lucee.runtime.config.ConfigImpl;
 import lucee.runtime.engine.CFMLEngineImpl;
 import lucee.runtime.exp.PageException;
 import lucee.runtime.net.proxy.ProxyData;
 import lucee.runtime.net.proxy.ProxyDataImpl;
 import lucee.runtime.op.Caster;
-
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -39,6 +37,10 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * scheduler class to execute the scheduled tasks
@@ -298,14 +300,17 @@ public final class SchedulerImpl implements Scheduler {
 	
 	@Override
 	public void pauseScheduleTask(String name, boolean pause, boolean throwWhenNotExist) throws ScheduleException, IOException {
-
-	    for(int i=0;i<tasks.length;i++) {
+		for(int i=0;i<tasks.length;i++) {
 	        if(tasks[i].getTask().equalsIgnoreCase(name)) {
 	        	tasks[i].setPaused(pause);
-	            
 	        }
 	    }
-	    
+
+		//TODO: better way to only log MailSender? Also check the actual name of the task
+		if (name.equals("MailSender")) {
+			logEmailSender(config, name);
+		}
+
 	    NodeList list = doc.getDocumentElement().getChildNodes();
 	    Element el=su.getElement(list,"name", name);
 	    if(el!=null) {
@@ -316,6 +321,19 @@ public final class SchedulerImpl implements Scheduler {
 	    
 	    //init();
 	    su.store(doc,schedulerFile);
+	}
+
+	private static Log getLog(Config config) {
+		return ((ConfigImpl) config).getLog("scheduler");
+	}
+
+	private static void logEmailSender(Config config, String name) {
+		Log logger = getLog(config);
+		Date currentTime = new Date();
+//		long now = System.currentTimeMillis();
+
+		//TODO: use DateTimeImpl, or more useful date format
+		logger.log(Log.LEVEL_INFO, "", "EmailSender scheduled task paused at " + currentTime.toInstant().toString());
 	}
 
 	@Override

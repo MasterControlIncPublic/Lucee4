@@ -380,8 +380,7 @@ public final class Schedule extends TagImpl {
 	    if(action!=ACTION_LIST && task==null) {
 	        throw new ApplicationException("attribute task is required for tag schedule when action is not list");
 	    }
-	    
-	    
+
 	    switch(action) {
     		case ACTION_DELETE: doDelete();	break;
     		case ACTION_RUN: doRun();	break;
