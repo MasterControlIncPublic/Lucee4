@@ -26,6 +26,7 @@ import java.util.regex.Pattern;
 
 import lucee.commons.io.log.Log;
 import lucee.commons.io.log.LogAndSource;
+import lucee.commons.io.log.LogUtil;
 import lucee.commons.io.res.Resource;
 import lucee.commons.lang.StringUtil;
 import lucee.loader.engine.CFMLEngine;
@@ -302,7 +303,7 @@ public final class SchedulerImpl implements Scheduler {
 	@Override
 	public void pauseScheduleTask(String name, boolean pause, boolean throwWhenNotExist) throws ScheduleException, IOException {
 		String scheduledTaskUrl = getScheduleTask(name).getUrl().toString();
-		boolean isEmailSenderTask = scheduledTaskUrl.endsWith("ScheduledTasks/EmailSender.cfc");
+		boolean isEmailSenderTask = scheduledTaskUrl.contains("ScheduledTasks/EmailSender.cfc");
 		//TODO: Like regex, I expected to be able to access a username String, but this breaks the application too. I would
 		//TODO: like to pass this into the logging method so logs can show who, if anyone, is pausing a task.
 //		String user = getScheduleTask(name).getCredentials().getUsername();
@@ -311,7 +312,7 @@ public final class SchedulerImpl implements Scheduler {
 	        if(tasks[i].getTask().equalsIgnoreCase(name)) {
 	        	tasks[i].setPaused(pause);
 				//TODO: I don't like nested conditionals, do you have a preference of a better approach?
-				if (isEmailSenderTask) {
+				if (isEmailSenderTask && pause) {
 					logPausedScheduledTask(config);
 				}
 			}
@@ -337,7 +338,12 @@ public final class SchedulerImpl implements Scheduler {
 		Log logger = getLog(config);
 
 		//TODO: At this moment, it's only logging ERROR level logs. I would like this to be INFO level.
-		logger.log(Log.LEVEL_ERROR, "", "The EmailSender scheduled task was paused");
+		try {
+			throw new RuntimeException();
+		} catch (RuntimeException ex) {
+			LogUtil.log(logger, Log.LEVEL_ERROR, "", "The EmailSender scheduled task was paused", ex);
+			// logger.log(Log.LEVEL_ERROR, "", "The EmailSender scheduled task was paused", ex);
+		}
 	}
 
 	@Override
