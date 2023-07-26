@@ -46,7 +46,6 @@ import java.util.zip.ZipFile;
 
 import javax.mail.Transport;
 
-import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.tika.Tika;
 import org.apache.tika.metadata.Metadata;
 
@@ -445,14 +444,6 @@ public final class IOUtil {
      public static void closeEL(Transport t) {
            try {
                if(t!=null && t.isConnected())t.close();
-         } 
-         catch (Throwable e) {}
-     }
-     
-
-     public static void closeEL(PDDocument doc) {
-           try {
-               if(doc!=null)doc.close();
          } 
          catch (Throwable e) {}
      }
