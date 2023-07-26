@@ -62,7 +62,6 @@
 	<classpathentry kind="lib" path="/Lucee-Libs/jta.jar"/>
 	<classpathentry kind="lib" path="/Lucee-Libs/jtds.jar"/>
 	<classpathentry kind="lib" path="/Lucee-Libs/jug.jar"/>
-	<classpathentry kind="lib" path="/Lucee-Libs/lowagie.itext.jar"/>
 	<classpathentry kind="lib" path="/Lucee-Libs/metadata-extractor.jar"/>
 	<classpathentry kind="lib" path="/Lucee-Libs/microsoft-mssqlserver.jar"/>
 	<classpathentry kind="lib" path="/Lucee-Libs/microsoft-sqljdbc.jar"/>

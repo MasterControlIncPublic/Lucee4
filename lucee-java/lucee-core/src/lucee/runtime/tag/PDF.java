@@ -21,7 +21,6 @@ package lucee.runtime.tag;
 import lucee.commons.io.res.Resource;
 import lucee.commons.io.res.filter.ExtensionResourceFilter;
 import lucee.commons.io.res.filter.ResourceFilter;
-import lucee.runtime.exp.NotImplementedException;
 import lucee.runtime.ext.tag.BodyTagImpl;
 import lucee.runtime.text.pdf.PDFDocument;
 import lucee.runtime.text.pdf.PDFUtil;
@@ -72,7 +71,6 @@ public class PDF extends BodyTagImpl  {
 	private String ddxFile=null;
 	private Resource destination=null;
 	private Resource directory=null;
-	private int encrypt=PDFUtil.ENCRYPT_RC4_128;
 	private boolean flatten=false;
 	private boolean foreground=false;
 	private String format=FORMAT_JPG;
@@ -109,7 +107,7 @@ public class PDF extends BodyTagImpl  {
 	@Override
 	public void release() {
 		super.release();
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	
 	
@@ -118,7 +116,7 @@ public class PDF extends BodyTagImpl  {
 	 * @param imagePrefix the imagePrefix to set
 	 */
 	public void setImageprefix(String imagePrefix) {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 
 
@@ -127,13 +125,13 @@ public class PDF extends BodyTagImpl  {
 	 * @param action the action to set
 	 */
 	public void setAction(String strAction) {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 		
 	}
 	
 
 	public void setType(String strType) {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 		
 	}
 	
@@ -142,228 +140,228 @@ public class PDF extends BodyTagImpl  {
 	* @param pattern
 	**/
 	public void setFilter(String pattern)	{
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	
 	/**
 	 * @param ascending the ascending to set
 	 */
 	public void setAscending(boolean ascending) {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	/**
 	 * @param copyFrom the copyFrom to set
 	 */
 	public void setCopyfrom(Object copyFrom) {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	/**
 	 * @param ddxFile the ddxFile to set
 	 */
 	public void setDdxfile(String ddxFile) {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	/**
 	 * @param destination the destination to set
 	 */
 	public void setDestination(String destination) {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	/**
 	 * @param directory the directory to set
 	 */
 	public void setDirectory(String directory) {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	/**
 	 * @param encrypt the encrypt to set
 	 */
 	public void setEncrypt(String strEncrypt) {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	/**
 	 * @param flatten the flatten to set
 	 */
 	public void setFlatten(boolean flatten) {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	/**
 	 * @param foreground the foreground to set
 	 */
 	public void setForeground(boolean foreground) {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	/**
 	 * @param format the format to set
 	 */
 	public void setFormat(String strFormat) {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	/**
 	 * @param image the image to set
 	 */
 	public void setImage(Object image) {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	/**
 	 * @param prefix the prefix to set
 	 */
 	public void setPrefix(String prefix) {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	/**
 	 * @param info the info to set
 	 */
 	public void setInfo(Struct info) {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	/**
 	 * @param inputFiles the inputFiles to set
 	 */
 	public void setInputfiles(Struct inputFiles) {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	/**
 	 * @param outputFiles the outputFiles to set
 	 */
 	public void setOutputfiles(Struct outputFiles) {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	/**
 	 * @param isBase64 the isBase64 to set
 	 */
 	public void setIsbase64(boolean isBase64) {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	/**
 	 * @param keepBookmark the keepBookmark to set
 	 */
 	public void setKeepbookmark(boolean keepBookmark) {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	/**
 	 * @param name the name to set
 	 */
 	public void setName(String name) {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	/**
 	 * @param newOwnerPassword the newOwnerPassword to set
 	 */
 	public void setNewownerpassword(String newOwnerPassword) {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	/**
 	 * @param newUserPassword the newUserPassword to set
 	 */
 	public void setNewuserpassword(String newUserPassword) {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	/**
 	 * @param opacity the opacity to set
 	 */
 	public void setOpacity(double opacity) {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	/**
 	 * @param order the order to set
 	 */
 	public void setOrder(String strOrder) {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	/**
 	 * @param overwrite the overwrite to set
 	 */
 	public void setOverwrite(boolean overwrite) {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	/**
 	 * @param pages the pages to set
 	 */
 	public void setPages(String pages) {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	/**
 	 * @param password the password to set
 	 */
 	public void setPassword(String password) {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	/**
 	 * @param permissions the permissions to set
 	 */
 	public void setPermissions(String strPermissions) {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}	
 	/**
 	 * @param position the position to set
 	 */
 	public void setPosition(String position) {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	/**
 	 * @param resolution the resolution to set
 	 */
 	public void setResolution(String strResolution) {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	
 	/**
 	 * @param rotation the rotation to set
 	 */
 	public void setRotation(double rotation) {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	
 	/**
 	 * @param saveOption the saveOption to set
 	 */
 	public void setSaveoption(String strSaveOption) {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	
 	/**
 	 * @param scale the scale to set
 	 */
 	public void setScale(double scale) {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	
 	/**
 	 * @param showOnPrint the showOnPrint to set
 	 */
 	public void setShowonprint(boolean showOnPrint) {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	
 	/**
 	 * @param source the source to set
 	 */
 	public void setSource(Object source) {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	/**
 	 * @param stopOnError the stopOnError to set
 	 */
 	public void setStoponerror(boolean stopOnError) {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	/**
 	 * @param transparent the transparent to set
 	 */
 	public void setTransparent(boolean transparent) {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	/**
 	 * @param version the version to set
 	 */
 	public void setVersion(double version) {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	
 	@Override
 	public int doStartTag()	{
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 
 	@Override
@@ -373,25 +371,25 @@ public class PDF extends BodyTagImpl  {
 	
 	@Override
 	public int doAfterBody()	{
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	
 	@Override
 	public int doEndTag() {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	
 	
 	
 	
 	private void doActionWrite() {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 
 
 
 	private void doActionThumbnail() {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 		
 		
 		
@@ -401,27 +399,27 @@ public class PDF extends BodyTagImpl  {
 	
 	
 	private void doActionAddWatermark() {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	
 	private void doActionRemoveWatermark() {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	
 	private void doActionDeletePages() {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	
 	
 	private void doActionMerge() {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	private void doActionRead() {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	
 	private void doActionProtect() {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 		
 	}
 	
@@ -429,24 +427,24 @@ public class PDF extends BodyTagImpl  {
 	
 
 	private void doActionSetInfo() {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	
 	private void doActionGetInfo() {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 		
 	}
 	private void doActionExtractText() {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	
 	private Object allowed(boolean encrypted, int permissions, int permission) {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	
 
 	private PDFDocument toPDFDocument(Object source,String password, Resource directory) {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	
 	/*private byte[] toBinary(Object source) throws ExpressionException, IOException {
@@ -478,7 +476,7 @@ public class PDF extends BodyTagImpl  {
 	}*/
 	
 	protected void setParam(PDFParamBean param) {
-		throw new NotImplementedException("PDF");
+		throw new lucee.runtime.exp.TagNotImplementedException("PDF");
 	}
 	
 	

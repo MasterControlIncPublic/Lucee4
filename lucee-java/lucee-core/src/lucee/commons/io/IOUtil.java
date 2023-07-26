@@ -45,6 +45,8 @@ import java.util.LinkedList;
 import java.util.zip.ZipFile;
 
 import javax.mail.Transport;
+
+import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.tika.Tika;
 import org.apache.tika.metadata.Metadata;
 
@@ -52,8 +54,6 @@ import lucee.commons.io.res.Resource;
 import lucee.commons.lang.StringUtil;
 import lucee.commons.net.URLEncoder;
 import lucee.runtime.exp.PageException;
-
-import com.lowagie.text.Document;
 
 /**
  * I/O Util 
@@ -450,7 +450,7 @@ public final class IOUtil {
      }
      
 
-     public static void closeEL(Document doc) {
+     public static void closeEL(PDDocument doc) {
            try {
                if(doc!=null)doc.close();
          } 

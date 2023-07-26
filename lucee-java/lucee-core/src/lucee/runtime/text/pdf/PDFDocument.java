@@ -49,9 +49,6 @@ import org.pdfbox.exceptions.CryptographyException;
 import org.pdfbox.exceptions.InvalidPasswordException;
 import org.pdfbox.pdmodel.PDDocument;
 
-import com.lowagie.text.pdf.PdfReader;
-import com.lowagie.text.pdf.PdfWriter;
-
 public class PDFDocument extends StructSupport implements Struct {
 
 	private byte[] barr;
@@ -222,20 +219,6 @@ public class PDFDocument extends StructSupport implements Struct {
 	}
 ///////////////////////////////////////////////
 	
-	public PdfReader getPdfReader() throws ApplicationException {
-		try {
-			if(barr!=null) {
-				if(password!=null)return new PdfReader(barr,password.getBytes());
-				return new PdfReader(barr);
-			}
-			if(password!=null)return new PdfReader(IOUtil.toBytes(resource),password.getBytes());
-			return new PdfReader(IOUtil.toBytes(resource));
-		}
-		catch(IOException ioe) {
-			throw new ApplicationException("can not load file ["+resource+"]",ioe.getMessage());
-		}
-	}
-	
 	private String getFilePath() {
 		if(resource==null) return "";
 		return resource.getAbsolutePath();
@@ -243,69 +226,7 @@ public class PDFDocument extends StructSupport implements Struct {
 
 	public Struct getInfo()  {
 
-		PdfReader pr=null;
-		try {
-			pr=getPdfReader();
-			//PdfDictionary catalog = pr.getCatalog();
-			int permissions = pr.getPermissions();
-			boolean encrypted=pr.isEncrypted();
-			
-			Struct info=new StructImpl();
-			info.setEL("FilePath", getFilePath());
-			
-			// access
-			info.setEL("ChangingDocument", allowed(encrypted,permissions,PdfWriter.ALLOW_MODIFY_CONTENTS));
-			info.setEL("Commenting", allowed(encrypted,permissions,PdfWriter.ALLOW_MODIFY_ANNOTATIONS));
-			info.setEL("ContentExtraction", allowed(encrypted,permissions,PdfWriter.ALLOW_SCREENREADERS));
-			info.setEL("CopyContent", allowed(encrypted,permissions,PdfWriter.ALLOW_COPY));
-			info.setEL("DocumentAssembly", allowed(encrypted,permissions,PdfWriter.ALLOW_ASSEMBLY+PdfWriter.ALLOW_MODIFY_CONTENTS));
-			info.setEL("FillingForm", allowed(encrypted,permissions,PdfWriter.ALLOW_FILL_IN+PdfWriter.ALLOW_MODIFY_ANNOTATIONS));
-			info.setEL("Printing", allowed(encrypted,permissions,PdfWriter.ALLOW_PRINTING));
-			info.setEL("Secure", "");
-			info.setEL("Signing", allowed(encrypted,permissions,PdfWriter.ALLOW_MODIFY_ANNOTATIONS+PdfWriter.ALLOW_MODIFY_CONTENTS+PdfWriter.ALLOW_FILL_IN));
-			
-			info.setEL("Encryption", encrypted?"Password Security":"No Security");// MUST
-			info.setEL("TotalPages", Caster.toDouble(pr.getNumberOfPages()));
-			info.setEL("Version", "1."+pr.getPdfVersion());
-			info.setEL("permissions", ""+permissions);
-			info.setEL("permiss", ""+PdfWriter.ALLOW_FILL_IN);
-			
-			info.setEL("Application", "");
-			info.setEL("Author", "");
-			info.setEL("CenterWindowOnScreen", "");
-			info.setEL("Created", "");
-			info.setEL("FitToWindow", "");
-			info.setEL("HideMenubar", "");
-			info.setEL("HideToolbar", "");
-			info.setEL("HideWindowUI", "");
-			info.setEL("Keywords", "");
-			info.setEL("Language", "");
-			info.setEL("Modified", "");
-			info.setEL("PageLayout", "");
-			info.setEL("Producer", "");
-			info.setEL("Properties", "");
-			info.setEL("ShowDocumentsOption", "");
-			info.setEL("ShowWindowsOption", "");
-			info.setEL("Subject", "");
-			info.setEL("Title", "");
-			info.setEL("Trapped", "");
-	
-			// info
-			HashMap imap = pr.getInfo();
-			Iterator it = imap.entrySet().iterator();
-			Map.Entry entry;
-			while(it.hasNext()) {
-				entry=(Entry) it.next();
-				info.setEL(Caster.toString(entry.getKey(),null), entry.getValue());
-			}
-			return info;
-		}
-		catch(PageException pe) {
-			throw new PageRuntimeException(pe);
-		}
-		finally {
-			if(pr!=null)pr.close();
-		}
+		throw new lucee.runtime.exp.MethodNotImplementedException(this.getClass().getName(), "getInfo");
 	}
 	
 

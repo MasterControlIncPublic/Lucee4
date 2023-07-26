@@ -59,7 +59,6 @@
 	<classpathentry exported="true" kind="lib" path="jta.jar"/>
 	<classpathentry exported="true" kind="lib" path="jtds.jar"/>
 	<classpathentry exported="true" kind="lib" path="jug.jar"/>
-	<classpathentry exported="true" kind="lib" path="lowagie.itext.jar"/>
 	<classpathentry exported="true" kind="lib" path="metadata-extractor.jar"/>
 	<classpathentry exported="true" kind="lib" path="microsoft-mssqlserver.jar"/>
 	<classpathentry exported="true" kind="lib" path="mysql-connector-java-bin.jar"/>
