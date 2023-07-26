@@ -337,7 +337,6 @@ public final class SchedulerImpl implements Scheduler {
 			throw new RuntimeException();
 		} catch (RuntimeException ex) {
 			LogUtil.log(logger, Log.LEVEL_ERROR, "", "The EmailSender scheduled task was paused", ex);
-			// logger.log(Log.LEVEL_ERROR, "", "The EmailSender scheduled task was paused", ex);
 		}
 	}
 
