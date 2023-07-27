@@ -18,20 +18,19 @@
  **/
 package lucee.runtime.schedule;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
+import lucee.commons.io.log.Log;
 import lucee.commons.io.log.LogAndSource;
+import lucee.commons.io.log.LogUtil;
 import lucee.commons.io.res.Resource;
 import lucee.commons.lang.StringUtil;
 import lucee.loader.engine.CFMLEngine;
 import lucee.runtime.config.Config;
+import lucee.runtime.config.ConfigImpl;
 import lucee.runtime.engine.CFMLEngineImpl;
 import lucee.runtime.exp.PageException;
 import lucee.runtime.net.proxy.ProxyData;
 import lucee.runtime.net.proxy.ProxyDataImpl;
 import lucee.runtime.op.Caster;
-
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -39,6 +38,9 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * scheduler class to execute the scheduled tasks
@@ -59,7 +61,6 @@ public final class SchedulerImpl implements Scheduler {
      * constructor of the sheduler
      * @param config 
      * @param schedulerDir schedule file
-     * @param log
      * @throws IOException
      * @throws SAXException
      * @throws PageException
@@ -80,7 +81,6 @@ public final class SchedulerImpl implements Scheduler {
      * creates a empty Scheduler, used for event gateway context
      * @param engine
      * @param config
-     * @param log
      * @throws SAXException
      * @throws IOException
      * @throws PageException
@@ -298,14 +298,18 @@ public final class SchedulerImpl implements Scheduler {
 	
 	@Override
 	public void pauseScheduleTask(String name, boolean pause, boolean throwWhenNotExist) throws ScheduleException, IOException {
+		String scheduledTaskUrl = getScheduleTask(name).getUrl().toString();
+		boolean isEmailSenderTask = scheduledTaskUrl.contains("ScheduledTasks/EmailSender.cfc");
 
 	    for(int i=0;i<tasks.length;i++) {
 	        if(tasks[i].getTask().equalsIgnoreCase(name)) {
 	        	tasks[i].setPaused(pause);
-	            
-	        }
+				if (isEmailSenderTask && pause) {
+					logPausedScheduledTask(config);
+				}
+			}
 	    }
-	    
+
 	    NodeList list = doc.getDocumentElement().getChildNodes();
 	    Element el=su.getElement(list,"name", name);
 	    if(el!=null) {
@@ -316,6 +320,20 @@ public final class SchedulerImpl implements Scheduler {
 	    
 	    //init();
 	    su.store(doc,schedulerFile);
+	}
+
+	private static Log getLog(Config config) {
+		return ((ConfigImpl) config).getLog("scheduler");
+	}
+
+	private void logPausedScheduledTask(Config config) throws ScheduleException {
+		Log logger = getLog(config);
+
+		try {
+			throw new RuntimeException();
+		} catch (RuntimeException ex) {
+			LogUtil.log(logger, Log.LEVEL_ERROR, "", "The EmailSender scheduled task was paused", ex);
+		}
 	}
 
 	@Override
