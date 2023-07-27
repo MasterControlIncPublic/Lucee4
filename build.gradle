@@ -122,7 +122,6 @@ dependencies {
     compile 'org.lucee.lib:sun-jai_codec:1.2.1' //cfimage
     compile 'com.drewnoakes:metadata-extractor:2.6.2'
     compile 'org.apache.poi:poi-ooxml:3.13'
-    compile 'pdfbox:pdfbox:0.7.3'
     compile 'org.apache.lucene:lucene-snowball:2.4.1'
     compile 'org.apache.lucene:lucene-spellchecker:2.4.1'
     compile 'org.apache.lucene:lucene-highlighter:2.4.1'

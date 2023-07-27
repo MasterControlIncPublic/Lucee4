@@ -18,36 +18,23 @@
  **/
 package lucee.runtime.text.pdf;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
 
 import lucee.commons.io.IOUtil;
 import lucee.commons.io.res.Resource;
-import lucee.commons.io.res.type.file.FileResource;
 import lucee.commons.lang.StringUtil;
 import lucee.runtime.PageContext;
 import lucee.runtime.dump.DumpData;
 import lucee.runtime.dump.DumpProperties;
 import lucee.runtime.dump.DumpTable;
-import lucee.runtime.exp.ApplicationException;
 import lucee.runtime.exp.PageException;
-import lucee.runtime.exp.PageRuntimeException;
-import lucee.runtime.op.Caster;
 import lucee.runtime.type.Collection;
 import lucee.runtime.type.Struct;
-import lucee.runtime.type.StructImpl;
 import lucee.runtime.type.dt.DateTime;
 import lucee.runtime.type.util.StructSupport;
-
-import org.pdfbox.exceptions.CryptographyException;
-import org.pdfbox.exceptions.InvalidPasswordException;
-import org.pdfbox.pdmodel.PDDocument;
 
 public class PDFDocument extends StructSupport implements Struct {
 
@@ -267,21 +254,4 @@ public class PDFDocument extends StructSupport implements Struct {
 	public java.util.Collection values() {
 		return getInfo().values();
 	}
-	
-	public PDDocument toPDDocument() throws CryptographyException, InvalidPasswordException, IOException {
-		PDDocument doc;
-		if(barr!=null) 
-			doc= PDDocument.load(new ByteArrayInputStream(barr,0,barr.length));
-		else if(resource instanceof FileResource)
-			doc= PDDocument.load((File)resource);
-		else 
-			doc= PDDocument.load(new ByteArrayInputStream(IOUtil.toBytes(resource),0,barr.length));
-		
-		if(password!=null)doc.decrypt(password);
-		
-		
-		return doc;
-		
-	}
-
 }

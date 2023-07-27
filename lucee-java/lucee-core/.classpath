@@ -71,7 +71,6 @@
 	<classpathentry kind="lib" path="/Lucee-Libs/openamf-astranslator.jar"/>
 	<classpathentry kind="lib" path="/Lucee-Libs/openamf.jar"/>
 	<classpathentry kind="lib" path="/Lucee-Libs/org.mortbay.jetty.jar"/>
-	<classpathentry kind="lib" path="/Lucee-Libs/PDFBox.jar"/>
 	<classpathentry kind="lib" path="/Lucee-Libs/PDFRenderer.jar"/>
 	<classpathentry kind="lib" path="/Lucee-Libs/postgresql.jar"/>
 	<classpathentry kind="lib" path="/Lucee-Libs/serializer.jar"/>
