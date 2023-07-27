@@ -112,7 +112,7 @@ dependencies {
     compile 'com.jcraft:jsch:0.1.53'
     compile 'cssparser:cssparser:0.9.4'
     compile 'javax.activation:activation:1.1'
-    compile 'org.apache.flex.blazeds:flex-messaging-core:4.7.2'
+    compile 'org.apache.flex.blazeds:flex-messaging-core:4.8.0'
     compile 'org.apache.axis:axis-jaxrpc:1.4'
     //compile 'org.apache.lucene:lucene-core:2.4.1'
     compile 'org.lucee.lib:javax-servlet:1.4.1-01' //servlet container being deployed in has this included
