@@ -60,7 +60,6 @@
 	<jar version="1.1" path="jta.jar" comment=""/>
 	<jar version="1.2.5" path="jtds.jar" comment=""/>
 	<jar version="2.0.0" path="jug.jar" comment=""/>
-	<jar version="2.1.2u-1" path="lowagie.itext.jar" comment=""/>
 	<jar version="2.6.4" path="metadata-extractor.jar" comment="retired"/>
 	<jar version="4.0" path="microsoft-mssqlserver.jar" comment="only links to the driver in microsoft-sqljdbc.jar"/>
 	<jar version="4.0.2206.100" path="microsoft-sqljdbc.jar" comment=""/>

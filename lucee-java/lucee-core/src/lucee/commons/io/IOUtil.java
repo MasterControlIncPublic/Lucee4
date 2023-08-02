@@ -45,6 +45,7 @@ import java.util.LinkedList;
 import java.util.zip.ZipFile;
 
 import javax.mail.Transport;
+
 import org.apache.tika.Tika;
 import org.apache.tika.metadata.Metadata;
 
@@ -52,8 +53,6 @@ import lucee.commons.io.res.Resource;
 import lucee.commons.lang.StringUtil;
 import lucee.commons.net.URLEncoder;
 import lucee.runtime.exp.PageException;
-
-import com.lowagie.text.Document;
 
 /**
  * I/O Util 
@@ -445,14 +444,6 @@ public final class IOUtil {
      public static void closeEL(Transport t) {
            try {
                if(t!=null && t.isConnected())t.close();
-         } 
-         catch (Throwable e) {}
-     }
-     
-
-     public static void closeEL(Document doc) {
-           try {
-               if(doc!=null)doc.close();
          } 
          catch (Throwable e) {}
      }

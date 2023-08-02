@@ -20,18 +20,13 @@ package lucee.runtime.search.lucene2.docs;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringWriter;
-import java.util.Date;
 
 import lucee.commons.io.IOUtil;
 import lucee.commons.io.res.Resource;
-import lucee.commons.lang.StringUtil;
 
+import lucee.runtime.exp.MethodNotImplementedException;
 import org.apache.lucene.document.DateField;
 import org.apache.lucene.document.Document;
-import org.pdfbox.pdmodel.PDDocument;
-import org.pdfbox.pdmodel.PDDocumentInformation;
-import org.pdfbox.util.PDFTextStripper;
 
 /**
  * This class is used to create a document for the lucene search engine.
@@ -174,78 +169,6 @@ public final class PDFDocument
      * @throws IOException If there is an error parsing the document.
      */
     private static void addContent( StringBuffer content, Document document, InputStream is) {
-        
-        PDDocument pdfDocument=null;
-        try {
-            pdfDocument = PDDocument.load( is );
-
-            if( pdfDocument.isEncrypted() )
-            {
-                //Just try using the default password and move on
-                pdfDocument.decrypt( "" );
-            }
-            
-            //create a writer where to append the text content.
-            StringWriter writer = new StringWriter();
-            PDFTextStripper stripper = new PDFTextStripper();
-            stripper.writeText( pdfDocument, writer );
-
-            // Note: the buffer to string operation is costless;
-            // the char array value of the writer buffer and the content string
-            // is shared as long as the buffer content is not modified, which will
-            // not occur here.
-            String contents = writer.getBuffer().toString();
-            if(content!=null)content.append(contents);
-            
-            FieldUtil.setRaw(document,contents);
-    	    FieldUtil.setContent(document, contents);
-            FieldUtil.setSummary(document, StringUtil.max(contents,SUMMERY_SIZE),false);
-    	    
-    	    
-            PDDocumentInformation info = pdfDocument.getDocumentInformation();
-            if( info.getAuthor() != null)	{
-                FieldUtil.setAuthor(document, info.getAuthor());
-            }
-            if( info.getCreationDate() != null )
-            {
-                Date date = info.getCreationDate().getTime();
-                if( date.getTime() >= 0 )	{
-                    document.add(FieldUtil.Text("CreationDate", DateField.dateToString( date ) ) );
-                }
-            }
-            if( info.getCreator() != null ){
-                document.add( FieldUtil.Text( "Creator", info.getCreator() ) );
-            }
-            if( info.getKeywords() != null ){
-                FieldUtil.setKeywords(document, info.getKeywords());
-            }
-            if( info.getModificationDate() != null)	{
-                Date date = info.getModificationDate().getTime();
-                if( date.getTime() >= 0 ){
-                    document.add(FieldUtil.Text("ModificationDate", DateField.dateToString( date ) ) );
-                }
-            }
-            if( info.getProducer() != null ){
-                document.add( FieldUtil.Text( "Producer", info.getProducer() ) );
-            }
-            if( info.getSubject() != null ){
-            	document.add( FieldUtil.Text( "Subject", info.getSubject() ) );
-            }
-            if( info.getTitle() != null ){
-            	FieldUtil.setTitle(document, info.getTitle());
-            }
-            if( info.getTrapped() != null ) {
-                document.add( FieldUtil.Text( "Trapped", info.getTrapped() ) );
-            }
-        }
-        catch(Throwable t) {}
-        finally {
-            if( pdfDocument != null ) {
-                try {
-                    pdfDocument.close();
-                } 
-                catch (IOException e) {e.printStackTrace();}
-            }
-        }
+        throw new MethodNotImplementedException("docs/PDFDocument", "addContent");
     }
 }

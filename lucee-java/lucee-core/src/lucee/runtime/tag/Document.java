@@ -23,9 +23,11 @@ import java.awt.Dimension;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -47,12 +49,6 @@ import lucee.runtime.ext.tag.BodyTagImpl;
 import lucee.runtime.op.Caster;
 import lucee.runtime.text.pdf.PDFUtil;
 import lucee.runtime.type.ReadOnlyStruct;
-
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.pdf.PdfCopy;
-import com.lowagie.text.pdf.PdfImportedPage;
-import com.lowagie.text.pdf.PdfReader;
-import com.lowagie.text.pdf.SimpleBookmark;
 
 public final class Document extends BodyTagImpl {
 
@@ -508,7 +504,7 @@ public final class Document extends BodyTagImpl {
 		return EVAL_PAGE;
 	}
 	
-	public void _doEndTag() throws JspException, IOException, DocumentException { 
+	public void _doEndTag() throws JspException, IOException {
 		// set root header/footer to sections
 		boolean doBookmarks=false;
 		boolean doHtmlBookmarks=false;
@@ -571,75 +567,15 @@ public final class Document extends BodyTagImpl {
 
 
 
-	private void render(OutputStream os, boolean doBookmarks, boolean doHtmlBookmarks) throws IOException, PageException, DocumentException {
+	private void render(OutputStream os, boolean doBookmarks, boolean doHtmlBookmarks) throws IOException, PageException {
 		byte[] pdf=null;
 		// merge multiple docs to 1
 		if(documents.size()>1) {
-			PDFDocument[] pdfDocs=new PDFDocument[documents.size()];
-			PdfReader[] pdfReaders = new PdfReader[pdfDocs.length];
-			Iterator<PDFDocument> it = documents.iterator();
-			int index=0;
-			// generate pdf with pd4ml
-			while(it.hasNext()) {
-				pdfDocs[index]=it.next();
-				pdfReaders[index]=
-					new PdfReader(pdfDocs[index].render(getDimension(),unitFactor,pageContext,doHtmlBookmarks));
-				index++;
-			}
-			
-			// collect together
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			com.lowagie.text.Document document = 
-				new com.lowagie.text.Document(pdfReaders[0].getPageSizeWithRotation(1));
-			PdfCopy copy = new PdfCopy(document,baos);
-			document.open();
-			String name;
-			ArrayList bookmarks=doBookmarks?new ArrayList():null;
-			try {
-				int size,totalPage=0;
-				Map parent;
-				for(int doc=0;doc<pdfReaders.length;doc++) {
-					size=pdfReaders[doc].getNumberOfPages();
-					
-					PdfImportedPage ip;
-					
-					// bookmarks
-					if(doBookmarks) {
-						name=pdfDocs[doc].getName();
-						if(!StringUtil.isEmpty(name)) {
-							bookmarks.add(parent=PDFUtil.generateGoToBookMark(name, totalPage+1));
-						}
-						else parent=null;
-						
-						if(doHtmlBookmarks) {
-							java.util.List pageBM = SimpleBookmark.getBookmark(pdfReaders[doc]);
-							if(pageBM!=null) {
-								if(totalPage>0)SimpleBookmark.shiftPageNumbers(pageBM, totalPage, null);
-								if(parent!=null)PDFUtil.setChildBookmarks(parent,pageBM);
-								else bookmarks.addAll(pageBM);
-							}
-						}
-					}
-					
-					totalPage++;
-					for(int page=1;page<=size;page++) {
-						if(page>1)totalPage++;
-						ip = copy.getImportedPage(pdfReaders[doc], page);
-						
-						//ip.getPdfDocument().setHeader(arg0);
-						//ip.getPdfDocument().setFooter(arg0);
-						copy.addPage(ip);
-					}
-				}
-				if (doBookmarks && !bookmarks.isEmpty())copy.setOutlines(bookmarks);
-			}
-			finally {
-				document.close();
-			}
-			pdf=baos.toByteArray();
+			throw new lucee.runtime.exp.MethodNotImplementedException("Document", "render");
 		}
 		else if(documents.size()==1){
 			pdf=(documents.get(0)).render(getDimension(),unitFactor,pageContext,doHtmlBookmarks);
+			throw new RuntimeException("pdf=(documents.get(0)).render(getDimension(),unitFactor,pageContext,doHtmlBookmarks)");
 		}
 		else {
 			pdf=getDocument().render(getDimension(),unitFactor,pageContext,doHtmlBookmarks);
@@ -647,20 +583,7 @@ public final class Document extends BodyTagImpl {
 		
 		// permission/encryption
 		if(PDFDocument.ENC_NONE!=encryption) {
-			PdfReader reader = new PdfReader(pdf);
-			com.lowagie.text.Document document = new com.lowagie.text.Document(reader.getPageSize(1));
-			document.addCreator("Lucee "+Info.getVersionAsString()+" "+Info.getStateAsString());
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			PdfCopy copy = new PdfCopy(document,baos);
-			//PdfWriter writer = PdfWriter.getInstance(document, pdfOut);
-			copy.setEncryption(PDFDocument.ENC_128BIT==encryption , userpassword , ownerpassword , permissions);
-			document.open();
-			int size=reader.getNumberOfPages();
-			for(int page=1;page<=size;page++) {
-				copy.addPage(copy.getImportedPage(reader, page));
-			}
-			document.close();
-			pdf=baos.toByteArray();
+			throw new lucee.runtime.exp.MethodNotImplementedException("Document", "render");
 		}
 		
 		// write out
