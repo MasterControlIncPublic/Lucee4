@@ -29,7 +29,6 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.mastercontrol.resource.s3.S3ListItem;
 import lucee.commons.io.StreamWithSize;
 import lucee.commons.io.res.Resource;
@@ -41,6 +40,7 @@ import lucee.runtime.exp.PageRuntimeException;
 import lucee.runtime.op.Caster;
 import lucee.runtime.type.Array;
 import org.apache.commons.lang.NotImplementedException;
+import software.amazon.awssdk.services.s3.model.NoSuchKeyException;
 
 public final class S3Resource extends ResourceSupport {
 
@@ -285,8 +285,8 @@ public final class S3Resource extends ResourceSupport {
 	private static <T> Optional<T> getS3Info(Supplier<T> processor) {
 		try {
 			return Optional.of(processor.get());
-		} catch (AmazonS3Exception e) {
-			if (e.getStatusCode() == 404) {
+		} catch (NoSuchKeyException e) {
+			if (e.statusCode() == 404) {
 				return Optional.empty();
 			}
 			throw e;
