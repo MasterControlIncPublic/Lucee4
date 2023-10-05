@@ -18,17 +18,24 @@
  **/
 package lucee.commons.lang;
 
+import lucee.commons.digest.Hash;
+
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 
 
 public class KeyGenerator {
-	public static String createKey(String value) throws IOException{
+	public static String createKey(String value) throws IOException {
 		// create a crossfoot of the string and change result in constealltion of the position
 		long sum=0;
 		for(int i=value.length()-1;i>=0;i--){
 			sum+=(value.charAt(i))*((i%3+1)/2f);
 		}
-		return Md5.getDigestAsString(value)+":"+sum;
+		try {
+			return Hash.sha256(value)+":"+sum;
+		} catch (RuntimeException e) {
+			throw new IOException(e);
+		}
 	}
 	public static String createVariable(String value) throws IOException{
 		// create a crossfoot of the string and change result in constealltion of the position
@@ -36,6 +43,10 @@ public class KeyGenerator {
 		for(int i=value.length()-1;i>=0;i--){
 			sum+=(value.charAt(i))*((i%3+1)/2f);
 		}
-		return "V"+Md5.getDigestAsString(value)+sum;
+		try {
+			return "V"+Hash.sha256(value)+sum;
+		} catch (RuntimeException e) {
+			throw new IOException(e);
+		}
 	}
 }

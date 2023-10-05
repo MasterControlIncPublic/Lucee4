@@ -23,8 +23,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import lucee.commons.digest.Hash;
 import lucee.commons.lang.IDGenerator;
-import lucee.commons.lang.Md5;
 import lucee.runtime.exp.PageRuntimeException;
 import lucee.runtime.op.Caster;
 import lucee.transformer.bytecode.Page;
@@ -56,7 +56,7 @@ public final class Sprite extends EvaluatorSupport {
         String id="sprite_"+IDGenerator.intId();
         try {
 			Page page = ASMUtil.getAncestorPage(tag);
-			String key=Md5.getDigestAsString(Thread.currentThread().getId()+":"+page.getPageSource().getDisplayPath());
+			String key= Hash.sha256(Thread.currentThread().getId()+":"+page.getPageSource().getDisplayPath());
 			Expression src = tag.getAttribute("src").getValue();
 			
 			

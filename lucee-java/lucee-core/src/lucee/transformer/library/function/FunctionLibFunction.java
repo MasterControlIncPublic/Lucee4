@@ -22,10 +22,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import lucee.commons.digest.Hash;
 import lucee.commons.lang.CFTypes;
 import lucee.commons.lang.ClassException;
 import lucee.commons.lang.ClassUtil;
-import lucee.commons.lang.Md5;
 import lucee.commons.lang.StringUtil;
 import lucee.runtime.exp.PageRuntimeException;
 import lucee.runtime.exp.TemplateException;
@@ -316,8 +316,8 @@ public final class FunctionLibFunction {
 		}
 		
 		try {
-			return Md5.getDigestAsString(sb.toString());
-		} catch (IOException e) {
+			return Hash.sha256(sb.toString());
+		} catch (RuntimeException e) {
 			return "";
 		}
 	}

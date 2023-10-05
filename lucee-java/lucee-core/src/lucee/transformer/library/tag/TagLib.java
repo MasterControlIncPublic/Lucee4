@@ -28,9 +28,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import lucee.commons.digest.Hash;
 import lucee.commons.lang.ClassException;
 import lucee.commons.lang.ClassUtil;
-import lucee.commons.lang.Md5;
 import lucee.commons.lang.StringUtil;
 import lucee.runtime.exp.ExpressionException;
 import lucee.runtime.exp.PageRuntimeException;
@@ -316,8 +316,8 @@ public class TagLib implements Cloneable {
     		sb.append((tags.get(it.next())).getHash()+"\n");
     	}
     	try {
-			return Md5.getDigestAsString(sb.toString());
-		} catch (IOException e) {
+			return Hash.sha256(sb.toString());
+		} catch (RuntimeException e) {
 			return "";
 		}
     }

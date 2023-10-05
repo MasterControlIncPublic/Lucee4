@@ -24,10 +24,10 @@ import java.io.IOException;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import lucee.commons.digest.Hash;
 import lucee.commons.io.IOUtil;
 import lucee.commons.io.res.Resource;
 import lucee.commons.io.res.util.ResourceUtil;
-import lucee.commons.lang.Md5;
 import lucee.commons.lang.StringUtil;
 import lucee.commons.lang.SystemOut;
 import lucee.loader.util.Util;
@@ -185,8 +185,8 @@ public final class Import extends EvaluatorSupport {
     	
     	String filename=null;
     	try {
-			filename=Md5.getDigestAsString(ResourceUtil.getCanonicalPathEL(jarFile)+jarFile.lastModified());
-		} catch (IOException e) {}
+			filename= Hash.sha256(ResourceUtil.getCanonicalPathEL(jarFile)+jarFile.lastModified());
+		} catch (RuntimeException e) {}
 
 		Resource tldFile = jspTagLibDir.getRealResource(filename+".tld");
 		if(!tldFile.exists()) tldFile = jspTagLibDir.getRealResource(filename+".tldx");

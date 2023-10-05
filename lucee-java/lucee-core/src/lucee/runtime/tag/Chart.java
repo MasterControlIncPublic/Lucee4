@@ -34,10 +34,10 @@ import java.util.List;
 import java.util.TimeZone;
 
 import lucee.commons.color.ColorCaster;
+import lucee.commons.digest.Hash;
 import lucee.commons.io.IOUtil;
 import lucee.commons.io.res.Resource;
 import lucee.commons.io.res.util.ResourceUtil;
-import lucee.commons.lang.Md5;
 import lucee.commons.lang.StringUtil;
 import lucee.runtime.chart.BarRenderer3DWrap;
 import lucee.runtime.chart.CategoryToolTipGeneratorImpl;
@@ -737,7 +737,7 @@ public final class Chart extends BodyTagImpl implements Serializable {
 		}
 		
 		// write out as link
-		String id=Md5.getDigestAsString(JavaConverter.serialize(this));
+		String id= Hash.sha256(JavaConverter.serialize(this));
 		Resource graph = pageContext.getConfig().getTempDirectory().getRealResource("graph");
 		Resource res = graph.getRealResource(id);
 		if(!res.exists()) {

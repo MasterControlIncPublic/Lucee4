@@ -26,11 +26,11 @@ import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 
+import lucee.commons.digest.Hash;
 import lucee.commons.io.DevNullOutputStream;
 import lucee.commons.io.log.Log;
 import lucee.commons.io.log.LogUtil;
 import lucee.commons.lang.ClassException;
-import lucee.commons.lang.Md5;
 import lucee.commons.lang.Pair;
 import lucee.loader.util.Util;
 import lucee.runtime.CFMLFactory;
@@ -386,8 +386,8 @@ public class GatewayEngineImpl implements GatewayEnginePro {
 		Struct attrs=new StructImpl();
 		String remotePersisId;
 		try {
-			remotePersisId=Md5.getDigestAsString(requestURI+id);
-		} catch (IOException e) {
+			remotePersisId= Hash.sha256(requestURI + id);
+		} catch (RuntimeException e) {
 			throw Caster.toPageException(e);
 		}
 		PageContextImpl pc = ThreadUtil.createPageContext(

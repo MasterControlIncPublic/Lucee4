@@ -26,10 +26,10 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import lucee.commons.digest.Hash;
 import lucee.commons.io.IOUtil;
 import lucee.commons.io.res.Resource;
 import lucee.commons.io.res.util.ResourceUtil;
-import lucee.commons.lang.Md5;
 import lucee.runtime.PageContext;
 import lucee.runtime.type.dt.TimeSpan;
 
@@ -47,7 +47,7 @@ class CacheItemFS extends CacheItem {
 		directory= dir!=null?dir:getDirectory(pc);
         
 		// name
-        name=Md5.getDigestAsString(fileName)+".cache";
+        name= Hash.sha256(fileName)+".cache";
         
         // res
         res=directory.getRealResource(name);

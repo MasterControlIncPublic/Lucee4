@@ -18,12 +18,11 @@
  **/
 package lucee.commons.io.res.type.s3;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import lucee.commons.lang.Md5;
+import lucee.commons.digest.Hash;
 import lucee.commons.lang.StringUtil;
 import lucee.runtime.exp.PageException;
 import lucee.runtime.functions.s3.StoreGetACL;
@@ -131,8 +130,8 @@ public class AccessControl {
 
 	public String hash() {
 		try {
-			return Md5.getDigestAsString(toString());
-		} catch (IOException e) {
+			return Hash.sha256(toString());
+		} catch (RuntimeException e) {
 			return null;
 		}
 	}

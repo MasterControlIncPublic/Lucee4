@@ -45,6 +45,7 @@ import javax.servlet.ServletConfig;
 import lucee.aprint;
 import lucee.commons.collection.MapFactory;
 import lucee.commons.date.TimeZoneUtil;
+import lucee.commons.digest.Hash;
 import lucee.commons.digest.MD5;
 import lucee.commons.io.CharsetUtil;
 import lucee.commons.io.DevNullOutputStream;
@@ -65,7 +66,6 @@ import lucee.commons.lang.ClassException;
 import lucee.commons.lang.ClassLoaderHelper;
 import lucee.commons.lang.ClassUtil;
 import lucee.commons.lang.ExceptionUtil;
-import lucee.commons.lang.Md5;
 import lucee.commons.lang.StringUtil;
 import lucee.commons.lang.SystemOut;
 import lucee.commons.net.URLDecoder;
@@ -1392,7 +1392,7 @@ public final class ConfigWebFactory extends ConfigFactory {
 
 		boolean hasChanged = false;
 		try {
-			String hashValue = Md5.getDigestAsString(sb.toString());
+			String hashValue = Hash.sha256(sb.toString());
 
 			// check and compare lib version file
 			Resource contextDir = config.getConfigDir();

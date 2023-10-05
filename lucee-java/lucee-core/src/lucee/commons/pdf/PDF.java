@@ -28,13 +28,13 @@ import java.net.URL;
 import java.net.URLClassLoader;
 
 import lucee.Version;
+import lucee.commons.digest.Hash;
 import lucee.commons.io.IOUtil;
 import lucee.commons.io.res.Resource;
 import lucee.commons.io.res.filter.ExtensionResourceFilter;
 import lucee.commons.io.res.util.FileWrapper;
 import lucee.commons.io.res.util.ResourceUtil;
 import lucee.commons.lang.ClassUtil;
-import lucee.commons.lang.Md5;
 import lucee.runtime.Info;
 import lucee.runtime.config.Config;
 import lucee.runtime.exp.PageException;
@@ -54,7 +54,7 @@ public class PDF {
 			//classLoader=new URLClassLoader(new URL[]{new File("/Users/mic/Downloads/java/pd4ml/fullversion/pd4ml.volume.310/lib/pd4ml.jar").toURL()},this.getClass().getClassLoader());
 			if(classLoader==null) {
 				Resource temp = config.getConfigDir().getRealResource("temp");
-				Resource file=temp.getRealResource(Md5.getDigestAsString(Info.getVersionAsString())+".lmdp");
+				Resource file=temp.getRealResource(Hash.sha256(Info.getVersionAsString())+".lmdp");
 		        
 				if(!file.exists()){
 					ResourceUtil.removeChildrenEL(temp, new ExtensionResourceFilter(".lmdp"));

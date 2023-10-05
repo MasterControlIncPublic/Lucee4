@@ -22,8 +22,8 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import lucee.commons.digest.Hash;
 import lucee.commons.io.res.Resource;
-import lucee.commons.lang.Md5;
 import lucee.commons.net.HTTPUtil;
 import lucee.commons.security.Credentials;
 import lucee.runtime.net.proxy.ProxyData;
@@ -61,10 +61,8 @@ public final class ScheduleTaskImpl implements ScheduleTask {
 	private boolean readonly;
 	private boolean paused;
 	private boolean autoDelete;
-	private String md5;
+	private String hash;
 
-    
-    
     
     /**
      * constructor of the class
@@ -93,10 +91,10 @@ public final class ScheduleTaskImpl implements ScheduleTask {
             boolean readonly,boolean paused, boolean autoDelete) throws IOException, ScheduleException {
     	
     	
-    	String md5=task.toLowerCase()+file+startDate+startTime+endDate+endTime+url+port+interval+timeout+
+    	String hash=task.toLowerCase()+file+startDate+startTime+endDate+endTime+url+port+interval+timeout+
     	credentials+proxy+resolveURL+publish+hidden+readonly+paused;
-    	md5=Md5.getDigestAsString(md5);
-    	this.md5=md5;
+    	hash= Hash.sha256(hash);
+    	this.hash=hash;
         
         if(file!=null && file.toString().trim().length()>0) {
         	Resource parent = file.getParentResource();
@@ -305,7 +303,7 @@ public final class ScheduleTaskImpl implements ScheduleTask {
 
 
 
-	public String md5() {
-		return md5;
+	public String hash() {
+		return hash;
 	}
 }

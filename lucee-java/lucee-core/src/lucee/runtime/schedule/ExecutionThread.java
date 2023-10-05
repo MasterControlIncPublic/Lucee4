@@ -68,7 +68,7 @@ class ExecutionThread extends Thread {
 	}
 	
 	private static String _taskKey( ScheduleTask task ) {
-		return  ((ScheduleTaskImpl)task).md5();
+		return  ((ScheduleTaskImpl)task).hash();
 	}
 	
 	private static void _initializeTaskState( ScheduleTask task ) {

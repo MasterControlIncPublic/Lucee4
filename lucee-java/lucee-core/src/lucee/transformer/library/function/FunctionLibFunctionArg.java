@@ -18,10 +18,8 @@
  **/
 package lucee.transformer.library.function;
 
-import java.io.IOException;
-
+import lucee.commons.digest.Hash;
 import lucee.commons.lang.CFTypes;
-import lucee.commons.lang.Md5;
 import lucee.transformer.library.tag.TagLib;
 
 
@@ -198,8 +196,8 @@ public final class FunctionLibFunctionArg {
 		sb.append(this.getAlias());
 		
 		try {
-			return Md5.getDigestAsString(sb.toString());
-		} catch (IOException e) {
+			return Hash.sha256(sb.toString());
+		} catch (RuntimeException e) {
 			return "";
 		}
 	}

@@ -683,7 +683,7 @@ public final class ConfigServerImpl extends ConfigImpl implements ConfigServer {
     			hash=Hash.hash(keys[i], Caster.toString(timeNonce), Hash.ALGORITHM_SHA_256, Hash.ENCODING_HEX);
     			if(hash.equals(key)) return;
 			}
-			catch (NoSuchAlgorithmException e) {
+			catch (RuntimeException e) {
 				throw Caster.toPageException(e);
 			}
     	}
