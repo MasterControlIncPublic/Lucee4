@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import lucee.commons.digest.Hash;
 import lucee.commons.io.CharsetUtil;
 import lucee.commons.io.cache.CacheEntry;
 import lucee.commons.io.cache.exp.CacheException;
@@ -92,7 +93,7 @@ public class EHCache extends EHCacheSupport {
 			
 			hashDir=dir.getRealResource(hashArgs[i]);
 			String xml=createXML(hashDir.getAbsolutePath(), cacheNames,arguments,hashArgs,hashArgs[i]);
-			String hash=MD5.getDigestAsString(xml);
+			String hash= Hash.sha256(xml);
 			
 			CacheManagerAndHash manager= managers.remove(hashArgs[i]);
 			if(manager!=null && manager.hash.equals(hash)) {
@@ -131,7 +132,7 @@ public class EHCache extends EHCacheSupport {
 			if(!hashDir.isDirectory())hashDir.createDirectory(true);
 			
 			writeEHCacheXML(hashDir,xml);
-			hash=MD5.getDigestAsString(xml);
+			hash=Hash.sha256(xml);
 			
 			moveData(dir,hashArg,cacheNames,arguments);
 			//print.e(xml);
@@ -258,10 +259,10 @@ public class EHCache extends EHCacheSupport {
 			String dist = args.get("distributed","").toString().trim().toLowerCase();
 			try {
 				if(dist.equals("off")){
-					return MD5.getDigestAsString(dist);
+					return Hash.sha256(dist);
 				}
 				else if(dist.equals("automatic")){
-					return MD5.getDigestAsString(
+					return Hash.sha256(
 						dist+
 						args.get("automatic_timeToLive","").toString().trim().toLowerCase()+
 						args.get("automatic_addional","").toString().trim().toLowerCase()+
@@ -271,7 +272,7 @@ public class EHCache extends EHCacheSupport {
 					);
 				}
 				else {
-					 return MD5.getDigestAsString(
+					 return Hash.sha256(
 						dist+
 						args.get("manual_rmiUrls","").toString().trim().toLowerCase()+
 						args.get("manual_addional","").toString().trim().toLowerCase()+
@@ -282,7 +283,7 @@ public class EHCache extends EHCacheSupport {
 					); 
 				}
 				
-			} catch (IOException e) {
+			} catch (RuntimeException e) {
 				e.printStackTrace();
 				return "";
 			}
