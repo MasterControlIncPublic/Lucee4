@@ -34,9 +34,7 @@ import lucee.runtime.coder.Coder;
 import lucee.runtime.exp.PageException;
 import lucee.runtime.op.Caster;
 
-/**
- *
- */
+
 public class Cryptor {
 
     public final static String DEFAULT_CHARSET  = "UTF-8";
