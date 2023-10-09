@@ -30,24 +30,10 @@ public class Hash {
 	public static final char[] ENCODING_HEXUC = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 	private static final byte[] DEL=new byte[]{58};
 
-	public static final String ALGORITHM_MD5="MD5";
 	public static final String ALGORITHM_SHA_256="SHA-256";
 	public static final String ALGORITHM_SHA_384="SHA-384";
 	public static final String ALGORITHM_SHA_512="SHA-512";
 	public static final String ALGORITHM_SHA="SHA";
-
-	// MD5
-	public static String md5(byte[] data) {
-		return hash(data, ALGORITHM_MD5,ENCODING_HEX);
-	}
-	
-	public static String md5(String str) {
-		return hash(str, ALGORITHM_MD5,ENCODING_HEX,CharsetUtil.UTF8);
-	}
-	
-	public static String md5(String str, Charset charset) {
-		return hash(str, ALGORITHM_MD5,ENCODING_HEX,charset);
-	}
 	
 	// SHA
 	public static String sha(byte[] data) {
