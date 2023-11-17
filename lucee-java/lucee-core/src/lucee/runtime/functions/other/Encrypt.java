@@ -22,8 +22,6 @@
 package lucee.runtime.functions.other;
 
 import lucee.runtime.PageContext;
-import lucee.runtime.coder.Coder;
-import lucee.runtime.crypt.CFMXCompat;
 import lucee.runtime.crypt.Cryptor;
 import lucee.runtime.exp.PageException;
 import lucee.runtime.ext.function.Function;
@@ -35,7 +33,7 @@ public final class Encrypt implements Function {
     // "CFMX_COMPAT" "UU"  null, 0
     public synchronized static String call( PageContext pc, String input, String key ) throws PageException {
 
-        return invoke( input, key, CFMXCompat.ALGORITHM_NAME, Cryptor.DEFAULT_ENCODING, null, 0 );
+        return invoke( input, key, "AES", Cryptor.DEFAULT_ENCODING, null, 0 );
     }
 
 
@@ -69,10 +67,6 @@ public final class Encrypt implements Function {
     public synchronized static String invoke( String input, String key, String algorithm, String encoding, Object ivOrSalt, int iterations ) throws PageException {
 
         try {
-
-            if ( CFMXCompat.isCfmxCompat( algorithm ) )
-                return Coder.encode( encoding, new CFMXCompat().transformString( key, input.getBytes( Cryptor.DEFAULT_CHARSET ) ) );
-
             byte[] baIVS = null;
             if ( ivOrSalt instanceof String )
                 baIVS = ((String)ivOrSalt).getBytes( Cryptor.DEFAULT_CHARSET );
@@ -89,10 +83,6 @@ public final class Encrypt implements Function {
 
 
     public synchronized static byte[] invoke( byte[] input, String key, String algorithm, byte[] ivOrSalt, int iterations ) throws PageException {
-
-        if ( CFMXCompat.isCfmxCompat( algorithm ) )
-            return new CFMXCompat().transformString( key, input );
-
         return Cryptor.encrypt( input, key, algorithm, ivOrSalt, iterations );
     }
 }

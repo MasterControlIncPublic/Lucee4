@@ -143,6 +143,7 @@ dependencies {
 
     testCompile 'org.junit.jupiter:junit-jupiter:5.10.0'
     testCompile 'org.mockito:mockito-junit-jupiter:5.4.0'
+    testCompile 'org.bouncycastle:bc-fips:1.0.2.4'
 }
 
 test {

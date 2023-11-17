@@ -19,7 +19,6 @@
 package lucee.runtime.config;
 
 
-import lucee.runtime.crypt.CFMXCompat;
 import lucee.runtime.exp.PageException;
 import lucee.runtime.functions.other.Encrypt;
 import lucee.runtime.net.proxy.ProxyData;
@@ -107,7 +106,7 @@ public class RemoteClientImpl implements RemoteClient {
 
 	public String getAdminPasswordEncrypted() {
 		try {
-			return Encrypt.invoke( getAdminPassword(), getSecurityKey(), CFMXCompat.ALGORITHM_NAME, "uu", null, 0 );
+			return Encrypt.invoke( getAdminPassword(), getSecurityKey(), "AES", "uu", null, 0 );
 		} 
 		catch (PageException e) {
 			return null;

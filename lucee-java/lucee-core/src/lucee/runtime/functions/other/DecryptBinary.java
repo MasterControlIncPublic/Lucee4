@@ -22,7 +22,6 @@
 package lucee.runtime.functions.other;
 
 import lucee.runtime.PageContext;
-import lucee.runtime.crypt.CFMXCompat;
 import lucee.runtime.exp.PageException;
 import lucee.runtime.ext.function.Function;
 import lucee.runtime.op.Caster;
@@ -33,7 +32,7 @@ public final class DecryptBinary implements Function {
 
     public synchronized static Object call( PageContext pc , Object oBytes, String key ) throws PageException {
 
-        return call( pc, Caster.toBinary( oBytes ), key, CFMXCompat.ALGORITHM_NAME );
+        return call( pc, Caster.toBinary( oBytes ), key, "AES" );
     }
 
     public synchronized static Object call(PageContext pc , Object oBytes, String key, String algorithm) throws PageException {
