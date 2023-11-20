@@ -19,6 +19,7 @@
 package lucee.runtime.config;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 
 import lucee.commons.digest.Hash;
@@ -26,6 +27,7 @@ import lucee.commons.lang.StringUtil;
 import lucee.runtime.crypt.BlowfishEasy;
 import lucee.runtime.exp.PageException;
 
+import lucee.runtime.functions.other.Decrypt;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
@@ -39,12 +41,13 @@ public class Password {
 	public static final int ORIGIN_HASHED_SALTED=5;
 	public static final int ORIGIN_UNKNOW=6;
 
-	private final String rawPassword;
 	public final String password;
 	public final String salt; 
 	public final int type;
 	public final int origin;
 
+	// Visible for testing
+	final String rawPassword;
 
 	private Password(int origin,String password, String salt, int type) {
 		this.rawPassword=null;
@@ -120,6 +123,7 @@ public class Password {
 		// fall back to encrypted password
 		String pwEnc = el.getAttribute(prefix+"password"); 
 		if (!StringUtil.isEmpty(pwEnc,true)) {
+//			Decrypt.invoke(pwEnc.getBytes(StandardCharsets.UTF_8), "tpwisgh", "AES", salt, 100000);
 			String rawPassword = new BlowfishEasy("tpwisgh").decryptString(pwEnc);
 			return new Password(ORIGIN_ENCRYPTED,rawPassword,salt);
 		}

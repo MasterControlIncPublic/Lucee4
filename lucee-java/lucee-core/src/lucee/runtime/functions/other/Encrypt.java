@@ -30,7 +30,6 @@ import lucee.runtime.op.Caster;
 
 public final class Encrypt implements Function {
 
-    // "CFMX_COMPAT" "UU"  null, 0
     public synchronized static String call( PageContext pc, String input, String key ) throws PageException {
 
         return invoke( input, key, "AES", Cryptor.DEFAULT_ENCODING, null, 0 );
