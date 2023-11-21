@@ -133,13 +133,13 @@ public class Password {
 		if (!StringUtil.isEmpty(pwEnc,true)) {
 			byte[] decrypted;
 			try {
-				decrypted = Decrypt.invoke(pwEnc.getBytes(StandardCharsets.UTF_8),
-						"tpwisgh", "PBKDF2", salt.getBytes(StandardCharsets.UTF_8), 100000);
+				String key = new String(Base64.getEncoder().encode("Ct777ZT7qRhijVEynK3evM2V".getBytes(StandardCharsets.UTF_8)), StandardCharsets.UTF_8);
+				decrypted = Decrypt.invoke(Hex.decode(pwEnc),
+						key, "AES", salt.getBytes(StandardCharsets.UTF_8), 100000);
 			} catch (PageException e) {
 				return null;
 			}
 			String rawPassword = new String(decrypted, StandardCharsets.UTF_8);
-//			String rawPassword = new BlowfishEasy("tpwisgh").decryptString(pwEnc);
 			return new Password(ORIGIN_ENCRYPTED,rawPassword,salt);
 		}
 		return null;
@@ -173,28 +173,15 @@ public class Password {
 			// also set older password type, needed when someone downgrade Lucee
 			if(pw.rawPassword!=null) {
 				if(el.hasAttribute(prefix+"pw")) el.setAttribute(prefix+"pw",hash(pw.rawPassword, null));
-//				byte[] encrypted;
-				// Base64.getEncoder().encodeToString("tpwisgh")
-//				try {
-					// dHB3aXNnaA==
-//					byte[] key = Base64.getEncoder().encode("tpwisgh".getBytes(StandardCharsets.UTF_8));
-//					String key = new String("17B0aDKIIQo0lcVLmVj/GELc3RrnFkpKtLkRmbKGCEA=", StandardCharsets.UTF_8);
-//					encrypted = Encrypt.invoke(pw.rawPassword.getBytes(StandardCharsets.UTF_8),
-//							"17B0aDKIIQo0lcVLmVj/GELc3RrnFkpKtLkRmbKGCEA=", "PBKDF2", pw.salt.getBytes(StandardCharsets.UTF_8), 100000);
-//				} catch (PageException e) {
-//					throw new RuntimeException(e);
-//				}
-				byte[] encoded = new byte[]{};
+				byte[] encrypted;
 				try {
-					byte[] salt = SecureRandom.getInstance("DEFAULT", "BCFIPS").generateSeed(60);
-					SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2", "BCFIPS");
-					KeySpec keySpec = new PBEKeySpec(pw.rawPassword.toCharArray(), salt, 600000, 256);
-					encoded = factory.generateSecret(keySpec).getEncoded();
-				} catch (Exception e) {
-					throw new RuntimeException("Failed to create password key", e);
+					String key = new String(Base64.getEncoder().encode("Ct777ZT7qRhijVEynK3evM2V".getBytes(StandardCharsets.UTF_8)), StandardCharsets.UTF_8);
+					encrypted = Encrypt.invoke(pw.rawPassword.getBytes(StandardCharsets.UTF_8),
+							key, "AES", pw.salt.getBytes(StandardCharsets.UTF_8), 100000);
+				} catch (PageException e) {
+					throw new RuntimeException(e);
 				}
-				String secret = Hex.toHexString(encoded);
-//				String encoded = new BlowfishEasy("tpwisgh").encryptString(pw.rawPassword);
+				String secret = Hex.toHexString(encrypted);
 				if(el.hasAttribute(prefix+"password")) el.setAttribute(prefix+"password",secret);
 			}
 			
