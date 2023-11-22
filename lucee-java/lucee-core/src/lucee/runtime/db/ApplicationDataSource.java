@@ -48,7 +48,6 @@ public class ApplicationDataSource extends DataSourceSupport {
 
 	public static DataSource getInstance(String name, String className, String connStr, String username, String password,
 			boolean blob, boolean clob, int connectionLimit, int connectionTimeout, long metaCacheTimeout, TimeZone timezone, int allow, boolean storage, boolean readOnly, boolean validate) throws ClassException {
-		
 		return new ApplicationDataSource(name, className, connStr, username, password, blob, clob, connectionLimit, connectionTimeout, metaCacheTimeout, timezone, allow, storage, readOnly, validate);
 	}
 

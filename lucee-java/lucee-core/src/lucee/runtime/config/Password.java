@@ -18,26 +18,17 @@
  **/
 package lucee.runtime.config;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.security.spec.KeySpec;
-import java.util.Base64;
-
 import lucee.commons.digest.Hash;
 import lucee.commons.lang.StringUtil;
-import lucee.runtime.crypt.BlowfishEasy;
+import lucee.runtime.crypt.AESEncrypt;
 import lucee.runtime.exp.PageException;
-
-import lucee.runtime.functions.other.Decrypt;
-import lucee.runtime.functions.other.Encrypt;
-import org.bouncycastle.util.encoders.Hex;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 
 public class Password {
 
@@ -131,15 +122,8 @@ public class Password {
 		// fall back to encrypted password
 		String pwEnc = el.getAttribute(prefix+"password"); 
 		if (!StringUtil.isEmpty(pwEnc,true)) {
-			byte[] decrypted;
-			try {
-				String key = new String(Base64.getEncoder().encode("Ct777ZT7qRhijVEynK3evM2V".getBytes(StandardCharsets.UTF_8)), StandardCharsets.UTF_8);
-				decrypted = Decrypt.invoke(Hex.decode(pwEnc),
-						key, "AES", salt.getBytes(StandardCharsets.UTF_8), 100000);
-			} catch (PageException e) {
-				return null;
-			}
-			String rawPassword = new String(decrypted, StandardCharsets.UTF_8);
+			String key = new String(Base64.getEncoder().encode("Ct777ZT7qRhijVEynK3evM2V".getBytes(StandardCharsets.UTF_8)), StandardCharsets.UTF_8);
+			String rawPassword = AESEncrypt.decrypt(pwEnc, salt, key);
 			return new Password(ORIGIN_ENCRYPTED,rawPassword,salt);
 		}
 		return null;
@@ -173,15 +157,8 @@ public class Password {
 			// also set older password type, needed when someone downgrade Lucee
 			if(pw.rawPassword!=null) {
 				if(el.hasAttribute(prefix+"pw")) el.setAttribute(prefix+"pw",hash(pw.rawPassword, null));
-				byte[] encrypted;
-				try {
-					String key = new String(Base64.getEncoder().encode("Ct777ZT7qRhijVEynK3evM2V".getBytes(StandardCharsets.UTF_8)), StandardCharsets.UTF_8);
-					encrypted = Encrypt.invoke(pw.rawPassword.getBytes(StandardCharsets.UTF_8),
-							key, "AES", pw.salt.getBytes(StandardCharsets.UTF_8), 100000);
-				} catch (PageException e) {
-					throw new RuntimeException(e);
-				}
-				String secret = Hex.toHexString(encrypted);
+				String key = new String(Base64.getEncoder().encode("Ct777ZT7qRhijVEynK3evM2V".getBytes(StandardCharsets.UTF_8)), StandardCharsets.UTF_8);
+				String secret = AESEncrypt.encrypt(pw.rawPassword, pw.salt, key);
 				if(el.hasAttribute(prefix+"password")) el.setAttribute(prefix+"password",secret);
 			}
 			
