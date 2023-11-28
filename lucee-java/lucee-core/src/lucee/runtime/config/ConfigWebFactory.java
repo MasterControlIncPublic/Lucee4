@@ -2241,7 +2241,7 @@ public final class ConfigWebFactory extends ConfigFactory {
 		if (StringUtil.startsWithIgnoreCase(str, "encrypted:"))
 			return str;
 
-		return AESEncrypt.decrypt(str);
+		return "encrypted:" + AESEncrypt.encrypt(str);
 	}
 
 	private static Struct toStruct(String str) {
