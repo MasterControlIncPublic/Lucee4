@@ -79,6 +79,7 @@ public static void deployTags(Resource dir, boolean doNew) {
         if(!f.exists() || doNew)ConfigFactory.createFileFromResourceEL("/resource/library/tag/lucee/core/ajax/JSLoader.cfc",f);
         f = dir.getRealResource("LuceeJs.cfc");
         if(f.exists())f.delete();
+
         
         //js
         Resource jsDir = dir.getRealResource("js");
