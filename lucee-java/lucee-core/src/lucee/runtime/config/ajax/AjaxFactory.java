@@ -110,8 +110,6 @@ public static void deployTags(Resource dir, boolean doNew) {
         if(!f.exists() || doNew)ConfigFactory.createFileFromResourceEL("/resource/library/tag/lucee/core/ajax/js/jquery/jquery-1.4.2.js",f);
         f = jqDir.getRealResource("jquery-ui-1.8.2.js");
         if(!f.exists() || doNew)ConfigFactory.createFileFromResourceEL("/resource/library/tag/lucee/core/ajax/js/jquery/jquery-ui-1.8.2.js",f);
-        f = jqDir.getRealResource("jquery.layout.js");
-        if(!f.exists() || doNew)ConfigFactory.createFileFromResourceEL("/resource/library/tag/lucee/core/ajax/js/jquery/jquery.layout.js",f);
         f = jqDir.getRealResource("jquery.window.js");
         if(!f.exists() || doNew)ConfigFactory.createFileFromResourceEL("/resource/library/tag/lucee/core/ajax/js/jquery/jquery.window.js",f);
   
