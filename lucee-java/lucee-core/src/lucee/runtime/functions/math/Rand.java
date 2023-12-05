@@ -29,17 +29,16 @@ import java.util.Map;
 import java.util.Random;
 
 import lucee.runtime.PageContext;
+import lucee.runtime.crypt.Algorithm;
 import lucee.runtime.exp.ExpressionException;
 import lucee.runtime.ext.function.Function;
 
 public final class Rand implements Function {
-    public static final String ALGORITHM = "DEFAULT";
-
     private static Map<String, Random> randoms = new HashMap<String, Random>();
 
 	public static double call(PageContext pc ) throws ExpressionException {
 
-		return getRandom(ALGORITHM, Double.NaN ).nextDouble();
+		return getRandom(Algorithm.DEFAULT, Double.NaN ).nextDouble();
 	}
 
 	public static double call(PageContext pc, String algorithm) throws ExpressionException {
