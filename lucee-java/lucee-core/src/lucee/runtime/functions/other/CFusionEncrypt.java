@@ -22,13 +22,14 @@
 package lucee.runtime.functions.other;
 
 import lucee.runtime.PageContext;
+import lucee.runtime.crypt.Algorithm;
 import lucee.runtime.exp.PageException;
 import lucee.runtime.ext.function.Function;
 
 public final class CFusionEncrypt implements Function {
     
     public synchronized static String call(PageContext pc , String string, String key) throws PageException {
-		return Encrypt.call(pc,string,key,"cfmx_compat","hex");
+		return Encrypt.call(pc,string,key, Algorithm.AES,"hex");
 	}
     
 }
