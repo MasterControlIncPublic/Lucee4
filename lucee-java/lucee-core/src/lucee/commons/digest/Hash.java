@@ -21,8 +21,10 @@ package lucee.commons.digest;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 
 import lucee.commons.io.CharsetUtil;
+import lucee.runtime.crypt.FipsProvider;
 
 public class Hash {
 	
@@ -89,13 +91,13 @@ public class Hash {
 
 	public static String hash(String str, String nonce, String algorithm,char[] encoding) {
 		try {
-			MessageDigest md=MessageDigest.getInstance(algorithm);
+			MessageDigest md=MessageDigest.getInstance(algorithm, FipsProvider.BCFIPS);
 			md.reset();
 			md.update(toBytes(str, CharsetUtil.UTF8));
 			md.update(DEL);
 			md.update(toBytes(nonce, CharsetUtil.UTF8));
 			return new String( enc(md.digest(),encoding)); // no charset needed because all characters are below us-ascii (hex)
-		} catch (NoSuchAlgorithmException ex) {
+		} catch (NoSuchAlgorithmException | NoSuchProviderException ex) {
 			throw new RuntimeException("Missing Algorithm: " + algorithm, ex);
 		}
 	}

@@ -6,6 +6,7 @@ import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
@@ -21,6 +22,7 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
 import lucee.runtime.coder.CoderException;
+import lucee.runtime.crypt.FipsProvider;
 
 public class RSA {
 		
@@ -36,16 +38,18 @@ public class RSA {
 		return toString(x509EncodedKeySpec.getEncoded());
 	}
 	
-	public static PrivateKey toPrivateKey(String privateKey) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
+	public static PrivateKey toPrivateKey(String privateKey)
+			throws IOException, NoSuchAlgorithmException, InvalidKeySpecException, NoSuchProviderException {
 		byte[] bytes = toBytes(privateKey);
-		KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+		KeyFactory keyFactory = KeyFactory.getInstance("RSA", FipsProvider.BCFIPS);
 		PKCS8EncodedKeySpec privateKeySpec = new PKCS8EncodedKeySpec(bytes);
 		return keyFactory.generatePrivate(privateKeySpec);
 	}
 	
-	public static PublicKey toPublicKey(String publicKey) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
+	public static PublicKey toPublicKey(String publicKey)
+			throws IOException, NoSuchAlgorithmException, InvalidKeySpecException, NoSuchProviderException {
 		byte[] bytes = toBytes(publicKey);
-		KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+		KeyFactory keyFactory = KeyFactory.getInstance("RSA", FipsProvider.BCFIPS);
 		X509EncodedKeySpec publicKeySpec = new X509EncodedKeySpec(bytes);
 		return keyFactory.generatePublic(publicKeySpec);
 	}
@@ -58,14 +62,21 @@ public class RSA {
 		return Base64Encoder.decode(str);
 	}
 
-	public static KeyPair createKeyPair() throws NoSuchAlgorithmException {
-		KeyPairGenerator kpg = KeyPairGenerator.getInstance("RSA");
+	public static KeyPair createKeyPair() throws NoSuchAlgorithmException, NoSuchProviderException {
+		KeyPairGenerator kpg = KeyPairGenerator.getInstance("RSA", FipsProvider.BCFIPS);
 	    kpg.initialize(KEY_SIZE);
 	    return kpg.genKeyPair();
 	}
 	
-	public static byte[] encrypt(byte[] data, PrivateKey privateKey) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
-		Cipher cipher = Cipher.getInstance("RSA");
+	public static byte[] encrypt(byte[] data, PrivateKey privateKey)
+			throws NoSuchAlgorithmException,
+			NoSuchPaddingException,
+			InvalidKeyException,
+			IllegalBlockSizeException,
+			BadPaddingException,
+			NoSuchProviderException {
+
+		Cipher cipher = Cipher.getInstance("RSA", FipsProvider.BCFIPS);
 	    cipher.init(Cipher.ENCRYPT_MODE, privateKey);
 	    int max=(KEY_SIZE/8)-11;
 	    
@@ -96,9 +107,16 @@ public class RSA {
 	    return bytes;
 	}
 	
-	public static byte[] decrypt(byte[] data, PublicKey publicKey, int offset) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+	public static byte[] decrypt(byte[] data, PublicKey publicKey, int offset)
+			throws NoSuchAlgorithmException,
+			NoSuchPaddingException,
+			InvalidKeyException,
+			IllegalBlockSizeException,
+			BadPaddingException,
+			NoSuchProviderException {
+
 		int max=(KEY_SIZE/8);
-		Cipher cipher = Cipher.getInstance("RSA");
+		Cipher cipher = Cipher.getInstance("RSA", FipsProvider.BCFIPS);
 	    cipher.init(Cipher.DECRYPT_MODE, publicKey);
 	    
 	    

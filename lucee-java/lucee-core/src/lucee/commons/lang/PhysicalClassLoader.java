@@ -25,7 +25,8 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.Map;
 
-import lucee.commons.digest.MD5;
+
+import lucee.commons.digest.Hash;
 import lucee.commons.io.IOUtil;
 import lucee.commons.io.SystemUtil;
 import lucee.commons.io.res.Resource;
@@ -304,7 +305,7 @@ public final class PhysicalClassLoader extends ExtendableClassLoader implements 
 			sb.append(ResourceUtil.getCanonicalPathEL(resources[i]));
 			sb.append(';');
 		}
-		return MD5.getDigestAsString(sb.toString(),null);
+		return Hash.sha256(sb.toString());
 	}
 
 }

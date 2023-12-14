@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import lucee.aprint;
+
 import lucee.commons.digest.MD5;
 import lucee.commons.io.IOUtil;
 import lucee.commons.io.res.Resource;

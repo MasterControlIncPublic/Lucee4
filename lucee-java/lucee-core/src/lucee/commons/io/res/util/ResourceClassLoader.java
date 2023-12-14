@@ -27,7 +27,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import lucee.commons.digest.MD5;
+
+import lucee.commons.digest.Hash;
 import lucee.commons.io.res.Resource;
 import lucee.commons.io.res.type.file.FileResource;
 import lucee.runtime.exp.PageException;
@@ -142,7 +143,7 @@ public final class ResourceClassLoader extends URLClassLoader implements Closeab
 			sb.append(ResourceUtil.getCanonicalPathEL(resources[i]));
 			sb.append(';');
 		}
-		return MD5.getDigestAsString(sb.toString(),null);
+		return Hash.sha256(sb.toString());
 	}
 
 }

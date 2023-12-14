@@ -25,7 +25,7 @@ public final class AESEncrypt {
         byte[] encrypted;
         try {
             encrypted = Encrypt.invoke(password.getBytes(StandardCharsets.UTF_8),
-                    key, Algorithm.AES, salt.getBytes(StandardCharsets.UTF_8), 100000);
+                    key, FipsAlgorithm.AES, salt.getBytes(StandardCharsets.UTF_8), 100000);
         } catch (PageException e) {
             throw new RuntimeException(e);
         }
@@ -40,7 +40,7 @@ public final class AESEncrypt {
         byte[] decrypted;
         try {
             decrypted = Decrypt.invoke(Hex.decode(ecryptedPassword),
-                    key, Algorithm.AES, salt.getBytes(StandardCharsets.UTF_8), 100000);
+                    key, FipsAlgorithm.AES, salt.getBytes(StandardCharsets.UTF_8), 100000);
         } catch (PageException e) {
             return null;
         }

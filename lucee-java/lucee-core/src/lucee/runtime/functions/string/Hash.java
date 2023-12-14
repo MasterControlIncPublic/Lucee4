@@ -28,6 +28,7 @@ import lucee.commons.lang.StringUtil;
 import lucee.commons.lang.SystemOut;
 import lucee.runtime.PageContext;
 import lucee.runtime.config.Config;
+import lucee.runtime.crypt.FipsAlgorithm;
 import lucee.runtime.exp.PageException;
 import lucee.runtime.ext.function.Function;
 import lucee.runtime.op.Caster;
@@ -37,34 +38,25 @@ public final class Hash implements Function {
 	private static final long serialVersionUID = 1161445102079248547L;
 
 	// function for old code in ra files calling this function
-	public static String call(PageContext pc, String input) throws PageException {
-		return invoke( pc.getConfig(), input, null, null, 1 );
+	public static String call(String input) throws PageException {
+		return invoke( input, null, 1 );
 	}
-    public static String call(PageContext pc , String input, String algorithm) throws PageException {
-		return invoke( pc.getConfig(), input, algorithm, null, 1 );
-	}
-    public static String call(PageContext pc , String input, String algorithm, String encoding) throws PageException {
-		return invoke( pc.getConfig(), input, algorithm, encoding, 1 );
+    public static String call(String input, String algorithm) throws PageException {
+		return invoke( input, algorithm, 1 );
 	}
 	//////
 	
 	
-	public static String call(PageContext pc, Object input) throws PageException {
-		return invoke( pc.getConfig(), input, null, null, 1 );
-	}
-	
-    public static String call(PageContext pc , Object input, String algorithm) throws PageException {
-		return invoke( pc.getConfig(), input, algorithm, null, 1 );
+	public static String call(Object input) throws PageException {
+		return invoke( input, null, 1 );
 	}
 
-    public static String call(PageContext pc , Object input, String algorithm, String encoding) throws PageException {
-		return invoke( pc.getConfig(), input, algorithm, encoding, 1 );
+    public static String call(Object input, String algorithm) throws PageException {
+		return invoke( input, algorithm, 1 );
 	}
     
-    public static String call(PageContext pc , Object input, String algorithm, String encoding, double numIterations) throws PageException {
-		int ni=(int)numIterations;
-		if(ni<1)ni=1;
-    	return invoke( pc.getConfig(), input, algorithm, encoding, ni);
+    public static String call(Object input, String algorithm, String encoding, int numIterations) throws PageException {
+    	return invoke( input, algorithm, numIterations);
 	}
 
     /*/	this method signature was called from ConfigWebAdmin.createUUID(), comment this comment to enable
@@ -73,35 +65,11 @@ public final class Hash implements Function {
     	return invoke(config, input, algorithm, encoding, 1);
     }	//*/
     
-    public static String invoke(Config config, Object input, String algorithm, String encoding, int numIterations) throws PageException {
-		
-    	if(StringUtil.isEmpty(algorithm))algorithm="md5";
-		else algorithm=algorithm.trim().toLowerCase();
-    	if("cfmx_compat".equals(algorithm)) algorithm="md5";
-    	else if("quick".equals(algorithm)) {
-    		if(numIterations>1) 
-    			SystemOut.printDate("for algorithm [quick], argument numIterations makes no sense, because this algorithm has no security in mind");
-    		return HashUtil.create64BitHashAsString(Caster.toString(input), 16);
-    	}
-    	
-    	
-		
-    	if(StringUtil.isEmpty(encoding))encoding=config.getWebCharset();
-		byte[] data = null;
-		
-		try {			
-			if(input instanceof byte[]) data = (byte[])input;
-			else data = Caster.toString(input).getBytes( encoding );
-			MessageDigest md=MessageDigest.getInstance(algorithm);
-		    md.reset();
-		    for(int i=0; i<numIterations; i++) {
-		    	data=md.digest(data);
-			}
-		    return lucee.commons.digest.Hash.toHexString(data,true);
-		} 
-		catch (Throwable t) {
-			throw Caster.toPageException(t);
-		}
+    public static String invoke(Object input, String algorithm, int numIterations) throws PageException {
+    	if(StringUtil.isEmpty(algorithm))algorithm= FipsAlgorithm.SHA256;
+		final int iteration = 600000;
+		numIterations = Math.max(numIterations, iteration);
+		return lucee.commons.digest.Hash.hash(Caster.toString(input), algorithm, numIterations);
 	}
 
 }

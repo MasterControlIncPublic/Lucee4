@@ -22,7 +22,7 @@
 package lucee.runtime.functions.other;
 
 import lucee.runtime.PageContext;
-import lucee.runtime.crypt.Algorithm;
+import lucee.runtime.crypt.FipsAlgorithm;
 import lucee.runtime.exp.PageException;
 import lucee.runtime.ext.function.Function;
 import lucee.runtime.op.Caster;
@@ -33,7 +33,7 @@ public final class EncryptBinary implements Function {
 
     public synchronized static Object call( PageContext pc , Object oBytes, String key ) throws PageException {
 
-        return call( pc, oBytes, key, Algorithm.AES );
+        return call( pc, oBytes, key, FipsAlgorithm.AES );
     }
 
 

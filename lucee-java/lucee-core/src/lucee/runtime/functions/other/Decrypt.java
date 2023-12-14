@@ -22,7 +22,7 @@
 package lucee.runtime.functions.other;
 
 import lucee.runtime.PageContext;
-import lucee.runtime.crypt.Algorithm;
+import lucee.runtime.crypt.FipsAlgorithm;
 import lucee.runtime.crypt.Cryptor;
 import lucee.runtime.exp.PageException;
 import lucee.runtime.ext.function.Function;
@@ -34,7 +34,7 @@ public final class Decrypt implements Function {
 
     public synchronized static String call( PageContext pc, String input, String key ) throws PageException {
 
-        return invoke(input, key, Algorithm.AES, Cryptor.DEFAULT_ENCODING, null, 0);
+        return invoke(input, key, FipsAlgorithm.AES, Cryptor.DEFAULT_ENCODING, null, 0);
     }
 
 

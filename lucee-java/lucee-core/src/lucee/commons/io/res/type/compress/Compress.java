@@ -25,7 +25,8 @@ import java.util.Map;
 import java.util.zip.GZIPOutputStream;
 import java.util.zip.ZipOutputStream;
 
-import lucee.commons.digest.MD5;
+
+import lucee.commons.digest.Hash;
 import lucee.commons.io.CompressUtil;
 import lucee.commons.io.IOUtil;
 import lucee.commons.io.SystemUtil;
@@ -118,7 +119,7 @@ public final class Compress {
 				if(temp==null)temp=SystemUtil.getTempDirectory();
 
 				temp=temp.getRealResource("compress");
-				temp=temp.getRealResource(MD5.getDigestAsString(cid+"-"+ffile.getAbsolutePath()));
+				temp=temp.getRealResource(Hash.sha256(cid + "-" + ffile.getAbsolutePath()));
 				if(!temp.exists())temp.createDirectory(true);
 				
 			}
@@ -128,7 +129,7 @@ public final class Compress {
 		
 		if(temp!=null) {
 			String name=Caster.toString(actLastMod)+":"+Caster.toString(ffile.length());
-			name=MD5.getDigestAsString(name,name);
+			name=Hash.sha256(name);
 			root=temp.getRealResource(name);
 			if(actLastMod>0 && root.exists()) return;
 			

@@ -23,14 +23,14 @@
 package lucee.runtime.functions.math;
 
 import lucee.runtime.PageContext;
-import lucee.runtime.crypt.Algorithm;
+import lucee.runtime.crypt.FipsAlgorithm;
 import lucee.runtime.exp.ExpressionException;
 import lucee.runtime.ext.function.Function;
 
 public final class RandRange implements Function {
 
     public static double call(PageContext pc, double number1, double number2) throws ExpressionException {
-        return call(pc, number1, number2, Algorithm.DEFAULT);
+        return call(pc, number1, number2, FipsAlgorithm.DEFAULT);
     }
 
     public static double call(PageContext pc, double number1, double number2, String algo) throws ExpressionException {
@@ -55,6 +55,6 @@ public final class RandRange implements Function {
             max = tmp;
         }
         int diff = max - min;
-        return ((int) (Rand.call(null, Algorithm.DEFAULT) * (diff + 1))) + min;
+        return ((int) (Rand.call(null, FipsAlgorithm.DEFAULT) * (diff + 1))) + min;
     }
 }
