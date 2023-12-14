@@ -51,7 +51,6 @@ public final class SchedulerImpl implements Scheduler {
     private StorageUtil su=new StorageUtil();
 	private String charset;
 	private final Config config;
-	//private String md5;
 
 	private CFMLEngineImpl engine;
 	

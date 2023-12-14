@@ -4936,7 +4936,7 @@ EntitySave(entity, [forceinsert])</description>
 		<description></description>
     </argument>
 		<argument>
-			<name>md5</name>
+			<name>sha256</name>
 			<type>string</type>
 			<required>Yes</required>
 		<description></description>
@@ -6998,10 +6998,10 @@ Default list delimiter: comma character.</description>
 	<function>
 		<name>hash</name>
 		<class>lucee.runtime.functions.string.Hash</class>
-		<description>Converts a variable-length string to a 32-byte, hexadecimal
-        string, using the MD5 algorithm. (It is not possible to convert
+		<description>Converts a variable-length string to a 256-byte, hexadecimal
+        string, using the sha-256 algorithm. (It is not possible to convert
         the hash result back to the source string.)
-        32-byte, hexadecimal string</description>
+        256-byte, hexadecimal string</description>
 		<argument>
 			<name>input</name>
 			<type>any</type>
@@ -7015,54 +7015,6 @@ Default list delimiter: comma character.</description>
 		<description>The algorithm to use to hash the string. Supported are the following algorithms:
 - QUICK: generating a fast hash string, that provides no security. this algorithm is good when you simply need to shorten a string for an id, for example
 - CFMX_COMPAT: generating a hash string using classic CFML algorithm.
-- MD5: (default) Generates a 32-character, hexadecimal string, using the MD5 algorithm.
-- SHA: Generates a 28-character string using the Secure Hash Standard SHA-1 algorithm specified by Nation Institute of Standards and Technology (NIST) FIPS-180-2.
-- SHA-256: Generates a 44-character string using the SHA-256 algorithm specified by FIPS-180-2.
-- SHA-384: Generates a 64-character string using the SHA-384 algorithm specified by FIPS-180-2.
-- SHA-512: Generates an 88-character string using the SHA-1 algorithm specified by FIPS-180-2.</description>
-    </argument>
-		<argument>
-			<name>encoding</name>
-			<type>string</type>
-			<required>No</required>
-			<description>A string specifying the encoding to use when converting
-            the string to byte data used by the hash algorithm.</description>
-		</argument>
-		<argument>
-			<name>numIterations</name>
-			<type>number</type>
-			<required>No</required>
-			<default>1</default>
-			<description>number of iterations; default is 1.</description>
-		</argument>
-		<return>
-			<type>string</type>
-		</return>
-	</function>
-	<!-- hash40 -->
-	<function>
-		<name>hash40</name>
-		<class>lucee.runtime.functions.string.Hash40</class>
-		<description>This function only exists for backward compstibility to Lucee 4.0 or older version that has produced a incorrect result for non us-ascii caharacters,
-		Only use this function for backward compatibility.
-		
-		Converts a variable-length string to a 32-byte, hexadecimal
-        string, using the MD5 algorithm. (It is not possible to convert
-        the hash result back to the source string.)
-        32-byte, hexadecimal string</description>
-		<argument>
-			<name>input</name>
-			<type>any</type>
-			<required>Yes</required>
-		<description>String to hash.</description>
-    </argument>
-		<argument>
-			<name>algorithm</name>
-			<type>string</type>
-			<required>No</required>
-		<description>The algorithm to use to hash the string. Supported are the following algorithms:
-- CFMX_COMPAT: generating a hash string using classic CFML algorithm.
-- MD5: (default) Generates a 32-character, hexadecimal string, using the MD5 algorithm.
 - SHA: Generates a 28-character string using the Secure Hash Standard SHA-1 algorithm specified by Nation Institute of Standards and Technology (NIST) FIPS-180-2.
 - SHA-256: Generates a 44-character string using the SHA-256 algorithm specified by FIPS-180-2.
 - SHA-384: Generates a 64-character string using the SHA-384 algorithm specified by FIPS-180-2.
@@ -7126,7 +7078,7 @@ You can find a list of all available timezones in the Lucee administrator (Setti
 		<description>Creates Hash-based Message Authentication Code for the given string based on the algorithm and encoding. 
 		Hash-based Message Authentication Code (HMAC) is used to verify the data integrity and authenticity of a messagetransmitted. 
 		It involves a cryptographic hash function in combination with a secret key. 
-		The cryptographic hashfunction can be Message Digest 5 (MD5), Secure Hash Algorithm (SHA), and so on</description>
+		The cryptographic hashfunction can be Secure Hash Algorithm (SHA), and so on</description>
 		<argument>
 			<name>message</name>
 			<type>object</type>

@@ -217,7 +217,7 @@ public final class XMLConverter extends ConverterSupport {
         deep--;
         try {
 			//return goIn()+"<struct>"+sb+"</struct>";
-			return goIn()+"<component md5=\""+ComponentUtil.sha256(component)+"\" name=\""+component.getAbsName()+"\">"+sb+"</component>";
+			return goIn()+"<component sha256=\""+ComponentUtil.sha256(component)+"\" name=\""+component.getAbsName()+"\">"+sb+"</component>";
 		} 
 		catch (Exception e) {
 			throw toConverterException(e);
@@ -692,7 +692,7 @@ public final class XMLConverter extends ConverterSupport {
 	private Object _deserializeComponent(Element elComp) throws ConverterException {
 //		String type=elStruct.getAttribute("type");
 		String name=elComp.getAttribute("name");
-		String md5=elComp.getAttribute("md5");
+		String sha256=elComp.getAttribute("sha256");
 		
 		// TLPC
 		PageContext pc = ThreadLocalPageContext.get();
@@ -701,7 +701,7 @@ public final class XMLConverter extends ConverterSupport {
 		Component comp=null;
 		try {
 			comp = pc.loadComponent(name);
-			if(!ComponentUtil.sha256(comp).equals(md5)){
+			if(!ComponentUtil.sha256(comp).equals(sha256)){
 				throw new ConverterException("component ["+name+"] in this enviroment has not the same interface as the component to load, it is possible that one off the components has Functions added dynamicly.");
 			}
 		} 

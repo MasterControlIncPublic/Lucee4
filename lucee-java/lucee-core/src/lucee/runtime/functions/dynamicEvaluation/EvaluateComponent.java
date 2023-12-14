@@ -37,18 +37,18 @@ import lucee.runtime.type.util.ComponentUtil;
 import lucee.runtime.type.util.KeyConstants;
 
 public final class EvaluateComponent {
-	public static Object call(PageContext pc, String name, String md5, Struct sctThis) throws PageException {
-		return invoke(pc, name, md5, sctThis, null);
+	public static Object call(PageContext pc, String name, String sha256, Struct sctThis) throws PageException {
+		return invoke(pc, name, sha256, sctThis, null);
 		}
-	public static Object call(PageContext pc, String name, String md5, Struct sctThis, Struct sctVariables) throws PageException {
-		return invoke(pc, name, md5, sctThis, sctVariables);
+	public static Object call(PageContext pc, String name, String sha256, Struct sctThis, Struct sctVariables) throws PageException {
+		return invoke(pc, name, sha256, sctThis, sctVariables);
 	}
-	public static Component invoke(PageContext pc, String name, String md5, Struct sctThis, Struct sctVariables) throws PageException {
+	public static Component invoke(PageContext pc, String name, String sha256, Struct sctThis, Struct sctVariables) throws PageException {
 		// Load comp
 		Component comp=null;
 		try {
 			comp = pc.loadComponent(name);
-			if(!ComponentUtil.sha256(comp).equals(md5)){
+			if(!ComponentUtil.sha256(comp).equals(sha256)){
 				SystemOut.printDate(pc.getConfig().getErrWriter(),"component ["+name+"] in this enviroment has not the same interface as the component to load, it is possible that one off the components has Functions added dynamicly.");
 				//throw new ExpressionException("component ["+name+"] in this enviroment has not the same interface as the component to load");
 			}

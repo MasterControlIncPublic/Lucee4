@@ -175,12 +175,12 @@ public final class CredentialImpl implements Credential {
         int len=arr.size();
         if(len==3) {
         	String str=Caster.toString(arr.get(3,""));
-        	if(str.startsWith("md5:")){
+        	if(str.startsWith("sha256:")){
 	    		if(!rolesDir.exists())rolesDir.mkdirs();
         		str=str.substring(4);
-        		Resource md5 = rolesDir.getRealResource(str);
+        		Resource hash = rolesDir.getRealResource(str);
         		try {
-					str=IOUtil.toString(md5, "utf-8");
+					str=IOUtil.toString(hash, "utf-8");
 				} catch (IOException e) {
 					str="";
 				}
