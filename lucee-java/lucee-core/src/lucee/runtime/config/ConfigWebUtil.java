@@ -29,7 +29,7 @@ import java.util.Map.Entry;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 
-import lucee.commons.digest.MD5;
+import lucee.commons.digest.Hash;
 import lucee.commons.io.IOUtil;
 import lucee.commons.io.SystemUtil;
 import lucee.commons.io.res.Resource;
@@ -331,12 +331,12 @@ public final class ConfigWebUtil {
         return pw;
     }
     
-    public static String createMD5FromResource(Resource resource) throws IOException {
+    public static String createHashFromResource(Resource resource) throws IOException {
     	InputStream is=null;
     	try{
     		is=resource.getInputStream();	
     		byte[] barr = IOUtil.toBytes(is);
-    		return MD5.getDigestAsString(barr);
+    		return Hash.sha256(barr);
     	}
     	finally{
     		IOUtil.closeEL(is);

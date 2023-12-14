@@ -35,7 +35,6 @@ import java.util.Set;
 
 import javax.servlet.ServletException;
 
-import lucee.commons.digest.MD5;
 import lucee.commons.io.FileUtil;
 import lucee.commons.io.IOUtil;
 import lucee.commons.io.SystemUtil;
@@ -977,10 +976,14 @@ public final class ConfigWebAdmin {
     	
     	return  createVirtual(el.getAttribute("physical"),el.getAttribute("archive"));
 	}
-    public static String createVirtual(String physical,String archive) {
-    	return  "/"+MD5.getDigestAsString(physical+":"+archive,"");
-	}
 
+    public static String createVirtual(String physical,String archive) {
+		try {
+			return "/" + Hash.call(physical + ":" + archive, "");
+		} catch (PageException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
 	/**
      * insert or update a Java CFX Tag
@@ -4123,8 +4126,13 @@ public final class ConfigWebAdmin {
 		
         // leave this, this method throws a exception when ip range is not valid
         IPRange.getInstance(iprange);
+		String id;
+		try {
+			id = Hash.call(label.trim().toLowerCase());
+		} catch (PageException e) {
+			throw new RuntimeException(e);
+		}
         
-		String id=MD5.getDigestAsString(label.trim().toLowerCase());
 		type=type.trim();
 		iprange=iprange.trim();
 		label=label.trim();

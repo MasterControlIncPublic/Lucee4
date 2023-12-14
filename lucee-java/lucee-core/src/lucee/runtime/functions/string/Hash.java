@@ -55,7 +55,7 @@ public final class Hash implements Function {
 		return invoke( input, algorithm, 1 );
 	}
     
-    public static String call(Object input, String algorithm, String encoding, int numIterations) throws PageException {
+    public static String call(Object input, String algorithm, int numIterations) throws PageException {
     	return invoke( input, algorithm, numIterations);
 	}
 

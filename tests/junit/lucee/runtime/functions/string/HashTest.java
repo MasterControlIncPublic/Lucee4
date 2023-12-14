@@ -1,17 +1,12 @@
 package lucee.runtime.functions.string;
 
-import lucee.runtime.config.Config;
-import lucee.runtime.config.ConfigServerImpl;
-import lucee.runtime.config.ConfigWebImpl;
 import lucee.runtime.crypt.FipsAlgorithm;
 import org.bouncycastle.jcajce.provider.BouncyCastleFipsProvider;
 import org.junit.jupiter.api.Test;
 
-import java.nio.charset.StandardCharsets;
 import java.security.Security;
-import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class HashTest {
 

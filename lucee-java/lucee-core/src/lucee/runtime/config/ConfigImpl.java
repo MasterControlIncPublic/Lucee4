@@ -387,7 +387,7 @@ public abstract class ConfigImpl implements Config {
 	private short inspectTemplate=INSPECT_ONCE;
 	private boolean typeChecking=true;
 	private String serial="";
-	private String cacheMD5;
+	private String cacheHash;
 	private boolean executionLogEnabled;
 	private ExecutionLogFactory executionLogFactory;
 	private Map<String, ORMEngine> ormengines=new HashMap<String, ORMEngine>();
@@ -2890,12 +2890,12 @@ public abstract class ConfigImpl implements Config {
 		return null;
 	}
 
-	public String getCacheMD5() { 
-		return cacheMD5;
+	public String getCacheHash() {
+		return cacheHash;
 	}
 
-	public void setCacheMD5(String cacheMD5) { 
-		this.cacheMD5 = cacheMD5;
+	public void setCacheHash(String cacheHash) {
+		this.cacheHash = cacheHash;
 	}
 
 	public boolean getExecutionLogEnabled() {
