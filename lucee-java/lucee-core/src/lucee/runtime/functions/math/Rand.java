@@ -22,23 +22,23 @@
 package lucee.runtime.functions.math;
 
 import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
 import lucee.runtime.PageContext;
-import lucee.runtime.crypt.CFMXCompat;
+import lucee.runtime.crypt.Algorithm;
 import lucee.runtime.exp.ExpressionException;
 import lucee.runtime.ext.function.Function;
 
 public final class Rand implements Function {
-
     private static Map<String, Random> randoms = new HashMap<String, Random>();
 
 	public static double call(PageContext pc ) throws ExpressionException {
 
-		return getRandom( CFMXCompat.ALGORITHM_NAME, Double.NaN ).nextDouble();
+		return getRandom(Algorithm.DEFAULT, Double.NaN ).nextDouble();
 	}
 
 	public static double call(PageContext pc, String algorithm) throws ExpressionException {
@@ -50,28 +50,20 @@ public final class Rand implements Function {
 
         algorithm = algorithm.toLowerCase();
 
-        Random result = randoms.get( algorithm );
+        Random result = randoms.get(algorithm);
 
-        if ( result == null || !seed.isNaN() ) {
-            if (CFMXCompat.ALGORITHM_NAME.equalsIgnoreCase( algorithm )) {
+        if (result == null || !seed.isNaN()) {
+            try {
 
-                result = new Random();
-            }
-            else {
-
-                try {
-
-                    result = SecureRandom.getInstance( algorithm );
-                }
-                catch (NoSuchAlgorithmException e) {
-                    throw new ExpressionException("random algorithm ["+algorithm+"] is not installed on the system",e.getMessage());
-                }
+                result = SecureRandom.getInstance(algorithm, "BCFIPS");
+            } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
+                throw new ExpressionException("random algorithm [" + algorithm + "] is not installed on the system", e.getMessage());
             }
 
-            if ( !seed.isNaN() )
-                result.setSeed( seed.longValue() );
+            if (!seed.isNaN())
+                result.setSeed(seed.longValue());
 
-            randoms.put( algorithm, result );
+            randoms.put(algorithm, result);
         }
 
         return result;

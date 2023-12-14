@@ -18,30 +18,6 @@
  **/
 package lucee.runtime.config;
 
-import static lucee.runtime.db.DatasourceManagerImpl.QOQ_DATASOURCE_NAME;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.nio.charset.Charset;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.TimeZone;
-
-import javax.servlet.ServletConfig;
-
 import lucee.aprint;
 import lucee.commons.collection.MapFactory;
 import lucee.commons.date.TimeZoneUtil;
@@ -86,7 +62,7 @@ import lucee.runtime.cfx.customtag.JavaCFXTagClass;
 import lucee.runtime.component.ImportDefintion;
 import lucee.runtime.config.ajax.AjaxFactory;
 import lucee.runtime.config.component.ComponentFactory;
-import lucee.runtime.crypt.BlowfishEasy;
+import lucee.runtime.crypt.AESEncrypt;
 import lucee.runtime.db.DataSource;
 import lucee.runtime.db.DataSourceImpl;
 import lucee.runtime.dump.ClassicHTMLDumpWriter;
@@ -160,7 +136,6 @@ import lucee.transformer.library.function.FunctionLib;
 import lucee.transformer.library.function.FunctionLibException;
 import lucee.transformer.library.tag.TagLib;
 import lucee.transformer.library.tag.TagLibException;
-
 import org.apache.log4j.Level;
 import org.jfree.chart.block.LabelBlockImpl;
 import org.safehaus.uuid.UUIDGenerator;
@@ -168,6 +143,29 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
+
+import javax.servlet.ServletConfig;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.nio.charset.Charset;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TimeZone;
+
+import static lucee.runtime.db.DatasourceManagerImpl.QOQ_DATASOURCE_NAME;
 
 /**
  * 
@@ -2233,7 +2231,8 @@ public final class ConfigWebFactory extends ConfigFactory {
 		if (StringUtil.isEmpty(str) || !StringUtil.startsWithIgnoreCase(str, "encrypted:"))
 			return str;
 		str = str.substring(10);
-		return new BlowfishEasy("sdfsdfs").decryptString(str);
+
+		return AESEncrypt.decrypt(str);
 	}
 
 	public static String encrypt(String str) {
@@ -2241,7 +2240,8 @@ public final class ConfigWebFactory extends ConfigFactory {
 			return "";
 		if (StringUtil.startsWithIgnoreCase(str, "encrypted:"))
 			return str;
-		return "encrypted:" + new BlowfishEasy("sdfsdfs").encryptString(str);
+
+		return "encrypted:" + AESEncrypt.encrypt(str);
 	}
 
 	private static Struct toStruct(String str) {
