@@ -21,7 +21,7 @@ package lucee.runtime.tag;
 import java.io.IOException;
 
 
-import lucee.commons.digest.MD5;
+import lucee.commons.digest.Hash;
 import lucee.commons.io.IOUtil;
 import lucee.commons.io.res.Resource;
 import lucee.commons.io.res.util.ResourceUtil;
@@ -115,7 +115,7 @@ public final class Sprite extends TagImpl {
 			
 			
 			//the base name for the files we are going to create as a css and image
-			String baseRenderedFileName = MD5.getDigestAsString(_ids);
+			String baseRenderedFileName = Hash.sha256(_ids);
 			Resource cssFileName = cssDir.getRealResource(baseRenderedFileName+".css");
 			Resource imgFileName = pathdir.getRealResource(baseRenderedFileName+"."+ResourceUtil.getExtension(src,""));
 			

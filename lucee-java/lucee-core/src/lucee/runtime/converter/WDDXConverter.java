@@ -253,7 +253,7 @@ public final class WDDXConverter extends ConverterSupport {
         deep--;
         try {
 			//return goIn()+"<struct>"+sb+"</struct>";
-			return goIn()+"<component md5=\""+ComponentUtil.md5(component)+"\" name=\""+XMLUtil.escapeXMLString(component.getAbsName())+"\">"+sb+"</component>";
+			return goIn()+"<component md5=\""+ComponentUtil.sha256(component)+"\" name=\""+XMLUtil.escapeXMLString(component.getAbsName())+"\">"+sb+"</component>";
 		} 
 		catch (Exception e) {
 			throw toConverterException(e);
@@ -732,7 +732,7 @@ public final class WDDXConverter extends ConverterSupport {
 		Component comp=null;
 		try {
 			comp = pc.loadComponent(name);
-			if(!ComponentUtil.md5(comp).equals(md5)){
+			if(!ComponentUtil.sha256(comp).equals(md5)){
 				throw new ConverterException("component ["+name+"] in this enviroment has not the same interface as the component to load, it is possible that one off the components has Functions added dynamicly.");
 			}
 		} 

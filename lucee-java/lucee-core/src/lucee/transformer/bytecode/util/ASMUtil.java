@@ -26,7 +26,7 @@ import java.util.List;
 
 import lucee.aprint;
 
-import lucee.commons.digest.MD5;
+import lucee.commons.digest.Hash;
 import lucee.commons.io.IOUtil;
 import lucee.commons.io.res.Resource;
 import lucee.commons.lang.StringUtil;
@@ -575,16 +575,16 @@ public final class ASMUtil {
     // CREATE CLASS	
 		ClassWriter cw = ASMUtil.getClassWriter();
         cw.visit(Opcodes.V1_6, Opcodes.ACC_PUBLIC, className, null, parent.getName().replace('.', '/'), inter);
-        String md5;
+        String hash;
         try{
-    		md5=createMD5(properties);
+    		hash= createHash(properties);
     	}
     	catch(Throwable t){
-    		md5="";
+    		hash="";
     		t.printStackTrace();
     	}
         
-    	FieldVisitor fv = cw.visitField(Opcodes.ACC_PUBLIC + Opcodes.ACC_FINAL + Opcodes.ACC_STATIC, "_md5_", "Ljava/lang/String;", null, md5);
+    	FieldVisitor fv = cw.visitField(Opcodes.ACC_PUBLIC + Opcodes.ACC_FINAL + Opcodes.ACC_STATIC, "_md5_", "Ljava/lang/String;", null, hash);
         fv.visitEnd();
         
         
@@ -714,7 +714,7 @@ public final class ASMUtil {
 	}
     
 
-	public static String createMD5(ASMProperty[] props) {
+	public static String createHash(ASMProperty[] props) {
 		
 		StringBuffer sb=new StringBuffer();
 		for(int i=0;i<props.length;i++){
@@ -730,11 +730,7 @@ public final class ASMUtil {
 				catch (PageException e) {}
 			}
 		}
-		try {
-			return MD5.getDigestAsString(sb.toString());
-		} catch (IOException e) {
-			return "";
-		}
+		return Hash.sha256(sb.toString());
 	}
 
 

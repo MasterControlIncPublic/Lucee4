@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.util.Set;
 
 
-import lucee.commons.digest.MD5;
+import lucee.commons.digest.Hash;
 import lucee.commons.io.IOUtil;
 import lucee.commons.io.res.Resource;
 import lucee.runtime.coder.Base64Coder;
@@ -144,9 +144,9 @@ public final class CredentialImpl implements Credential {
 		if(raw.length()>100){
 	    	try {
 	    		if(!rolesDir.exists())rolesDir.mkdirs();
-	    		String md5 = MD5.getDigestAsString(raw);
-				IOUtil.write(rolesDir.getRealResource(md5), raw, "utf-8", false);
-				return Caster.toB64(username+ONE+password+ONE+"md5:"+md5,"UTF-8");
+                String hash = Hash.sha256(raw);
+				IOUtil.write(rolesDir.getRealResource(hash), raw, "utf-8", false);
+				return Caster.toB64(username+ONE+password+ONE+"sha256:"+hash,"UTF-8");
 			} 
 	    	catch (IOException e) {}
 		}

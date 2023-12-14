@@ -259,7 +259,7 @@ public final class ScriptConverter extends ConverterSupport {
 
 		sb.append(goIn());
 		try {
-			sb.append("evaluateComponent('"+c.getAbsName()+"','"+ComponentUtil.md5(c)+"',{");
+			sb.append("evaluateComponent('"+c.getAbsName()+"','"+ComponentUtil.sha256(c)+"',{");
 		} catch (Exception e) {
 			throw toConverterException(e);
 		}

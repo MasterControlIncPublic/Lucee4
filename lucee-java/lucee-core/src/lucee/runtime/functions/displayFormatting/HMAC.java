@@ -25,15 +25,16 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
 
-import lucee.commons.digest.MD5;
 import lucee.commons.io.CharsetUtil;
 import lucee.commons.lang.StringUtil;
 import lucee.runtime.PageContext;
 import lucee.runtime.PageContextImpl;
+import lucee.runtime.crypt.FipsProvider;
 import lucee.runtime.exp.PageException;
 import lucee.runtime.ext.function.Function;
 import lucee.runtime.op.Caster;
 import lucee.runtime.op.Decision;
+import org.bouncycastle.util.encoders.Hex;
 
 public class HMAC implements Function {
 
@@ -62,16 +63,16 @@ public class HMAC implements Function {
 		byte[] key=toBinary(oKey,cs);
 		
 		// algorithm
-        if(StringUtil.isEmpty(algorithm,true)) algorithm = "HmacMD5";
+        if(StringUtil.isEmpty(algorithm,true)) algorithm = "HmacSHA256";
         
         SecretKey sk = new SecretKeySpec(key, algorithm);
 	    try {
-            Mac mac = Mac.getInstance(algorithm);
+            Mac mac = Mac.getInstance(algorithm, FipsProvider.BCFIPS);
             mac.init(sk);
             mac.reset();
             mac.update(msg);
             msg = mac.doFinal();
-            return MD5.stringify(msg).toUpperCase();
+            return Hex.toHexString(msg).toUpperCase();
         }
         catch(Exception e) {
             throw Caster.toPageException(e);
