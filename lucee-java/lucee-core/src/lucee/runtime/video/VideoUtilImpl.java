@@ -181,7 +181,7 @@ public class VideoUtilImpl implements VideoUtil {
 		}
 		
 		// get from casche
-		String key = Hash.call(sb.toString());
+		String key = Hash.call(pc, sb.toString());
 		
 		int[] ci=(int[]) sizes.get(key);
 		if(ci!=null) {

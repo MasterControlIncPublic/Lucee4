@@ -979,11 +979,7 @@ public final class ConfigWebAdmin {
 	}
 
     public static String createVirtual(String physical,String archive) {
-		try {
-			return "/" + Hash.call(physical + ":" + archive, FipsAlgorithm.SHA256);
-		} catch (PageException e) {
-			throw new RuntimeException(e);
-		}
+		return "/" + lucee.commons.digest.Hash.sha256(physical + ":" + archive);
 	}
 
 	/**
@@ -3693,9 +3689,9 @@ public final class ConfigWebAdmin {
 
 	private String createUid(PageContext pc,String provider, String id) throws PageException {
 		if(Decision.isUUId(id)) {
-			return Hash.invoke(id,null,1);
+			return Hash.invoke(pc.getConfig(), id,null,1);
 		}
-		return Hash.invoke(provider+id,null,1);
+		return Hash.invoke(pc.getConfig(), provider+id,null,1);
 	}
 
 
@@ -4128,12 +4124,8 @@ public final class ConfigWebAdmin {
         // leave this, this method throws a exception when ip range is not valid
         IPRange.getInstance(iprange);
 		String id;
-		try {
-			id = Hash.call(label.trim().toLowerCase());
-		} catch (PageException e) {
-			throw new RuntimeException(e);
-		}
-        
+		id = lucee.commons.digest.Hash.sha256(label.trim().toLowerCase());
+
 		type=type.trim();
 		iprange=iprange.trim();
 		label=label.trim();

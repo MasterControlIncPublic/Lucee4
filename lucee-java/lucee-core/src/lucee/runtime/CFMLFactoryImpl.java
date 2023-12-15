@@ -397,7 +397,7 @@ public final class CFMLFactoryImpl extends CFMLFactory {
 				} catch (PageException e2) {}
 
                 try {
-					data.setEL("id", Hash.call( pc.getId()+":"+pc.getStartTime()));
+					data.setEL("id", Hash.call( pc,pc.getId()+":"+pc.getStartTime()));
 				} catch (PageException e1) {}
                 data.setEL("requestid", pc.getId());
 
@@ -440,7 +440,7 @@ public final class CFMLFactoryImpl extends CFMLFactory {
             	pc=it.next();
             	Log log = ((ConfigImpl)pc.getConfig()).getLog("application");
             	try {
-					String id = Hash.call(pc.getId()+":"+pc.getStartTime());
+					String id = Hash.call(pc, pc.getId()+":"+pc.getStartTime());
 					if(id.equals(threadId)){
 						stopType=stopType.trim();
 						Throwable t;

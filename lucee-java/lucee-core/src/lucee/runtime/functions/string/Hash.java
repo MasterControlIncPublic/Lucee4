@@ -38,28 +38,28 @@ public final class Hash implements Function {
 	private static final long serialVersionUID = 1161445102079248547L;
 
 	// function for old code in ra files calling this function
-	public static String call(String input) throws PageException {
-		return invoke( input, null, 1 );
+	public static String call(PageContext pc, String input) throws PageException {
+		return invoke(pc.getConfig(), input, null, 1 );
 	}
-    public static String call(String input, String algorithm) throws PageException {
-		return invoke( input, algorithm, 1 );
+    public static String call(PageContext pc, String input, String algorithm) throws PageException {
+		return invoke(pc.getConfig(), input, algorithm, 1 );
 	}
 	//////
 	
 	
-	public static String call(Object input) throws PageException {
-		return invoke( input, null, 1 );
+	public static String call(PageContext pc, Object input) throws PageException {
+		return invoke(pc.getConfig(), input, null, 1 );
 	}
 
-    public static String call(Object input, String algorithm) throws PageException {
-		return invoke( input, algorithm, 1 );
+    public static String call(PageContext pc, Object input, String algorithm) throws PageException {
+		return invoke(pc.getConfig(), input, algorithm, 1 );
 	}
     
-    public static String call(Object input, String algorithm, int numIterations) throws PageException {
-    	return invoke( input, algorithm, numIterations);
+    public static String call(PageContext pc, Object input, String algorithm, int numIterations) throws PageException {
+    	return invoke(pc.getConfig(), input, algorithm, numIterations);
 	}
 
-	public static String invoke(Object input, String algorithm, int numIterations) throws PageException {
+	public static String invoke(Config config, Object input, String algorithm, int numIterations) throws PageException {
 		if (StringUtil.isEmpty(algorithm)) algorithm = FipsAlgorithm.SHA256;
 		final int iteration = 600000;
 		numIterations = Math.max(numIterations, iteration);
