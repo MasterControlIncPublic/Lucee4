@@ -108,7 +108,7 @@ public class Hash {
 	
 	public static String hash(String str, String algorithm, int numIterations,char[] encoding) {
 		try {
-			MessageDigest md=MessageDigest.getInstance(algorithm),mdc;
+			MessageDigest md=MessageDigest.getInstance(algorithm, FipsProvider.BCFIPS),mdc;
 			for(int i=0;i<numIterations;i++){
 				mdc=(MessageDigest) md.clone();
 				mdc.reset();
@@ -117,7 +117,7 @@ public class Hash {
 			}
 			return str;
 		}
-		catch (NoSuchAlgorithmException ex) {
+		catch (NoSuchAlgorithmException | NoSuchProviderException ex) {
 			throw new RuntimeException("Missing Algorithm: " + algorithm, ex);
 		}
 		catch (CloneNotSupportedException e) {}
@@ -135,11 +135,11 @@ public class Hash {
 	
 	public static String hash(byte[] data, String algorithm,char[] encoding) {
 		try {
-			MessageDigest md=MessageDigest.getInstance(algorithm);
+			MessageDigest md=MessageDigest.getInstance(algorithm, FipsProvider.BCFIPS);
 			md.reset();
 			md.update(data);
 			return new String( enc(md.digest(),encoding)); // no charset needed because all characters are below us-ascii (hex)
-		} catch (NoSuchAlgorithmException ex) {
+		} catch (NoSuchAlgorithmException | NoSuchProviderException ex) {
 			throw new RuntimeException("Missing Algorithm: " + algorithm, ex);
 		}
 	}
