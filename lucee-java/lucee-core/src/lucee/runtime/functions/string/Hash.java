@@ -59,14 +59,8 @@ public final class Hash implements Function {
     	return invoke( input, algorithm, numIterations);
 	}
 
-    /*/	this method signature was called from ConfigWebAdmin.createUUID(), comment this comment to enable
-    public synchronized static String invoke(Config config, Object input, String algorithm, String encoding) throws PageException {
-    	
-    	return invoke(config, input, algorithm, encoding, 1);
-    }	//*/
-    
-    public static String invoke(Object input, String algorithm, int numIterations) throws PageException {
-    	if(StringUtil.isEmpty(algorithm))algorithm= FipsAlgorithm.SHA256;
+	public static String invoke(Object input, String algorithm, int numIterations) throws PageException {
+		if (StringUtil.isEmpty(algorithm)) algorithm = FipsAlgorithm.SHA256;
 		final int iteration = 600000;
 		numIterations = Math.max(numIterations, iteration);
 		return lucee.commons.digest.Hash.hash(Caster.toString(input), algorithm, numIterations);

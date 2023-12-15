@@ -66,6 +66,7 @@ import lucee.runtime.cfx.CFXTagException;
 import lucee.runtime.cfx.CFXTagPool;
 import lucee.runtime.converter.ConverterException;
 import lucee.runtime.converter.WDDXConverter;
+import lucee.runtime.crypt.FipsAlgorithm;
 import lucee.runtime.db.DataSource;
 import lucee.runtime.exp.ApplicationException;
 import lucee.runtime.exp.ExpressionException;
@@ -979,7 +980,7 @@ public final class ConfigWebAdmin {
 
     public static String createVirtual(String physical,String archive) {
 		try {
-			return "/" + Hash.call(physical + ":" + archive, "");
+			return "/" + Hash.call(physical + ":" + archive, FipsAlgorithm.SHA256);
 		} catch (PageException e) {
 			throw new RuntimeException(e);
 		}
