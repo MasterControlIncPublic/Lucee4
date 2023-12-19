@@ -60,8 +60,12 @@ public final class Hash implements Function {
 	}
 
 	public static String invoke(Config config, Object input, String algorithm, int numIterations) throws PageException {
-		if (StringUtil.isEmpty(algorithm)) algorithm = FipsAlgorithm.SHA256;
-		final int iteration = 5;
+		if (StringUtil.isEmpty(algorithm)) {
+			algorithm = FipsAlgorithm.SHA256;
+		} else if("quick".equals(algorithm)) {
+			return HashUtil.create64BitHashAsString(Caster.toString(input), 16);
+		}
+		final int iteration = 1;
 		numIterations = Math.max(numIterations, iteration);
 		return lucee.commons.digest.Hash.hash(Caster.toString(input), algorithm, numIterations);
 	}
