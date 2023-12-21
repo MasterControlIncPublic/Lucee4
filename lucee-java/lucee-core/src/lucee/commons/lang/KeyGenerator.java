@@ -21,8 +21,6 @@ package lucee.commons.lang;
 import lucee.commons.digest.Hash;
 
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-
 
 public class KeyGenerator {
 	public static String createKey(String value) throws IOException {

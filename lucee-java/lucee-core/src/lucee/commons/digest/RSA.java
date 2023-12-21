@@ -26,7 +26,7 @@ import lucee.runtime.crypt.FipsProvider;
 
 public class RSA {
 		
-	private static final int KEY_SIZE = 1024;
+	private static final int KEY_SIZE = 4096;
 
 	public static String toString(PrivateKey privateKey) {
 		PKCS8EncodedKeySpec pkcs8EncodedKeySpec = new PKCS8EncodedKeySpec(privateKey.getEncoded());

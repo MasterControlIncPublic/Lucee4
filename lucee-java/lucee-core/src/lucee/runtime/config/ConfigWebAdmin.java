@@ -66,7 +66,6 @@ import lucee.runtime.cfx.CFXTagException;
 import lucee.runtime.cfx.CFXTagPool;
 import lucee.runtime.converter.ConverterException;
 import lucee.runtime.converter.WDDXConverter;
-import lucee.runtime.crypt.FipsAlgorithm;
 import lucee.runtime.db.DataSource;
 import lucee.runtime.exp.ApplicationException;
 import lucee.runtime.exp.ExpressionException;

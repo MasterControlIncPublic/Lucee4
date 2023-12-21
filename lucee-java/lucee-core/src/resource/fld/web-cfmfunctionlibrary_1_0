@@ -6998,10 +6998,10 @@ Default list delimiter: comma character.</description>
 	<function>
 		<name>hash</name>
 		<class>lucee.runtime.functions.string.Hash</class>
-		<description>Converts a variable-length string to a 256-byte, hexadecimal
+		<description>Converts a variable-length string to a hexadecimal
         string, using the sha-256 algorithm. (It is not possible to convert
         the hash result back to the source string.)
-        256-byte, hexadecimal string</description>
+        hexadecimal string</description>
 		<argument>
 			<name>input</name>
 			<type>any</type>

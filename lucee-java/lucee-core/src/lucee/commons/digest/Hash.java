@@ -97,8 +97,10 @@ public class Hash {
 			md.update(DEL);
 			md.update(toBytes(nonce, CharsetUtil.UTF8));
 			return new String( enc(md.digest(),encoding)); // no charset needed because all characters are below us-ascii (hex)
-		} catch (NoSuchAlgorithmException | NoSuchProviderException ex) {
+		} catch (NoSuchAlgorithmException ex) {
 			throw new RuntimeException("Missing Algorithm: " + algorithm, ex);
+		} catch (NoSuchProviderException ex) {
+			throw new RuntimeException("Missing Provider: " + FipsProvider.BCFIPS, ex);
 		}
 	}
 
@@ -116,9 +118,10 @@ public class Hash {
 			    str=new String(enc(mdc.digest(),encoding));
 			}
 			return str;
-		}
-		catch (NoSuchAlgorithmException | NoSuchProviderException ex) {
+		} catch (NoSuchAlgorithmException ex) {
 			throw new RuntimeException("Missing Algorithm: " + algorithm, ex);
+		} catch (NoSuchProviderException ex) {
+			throw new RuntimeException("Missing Provider: " + FipsProvider.BCFIPS, ex);
 		}
 		catch (CloneNotSupportedException e) {}
 		
@@ -139,8 +142,10 @@ public class Hash {
 			md.reset();
 			md.update(data);
 			return new String( enc(md.digest(),encoding)); // no charset needed because all characters are below us-ascii (hex)
-		} catch (NoSuchAlgorithmException | NoSuchProviderException ex) {
+		} catch (NoSuchAlgorithmException ex) {
 			throw new RuntimeException("Missing Algorithm: " + algorithm, ex);
+		} catch (NoSuchProviderException ex) {
+			throw new RuntimeException("Missing Provider: " + FipsProvider.BCFIPS, ex);
 		}
 	}
 	
