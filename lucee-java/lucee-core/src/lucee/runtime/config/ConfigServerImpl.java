@@ -107,7 +107,7 @@ public final class ConfigServerImpl extends ConfigImpl implements ConfigServer {
      * @param configDir
      * @param configFile
      */
-	public ConfigServerImpl(CFMLEngineImpl engine, Map<String, CFMLFactory> initContextes, Map<String, CFMLFactory> contextes, Resource configDir, Resource configFile) {
+	protected ConfigServerImpl(CFMLEngineImpl engine, Map<String, CFMLFactory> initContextes, Map<String, CFMLFactory> contextes, Resource configDir, Resource configFile) {
     	super(null,configDir, configFile);
     	this.engine=engine;
     	engine.setConfigServerImpl(this);
