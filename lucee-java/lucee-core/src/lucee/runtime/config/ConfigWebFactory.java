@@ -21,7 +21,7 @@ package lucee.runtime.config;
 import lucee.aprint;
 import lucee.commons.collection.MapFactory;
 import lucee.commons.date.TimeZoneUtil;
-import lucee.commons.digest.MD5;
+import lucee.commons.digest.Hash;
 import lucee.commons.io.CharsetUtil;
 import lucee.commons.io.DevNullOutputStream;
 import lucee.commons.io.FileUtil;
@@ -41,7 +41,6 @@ import lucee.commons.lang.ClassException;
 import lucee.commons.lang.ClassLoaderHelper;
 import lucee.commons.lang.ClassUtil;
 import lucee.commons.lang.ExceptionUtil;
-import lucee.commons.lang.Md5;
 import lucee.commons.lang.StringUtil;
 import lucee.commons.lang.SystemOut;
 import lucee.commons.net.URLDecoder;
@@ -927,12 +926,12 @@ public final class ConfigWebFactory extends ConfigFactory {
 
 
 
-	static String createMD5FromResource(String resource) throws IOException {
+	static String createHashFromResource(String resource) throws IOException {
 		InputStream is = null;
 		try {
 			is = new Info().getClass().getResourceAsStream(resource);
 			byte[] barr = IOUtil.toBytes(is);
-			return MD5.getDigestAsString(barr);
+			return Hash.sha256(barr);
 		}
 		finally {
 			IOUtil.closeEL(is);
@@ -1072,7 +1071,7 @@ public final class ConfigWebFactory extends ConfigFactory {
 
 		if (!f.exists())
 			createFileFromResourceEL("/resource/context/Component.cfc", f);
-		else if (doNew && badVersion.equals(ConfigWebUtil.createMD5FromResource(f))) {
+		else if (doNew && badVersion.equals(ConfigWebUtil.createHashFromResource(f))) {
 			createFileFromResourceEL("/resource/context/Component.cfc", f);
 		}
 		else if (doNew && badContent.equals(createContentFromResource(f).trim())) {
@@ -1390,7 +1389,7 @@ public final class ConfigWebFactory extends ConfigFactory {
 
 		boolean hasChanged = false;
 		try {
-			String hashValue = Md5.getDigestAsString(sb.toString());
+			String hashValue = Hash.sha256(sb.toString());
 
 			// check and compare lib version file
 			Resource contextDir = config.getConfigDir();
@@ -1931,10 +1930,10 @@ public final class ConfigWebFactory extends ConfigFactory {
 
 		// has changes
 
-		String md5 = getMD5(eCache, hasCS ? configServer.getCacheMD5() : "");
-		if (md5.equals(config.getCacheMD5()))
+		String hash = getHash(eCache, hasCS ? configServer.getCacheHash() : "");
+		if (hash.equals(config.getCacheHash()))
 			return;
-		config.setCacheMD5(md5);
+		config.setCacheHash(hash);
 
 		// default query
 		String defaultResource = eCache.getAttribute("default-resource");
@@ -2145,13 +2144,8 @@ public final class ConfigWebFactory extends ConfigFactory {
 		config.setCaches(caches);
 	}
 
-	private static String getMD5(Node node, String parentMD5) {
-		try {
-			return MD5.getDigestAsString(XMLCaster.toString(node, "") + ":" + parentMD5);
-		}
-		catch (IOException e) {
-			return "";
-		}
+	private static String getHash(Node node, String parentHash) {
+		return Hash.sha256(XMLCaster.toString(node, "") + ":" + parentHash);
 	}
 
 	private static void loadGatewayEL(ConfigServerImpl configServer, ConfigImpl config, Document doc) {

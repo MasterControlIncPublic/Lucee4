@@ -32,9 +32,7 @@ import lucee.runtime.coder.Coder;
 import lucee.runtime.exp.PageException;
 import lucee.runtime.op.Caster;
 
-/**
- *
- */
+
 public class Cryptor {
 
     public final static String DEFAULT_CHARSET = "UTF-8";
@@ -72,7 +70,7 @@ public class Cryptor {
 
         try {
 
-            Cipher cipher = Cipher.getInstance(algorithm, "BCFIPS");
+            Cipher cipher = Cipher.getInstance(algorithm, FipsProvider.BCFIPS);
 
             if (ivOrSalt == null) {
 
@@ -90,7 +88,7 @@ public class Cryptor {
 
             if (isPBE) {
 
-                secretKey = SecretKeyFactory.getInstance(algorithm, "BCFIPS").generateSecret(new PBEKeySpec(key.toCharArray()));
+                secretKey = SecretKeyFactory.getInstance(algorithm, FipsProvider.BCFIPS).generateSecret(new PBEKeySpec(key.toCharArray()));
                 params = new PBEParameterSpec(ivOrSalt, iterations > 0 ? iterations : DEFAULT_ITERATIONS);        // set Salt and Iterations for PasswordBasedEncryption
             } else {
 

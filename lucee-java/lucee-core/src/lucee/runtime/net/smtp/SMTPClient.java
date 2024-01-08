@@ -49,7 +49,8 @@ import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimePart;
 
 import lucee.commons.activation.ResourceDataSource;
-import lucee.commons.digest.MD5;
+
+import lucee.commons.digest.Hash;
 import lucee.commons.io.SystemUtil;
 import lucee.commons.io.log.Log;
 import lucee.commons.io.log.LogUtil;
@@ -557,8 +558,7 @@ public final class SMTPClient implements Serializable  {
 			sb.append(str).append(':').append(props.getProperty(str)).append(';');
 		}
 		str=sb.toString();
-		return MD5.getDigestAsString(str,str);
-		
+		return Hash.sha256(str);
 	}
 
 	private static void setHeaders(SMTPMessage msg, Map<String,String> headers) throws MessagingException {

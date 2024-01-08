@@ -27,9 +27,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import lucee.commons.digest.Hash;
 import lucee.commons.lang.ClassException;
 import lucee.commons.lang.ClassUtil;
-import lucee.commons.lang.Md5;
 import lucee.commons.lang.StringUtil;
 import lucee.runtime.op.Caster;
 import lucee.runtime.type.util.ArrayUtil;
@@ -771,8 +771,8 @@ public final class TagLibTag {
 		}
 		
 		try {
-			return Md5.getDigestAsString(sb.toString());
-		} catch (IOException e) {
+			return Hash.sha256(sb.toString());
+		} catch (RuntimeException e) {
 			return "";
 		}
 	}

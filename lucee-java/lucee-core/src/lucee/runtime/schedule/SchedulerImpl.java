@@ -51,7 +51,6 @@ public final class SchedulerImpl implements Scheduler {
     private StorageUtil su=new StorageUtil();
 	private String charset;
 	private final Config config;
-	//private String md5;
 
 	private CFMLEngineImpl engine;
 	
@@ -183,7 +182,7 @@ public final class SchedulerImpl implements Scheduler {
 	private void addTask(ScheduleTaskImpl task) {	
 		for(int i=0;i<tasks.length;i++){
 			if(!tasks[i].getTask().equals(task.getTask())) continue;
-			if(!tasks[i].md5().equals(task.md5())) {
+			if(!tasks[i].hash().equals(task.hash())) {
 				tasks[i].setValid(false);
 				tasks[i]=task;
 				init(task);

@@ -44,13 +44,13 @@ import javax.mail.URLName;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimeUtility;
 
+import lucee.commons.digest.Hash;
 import lucee.commons.io.CharsetUtil;
 import lucee.commons.io.IOUtil;
 import lucee.commons.io.SystemUtil;
 import lucee.commons.io.res.Resource;
 import lucee.commons.io.res.util.ResourceUtil;
 import lucee.commons.lang.ExceptionUtil;
-import lucee.commons.lang.Md5;
 import lucee.commons.lang.StringUtil;
 import lucee.runtime.exp.PageException;
 import lucee.runtime.net.imap.ImapClient;
@@ -504,7 +504,7 @@ public abstract class MailClient {
 				
 					attachments.appendEL(filename);
 					if(attachmentDirectory != null) {
-						filename = "_" + Md5.getDigestAsString(filename);
+						filename = "_" + Hash.sha256(filename);
 						Resource file = attachmentDirectory.getRealResource(filename);
 						int l = 1;
 						String s2;

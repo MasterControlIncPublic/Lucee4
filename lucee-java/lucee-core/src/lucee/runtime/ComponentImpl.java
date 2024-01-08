@@ -2074,7 +2074,7 @@ public final class ComponentImpl extends StructSupport implements Externalizable
         }
 	    
 	    out.writeUTF(getAbsName());
-		out.writeUTF(ComponentUtil.md5(cw));
+		out.writeUTF(ComponentUtil.sha256(cw));
 		out.writeObject(_this);
 		out.writeObject(_var);
 		

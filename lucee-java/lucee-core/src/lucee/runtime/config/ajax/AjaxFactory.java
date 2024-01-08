@@ -59,7 +59,6 @@ public static void deployTags(Resource dir, boolean doNew) {
         if(!f.exists() || doNew)ConfigFactory.createFileFromResourceEL("/resource/library/tag/LayoutArea.cfc",f);
         f = dir.getRealResource("Window.cfc");
         if(!f.exists() || doNew){
-        	//String md5 = ConfigWebUtil.createMD5FromResource(f);
         	ConfigFactory.createFileFromResourceEL("/resource/library/tag/Window.cfc",f);
         }
         

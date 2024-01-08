@@ -107,7 +107,7 @@ public final class ConfigServerImpl extends ConfigImpl implements ConfigServer {
      * @param configDir
      * @param configFile
      */
-    protected ConfigServerImpl(CFMLEngineImpl engine,Map<String,CFMLFactory> initContextes, Map<String,CFMLFactory> contextes, Resource configDir, Resource configFile) {
+	protected ConfigServerImpl(CFMLEngineImpl engine, Map<String, CFMLFactory> initContextes, Map<String, CFMLFactory> contextes, Resource configDir, Resource configFile) {
     	super(null,configDir, configFile);
     	this.engine=engine;
     	engine.setConfigServerImpl(this);
@@ -683,7 +683,7 @@ public final class ConfigServerImpl extends ConfigImpl implements ConfigServer {
     			hash=Hash.hash(keys[i], Caster.toString(timeNonce), Hash.ALGORITHM_SHA_256, Hash.ENCODING_HEX);
     			if(hash.equals(key)) return;
 			}
-			catch (NoSuchAlgorithmException e) {
+			catch (RuntimeException e) {
 				throw Caster.toPageException(e);
 			}
     	}

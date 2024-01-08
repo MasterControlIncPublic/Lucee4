@@ -40,7 +40,7 @@ import javax.servlet.jsp.tagext.Tag;
 
 import lucee.commons.collection.MapFactory;
 import lucee.commons.db.DBUtil;
-import lucee.commons.digest.MD5;
+import lucee.commons.digest.Hash;
 import lucee.commons.io.CompressUtil;
 import lucee.commons.io.IOUtil;
 import lucee.commons.io.SystemUtil;
@@ -913,7 +913,7 @@ public final class Admin extends TagImpl implements DynamicAttributes {
     		
     		// id
     		manifest.append("mapping-id: \"");
-			manifest.append(MD5.getDigestAsString(mapping.getStrPhysical()));
+			manifest.append(Hash.sha256(mapping.getStrPhysical()));
     		manifest.append("\"\n");
     		
     		

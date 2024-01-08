@@ -23,7 +23,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import lucee.commons.digest.MD5;
+import lucee.commons.digest.Hash;
 import lucee.commons.net.IPRange;
 import lucee.runtime.type.Struct;
 import lucee.runtime.type.util.ListUtil;
@@ -134,11 +134,7 @@ public class DebugEntry {
 
 	public static String ipRangeToId(String ipRange) {
 		ipRange=organizeIPRange(ipRange);
-		try {
-			return MD5.getDigestAsString(ipRange);
-		} catch (IOException e) {
-			return ipRange;
-		}
+		return Hash.sha256(ipRange);
 	}
 	
 	/*public static void main(String[] args) {

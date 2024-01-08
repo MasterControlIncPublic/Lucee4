@@ -20,28 +20,15 @@ package lucee.runtime.crypt;
 
 public final class SHA1 {
 
-
-
-     
-
     /** size of a SHA-1 digest in octets */
-
     public final static int DIGEST_SIZE = 20;
-
-
-
-
 
     // members
 
     private int[]  m_state;
-
     private long   m_lCount;
-
     private byte[] m_digestBits;
-
     private int[]  m_block;
-
     private int    m_nBlockIndex;
 
 

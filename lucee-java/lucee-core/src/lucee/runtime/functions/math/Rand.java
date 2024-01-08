@@ -29,7 +29,8 @@ import java.util.Map;
 import java.util.Random;
 
 import lucee.runtime.PageContext;
-import lucee.runtime.crypt.Algorithm;
+import lucee.runtime.crypt.FipsAlgorithm;
+import lucee.runtime.crypt.FipsProvider;
 import lucee.runtime.exp.ExpressionException;
 import lucee.runtime.ext.function.Function;
 
@@ -38,7 +39,7 @@ public final class Rand implements Function {
 
 	public static double call(PageContext pc ) throws ExpressionException {
 
-		return getRandom(Algorithm.DEFAULT, Double.NaN ).nextDouble();
+		return getRandom(FipsAlgorithm.DEFAULT, Double.NaN ).nextDouble();
 	}
 
 	public static double call(PageContext pc, String algorithm) throws ExpressionException {
@@ -55,7 +56,7 @@ public final class Rand implements Function {
         if (result == null || !seed.isNaN()) {
             try {
 
-                result = SecureRandom.getInstance(algorithm, "BCFIPS");
+                result = SecureRandom.getInstance(algorithm, FipsProvider.BCFIPS);
             } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
                 throw new ExpressionException("random algorithm [" + algorithm + "] is not installed on the system", e.getMessage());
             }

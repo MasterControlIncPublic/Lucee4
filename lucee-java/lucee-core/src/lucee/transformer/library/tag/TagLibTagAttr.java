@@ -24,9 +24,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import lucee.commons.digest.Hash;
 import lucee.commons.lang.CFTypes;
 import lucee.commons.lang.ClassUtil;
-import lucee.commons.lang.Md5;
 import lucee.commons.lang.StringUtil;
 import lucee.runtime.op.Caster;
 import lucee.runtime.type.dt.DateTime;
@@ -274,8 +274,8 @@ public final class TagLibTagAttr {
 		sb.append(this.getType());
 		
 		try {
-			return Md5.getDigestAsString(sb.toString());
-		} catch (IOException e) {
+			return Hash.sha256(sb.toString());
+		} catch (RuntimeException e) {
 			return "";
 		}
 	}

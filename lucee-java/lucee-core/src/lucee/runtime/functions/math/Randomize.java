@@ -22,7 +22,7 @@
 package lucee.runtime.functions.math;
 
 import lucee.runtime.PageContext;
-import lucee.runtime.crypt.Algorithm;
+import lucee.runtime.crypt.FipsAlgorithm;
 import lucee.runtime.exp.ExpressionException;
 import lucee.runtime.ext.function.Function;
 
@@ -30,9 +30,9 @@ public final class Randomize implements Function {
 
     public static double call(PageContext pc, double number) throws ExpressionException {
 
-        Rand.getRandom(Algorithm.DEFAULT, number);
+        Rand.getRandom(FipsAlgorithm.DEFAULT, number);
 
-        return Rand.call(pc, Algorithm.DEFAULT);
+        return Rand.call(pc, FipsAlgorithm.DEFAULT);
     }
 
     public static double call(PageContext pc, double number, String algorithm) throws ExpressionException {

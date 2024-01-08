@@ -59,7 +59,6 @@ import lucee.commons.lang.ClassException;
 import lucee.commons.lang.ClassLoaderHelper;
 import lucee.commons.lang.ClassUtil;
 import lucee.commons.lang.ExceptionUtil;
-import lucee.commons.lang.Md5;
 import lucee.commons.lang.PhysicalClassLoader;
 import lucee.commons.lang.StringUtil;
 import lucee.commons.lang.SystemOut;
@@ -388,7 +387,7 @@ public abstract class ConfigImpl implements Config {
 	private short inspectTemplate=INSPECT_ONCE;
 	private boolean typeChecking=true;
 	private String serial="";
-	private String cacheMD5;
+	private String cacheHash;
 	private boolean executionLogEnabled;
 	private ExecutionLogFactory executionLogFactory;
 	private Map<String, ORMEngine> ormengines=new HashMap<String, ORMEngine>();
@@ -1787,9 +1786,9 @@ public abstract class ConfigImpl implements Config {
     public String getSecurityToken() {
     	if(securityToken==null){
     		try {
-    			securityToken = Md5.getDigestAsString(getConfigDir().getAbsolutePath());
+    			securityToken = Hash.sha256(getConfigDir().getAbsolutePath());
 			} 
-	    	catch (IOException e) {
+	    	catch (RuntimeException e) {
 				return null;
 			}
     	}
@@ -1810,7 +1809,7 @@ public abstract class ConfigImpl implements Config {
 			if(addMacAddress){// because this was new we could swutch to a new ecryption // FUTURE cold we get rid of the old one?
 				return Hash.sha256(key+";"+token+":"+SystemUtil.getMacAddress());
 			}
-			return Md5.getDigestAsString(key+token);
+			return Hash.sha256(key+token);
 		} 
     	catch (Throwable t) {
 			return defaultValue;
@@ -2891,12 +2890,12 @@ public abstract class ConfigImpl implements Config {
 		return null;
 	}
 
-	public String getCacheMD5() { 
-		return cacheMD5;
+	public String getCacheHash() {
+		return cacheHash;
 	}
 
-	public void setCacheMD5(String cacheMD5) { 
-		this.cacheMD5 = cacheMD5;
+	public void setCacheHash(String cacheHash) {
+		this.cacheHash = cacheHash;
 	}
 
 	public boolean getExecutionLogEnabled() {

@@ -21,108 +21,96 @@ package lucee.commons.digest;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 
 import lucee.commons.io.CharsetUtil;
+import lucee.runtime.crypt.FipsProvider;
 
 public class Hash {
 	
 	public static final char[] ENCODING_HEX = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 	public static final char[] ENCODING_HEXUC = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
-	//public static final char[] ENCODING_ASCII = "0123456789abcdefghijklmnopqrstuvwxyz".toCharArray();
 	private static final byte[] DEL=new byte[]{58};
-	
-	
-	public static final String ALGORITHM_MD5="MD5";
+
 	public static final String ALGORITHM_SHA_256="SHA-256";
 	public static final String ALGORITHM_SHA_384="SHA-384";
 	public static final String ALGORITHM_SHA_512="SHA-512";
 	public static final String ALGORITHM_SHA="SHA";
-
-	// MD5
-	public static String md5(byte[] data) throws NoSuchAlgorithmException {
-		return hash(data, ALGORITHM_MD5,ENCODING_HEX);
-	}
-	
-	public static String md5(String str) throws NoSuchAlgorithmException {
-		return hash(str, ALGORITHM_MD5,ENCODING_HEX,CharsetUtil.UTF8);
-	}
-	
-	public static String md5(String str, Charset charset) throws NoSuchAlgorithmException {
-		return hash(str, ALGORITHM_MD5,ENCODING_HEX,charset);
-	}
 	
 	// SHA
-	public static String sha(byte[] data) throws NoSuchAlgorithmException {
+	public static String sha(byte[] data) {
 		return hash(data, ALGORITHM_SHA,ENCODING_HEX);
 	}
 	
-	public static String sha(String str) throws NoSuchAlgorithmException {
+	public static String sha(String str) {
 		return hash(str, ALGORITHM_SHA,ENCODING_HEX,CharsetUtil.UTF8);
 	}
 	
-	public static String sha(String str,Charset charset) throws NoSuchAlgorithmException {
+	public static String sha(String str,Charset charset) {
 		return hash(str, ALGORITHM_SHA,ENCODING_HEX,charset);
 	}
 
-	
 	// SHA256
-	public static String sha256(byte[] data) throws NoSuchAlgorithmException {
+	public static String sha256(byte[] data) {
 		return hash(data, ALGORITHM_SHA_256,ENCODING_HEX);
 	}
 	
-	public static String sha256(String str) throws NoSuchAlgorithmException {
+	public static String sha256(String str) {
 		return hash(str, ALGORITHM_SHA_256,ENCODING_HEX,CharsetUtil.UTF8);
 	}
 	
-	public static String sha256(String str,Charset charset) throws NoSuchAlgorithmException {
+	public static String sha256(String str,Charset charset) {
 		return hash(str, ALGORITHM_SHA_256,ENCODING_HEX,charset);
 	}
 
-	
 	// SHA384
-	public static String sha384(byte[] data) throws NoSuchAlgorithmException {
+	public static String sha384(byte[] data) {
 		return hash(data, ALGORITHM_SHA_384,ENCODING_HEX);
 	}
 	
-	public static String sha384(String str) throws NoSuchAlgorithmException {
+	public static String sha384(String str) {
 		return hash(str, ALGORITHM_SHA_384,ENCODING_HEX,CharsetUtil.UTF8);
 	}
 	
-	public static String sha384(String str,Charset charset) throws NoSuchAlgorithmException {
+	public static String sha384(String str,Charset charset) {
 		return hash(str, ALGORITHM_SHA_384,ENCODING_HEX,charset);
 	}
 
-	
 	// SHA384
-	public static String sha512(byte[] data) throws NoSuchAlgorithmException {
+	public static String sha512(byte[] data) {
 		return hash(data, ALGORITHM_SHA_512,ENCODING_HEX);
 	}
 	
-	public static String sha512(String str) throws NoSuchAlgorithmException {
+	public static String sha512(String str) {
 		return hash(str, ALGORITHM_SHA_512,ENCODING_HEX,CharsetUtil.UTF8);
 	}
 	
-	public static String sha512(String str,Charset charset) throws NoSuchAlgorithmException {
+	public static String sha512(String str,Charset charset) {
 		return hash(str, ALGORITHM_SHA_512,ENCODING_HEX,charset);
 	}
-	
-	
-	public static String hash(String str, String nonce, String algorithm,char[] encoding) throws NoSuchAlgorithmException {
-		MessageDigest md=MessageDigest.getInstance(algorithm);
-	    md.reset();
-	    md.update(toBytes(str, CharsetUtil.UTF8));
-	    md.update(DEL);
-	    md.update(toBytes(nonce, CharsetUtil.UTF8));
-	    return new String( enc(md.digest(),encoding)); // no charset needed because all characters are below us-ascii (hex)
+
+	public static String hash(String str, String nonce, String algorithm,char[] encoding) {
+		try {
+			MessageDigest md=MessageDigest.getInstance(algorithm, FipsProvider.BCFIPS);
+			md.reset();
+			md.update(toBytes(str, CharsetUtil.UTF8));
+			md.update(DEL);
+			md.update(toBytes(nonce, CharsetUtil.UTF8));
+			return new String( enc(md.digest(),encoding)); // no charset needed because all characters are below us-ascii (hex)
+		} catch (NoSuchAlgorithmException ex) {
+			throw new RuntimeException("Missing Algorithm: " + algorithm, ex);
+		} catch (NoSuchProviderException ex) {
+			throw new RuntimeException("Missing Provider: " + FipsProvider.BCFIPS, ex);
+		}
 	}
 
-	public static String hash(String input, String algorithm, int numIterations) throws NoSuchAlgorithmException {
+	public static String hash(String input, String algorithm, int numIterations) {
 		return hash(input, algorithm, numIterations, ENCODING_HEXUC);
 	}
 	
-	public static String hash(String str, String algorithm, int numIterations,char[] encoding) throws NoSuchAlgorithmException {
+	public static String hash(String str, String algorithm, int numIterations,char[] encoding) {
 		try {
-			MessageDigest md=MessageDigest.getInstance(algorithm),mdc;
+			MessageDigest md=MessageDigest.getInstance(algorithm, FipsProvider.BCFIPS),mdc;
 			for(int i=0;i<numIterations;i++){
 				mdc=(MessageDigest) md.clone();
 				mdc.reset();
@@ -130,6 +118,10 @@ public class Hash {
 			    str=new String(enc(mdc.digest(),encoding));
 			}
 			return str;
+		} catch (NoSuchAlgorithmException ex) {
+			throw new RuntimeException("Missing Algorithm: " + algorithm, ex);
+		} catch (NoSuchProviderException ex) {
+			throw new RuntimeException("Missing Provider: " + FipsProvider.BCFIPS, ex);
 		}
 		catch (CloneNotSupportedException e) {}
 		
@@ -140,17 +132,21 @@ public class Hash {
 		return str;
 	}
 	
-
-	
-	public static String hash(String str, String algorithm,char[] encoding, Charset charset) throws NoSuchAlgorithmException {
+	public static String hash(String str, String algorithm,char[] encoding, Charset charset) {
 		return hash(toBytes(str, charset), algorithm,encoding); 
 	}
 	
-	public static String hash(byte[] data, String algorithm,char[] encoding) throws NoSuchAlgorithmException {
-		MessageDigest md=MessageDigest.getInstance(algorithm);
-	    md.reset();
-	    md.update(data);
-	    return new String( enc(md.digest(),encoding)); // no charset needed because all characters are below us-ascii (hex)
+	public static String hash(byte[] data, String algorithm,char[] encoding) {
+		try {
+			MessageDigest md=MessageDigest.getInstance(algorithm, FipsProvider.BCFIPS);
+			md.reset();
+			md.update(data);
+			return new String( enc(md.digest(),encoding)); // no charset needed because all characters are below us-ascii (hex)
+		} catch (NoSuchAlgorithmException ex) {
+			throw new RuntimeException("Missing Algorithm: " + algorithm, ex);
+		} catch (NoSuchProviderException ex) {
+			throw new RuntimeException("Missing Provider: " + FipsProvider.BCFIPS, ex);
+		}
 	}
 	
 	private static byte[] toBytes(String str, Charset charset) {

@@ -18,18 +18,12 @@
  **/
 package lucee.runtime.search;
 
-import java.io.IOException;
 
-import lucee.commons.lang.Md5;
+import lucee.commons.digest.Hash;
 import lucee.commons.lang.StringUtil;
 import lucee.runtime.type.util.ArrayUtil;
 import lucee.runtime.type.util.ListUtil;
 
-
-
-
-/**
- */
 public final class SearchIndex {
     
     
@@ -291,8 +285,8 @@ public final class SearchIndex {
     	//if(type==SearchIndex.TYPE_PATH) return "file";//P504
     	
         try {
-			return SearchIndex.toStringTypeEL(type)+"-"+Md5.getDigestAsString(key+null);// null is for backward compatibility to older collections
-		} catch (IOException e) {
+			return SearchIndex.toStringTypeEL(type)+"-"+ Hash.sha256(key+null);// null is for backward compatibility to older collections
+		} catch (RuntimeException e) {
 			
 			return SearchIndex.toStringTypeEL(type)+"-"+StringUtil.toVariableName(key+null);// null is for backward compatibility to older collections
 		}

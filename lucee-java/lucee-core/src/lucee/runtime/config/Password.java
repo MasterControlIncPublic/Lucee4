@@ -63,12 +63,7 @@ public class Password {
 
 	
 	private static String hash(String str, String salt) {
-		try {
-			return Hash.hash(StringUtil.isEmpty(salt,true)?str:str+":"+salt,Hash.ALGORITHM_SHA_256,5,Hash.ENCODING_HEX);
-		}
-		catch (NoSuchAlgorithmException e) {
-			throw new RuntimeException(e);
-		}
+		return Hash.hash(StringUtil.isEmpty(salt,true)?str:str+":"+salt,Hash.ALGORITHM_SHA_256,5,Hash.ENCODING_HEX);
 	}
 	/*public Password isEqual(Config config,String other, boolean hashIfNecessary) {
 		Password b = _isEqual(config, other, hashIfNecessary);

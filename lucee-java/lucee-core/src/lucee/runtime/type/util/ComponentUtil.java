@@ -27,7 +27,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
-import lucee.commons.digest.MD5;
+
+import lucee.commons.digest.Hash;
 import lucee.commons.io.IOUtil;
 import lucee.commons.io.res.Resource;
 import lucee.commons.io.res.util.ResourceUtil;
@@ -371,7 +372,7 @@ public final class ComponentUtil {
 			try {
 				Class clazz = cl.loadClass(className);
 				Field field = clazz.getField("_md5_");
-				if(ASMUtil.createMD5(properties).equals(field.get(null))){
+				if(ASMUtil.createHash(properties).equals(field.get(null))){
 				//if(equalInterface(properties,clazz)) {
 					return clazz;
 				}
@@ -567,10 +568,10 @@ public final class ComponentUtil {
 
 
 
-	public static String md5(Component c) throws IOException {
-		return md5(ComponentSpecificAccess.toComponentSpecificAccess(Component.ACCESS_PRIVATE,c));
+	public static String sha256(Component c) throws IOException {
+		return sha256(ComponentSpecificAccess.toComponentSpecificAccess(Component.ACCESS_PRIVATE,c));
 	}
-	public static String md5(ComponentSpecificAccess cw) throws IOException {
+	public static String sha256(ComponentSpecificAccess cw) throws IOException {
 		Key[] keys = cw.keys();
 		Arrays.sort(keys);
 		
@@ -598,7 +599,7 @@ public final class ComponentUtil {
         		}
         	}
         }
-		return  MD5.getDigestAsString(_interface.toString().toLowerCase());
+		return Hash.sha256(_interface.toString().toLowerCase());
 	}
 	
 

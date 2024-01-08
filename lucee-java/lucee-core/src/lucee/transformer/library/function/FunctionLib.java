@@ -26,7 +26,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import lucee.commons.lang.Md5;
+import lucee.commons.digest.Hash;
 import lucee.runtime.exp.ExpressionException;
 import lucee.runtime.exp.PageRuntimeException;
 
@@ -178,8 +178,8 @@ public final class FunctionLib {
     		sb.append((functions.get(it.next())).getHash()+"\n");
     	}
     	try {
-			return Md5.getDigestAsString(sb.toString());
-		} catch (IOException e) {
+			return Hash.sha256(sb.toString());
+		} catch (RuntimeException e) {
 			return "";
 		}
     }

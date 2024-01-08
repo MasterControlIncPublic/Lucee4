@@ -21,7 +21,8 @@ package lucee.runtime.security;
 import java.io.IOException;
 import java.util.Set;
 
-import lucee.commons.digest.MD5;
+
+import lucee.commons.digest.Hash;
 import lucee.commons.io.IOUtil;
 import lucee.commons.io.res.Resource;
 import lucee.runtime.coder.Base64Coder;
@@ -143,9 +144,9 @@ public final class CredentialImpl implements Credential {
 		if(raw.length()>100){
 	    	try {
 	    		if(!rolesDir.exists())rolesDir.mkdirs();
-	    		String md5 = MD5.getDigestAsString(raw);
-				IOUtil.write(rolesDir.getRealResource(md5), raw, "utf-8", false);
-				return Caster.toB64(username+ONE+password+ONE+"md5:"+md5,"UTF-8");
+                String hash = Hash.sha256(raw);
+				IOUtil.write(rolesDir.getRealResource(hash), raw, "utf-8", false);
+				return Caster.toB64(username+ONE+password+ONE+"sha256:"+hash,"UTF-8");
 			} 
 	    	catch (IOException e) {}
 		}
@@ -174,12 +175,12 @@ public final class CredentialImpl implements Credential {
         int len=arr.size();
         if(len==3) {
         	String str=Caster.toString(arr.get(3,""));
-        	if(str.startsWith("md5:")){
+        	if(str.startsWith("sha256:")){
 	    		if(!rolesDir.exists())rolesDir.mkdirs();
         		str=str.substring(4);
-        		Resource md5 = rolesDir.getRealResource(str);
+        		Resource hash = rolesDir.getRealResource(str);
         		try {
-					str=IOUtil.toString(md5, "utf-8");
+					str=IOUtil.toString(hash, "utf-8");
 				} catch (IOException e) {
 					str="";
 				}

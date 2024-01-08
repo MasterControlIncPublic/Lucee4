@@ -22,7 +22,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import lucee.commons.digest.MD5;
+
+import lucee.commons.digest.Hash;
 import lucee.commons.io.res.Resource;
 import lucee.commons.io.res.util.ResourceUtil;
 import lucee.commons.lang.StringUtil;
@@ -380,12 +381,8 @@ public class ORMConfigurationImpl implements ORMConfiguration {
 		
 		+":"+toStr(cfcLocations)+":"+toStr(sqlScript)+":"+toStr(cacheConfig)+":"+toStr(ormConfig)
 		;
-		
-		try {
-			return MD5.getDigestAsString(data);
-		} catch (IOException e) {
-			return null;
-		}
+
+		return Hash.sha256(data);
 	}
 
 

@@ -44,7 +44,8 @@ import java.util.Map.Entry;
 import javax.servlet.ServletContext;
 
 import lucee.aprint;
-import lucee.commons.digest.MD5;
+
+import lucee.commons.digest.Hash;
 import lucee.commons.io.log.Log;
 import lucee.commons.io.log.LogUtil;
 import lucee.commons.io.res.Resource;
@@ -649,11 +650,8 @@ public final class SystemUtil {
 	
 	public static String hash(ServletContext sc) {
     	String id=null;
-		try {
-			id=MD5.getDigestAsString(ReqRspUtil.getRootPath(sc));
-		} 
-		catch (IOException e) {}
-		return id;
+        id= Hash.sha256(ReqRspUtil.getRootPath(sc));
+        return id;
     }
 
     public static Charset getCharset() {
