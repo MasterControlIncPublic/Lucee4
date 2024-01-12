@@ -46,12 +46,8 @@ public final class S3ResourceOutputStream extends OutputStream {
 		ts.close();
 
 		try {
-			s3.put(objectName, ts);
-		} catch (SocketException se) {
-			String msg = StringUtil.emptyIfNull(se.getMessage());
-			if (StringUtil.indexOfIgnoreCase(msg, "Socket closed")==-1) {
-				throw se;
-			}
+			s3.put(objectName, ts.getBackingFile());
+			ts.deleteBackingFile();
 		} catch (Exception e) {
 			throw ExceptionUtil.toIOException(e);
 		}
