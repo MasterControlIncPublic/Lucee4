@@ -37,6 +37,7 @@ import lucee.commons.io.res.Resource;
 import lucee.commons.io.res.ResourceProvider;
 import lucee.commons.io.res.filter.ResourceFilter;
 import lucee.commons.io.res.filter.ResourceNameFilter;
+import lucee.commons.io.res.type.s3.S3Resource;
 import lucee.commons.io.res.util.ResourceOutputStream;
 import lucee.commons.io.res.util.ResourceUtil;
 
@@ -74,7 +75,11 @@ public final class FileResource extends File implements Resource {
 
 	@Override
 	public void copyTo(Resource res,boolean append) throws IOException {
-		IOUtil.copy(this, res.getOutputStream(append),true);
+		if (res instanceof S3Resource && !append) {
+			((S3Resource) res).putFile(this);
+		} else {
+			IOUtil.copy(this, res.getOutputStream(append),true);
+		}
 	}
 	
 	@Override

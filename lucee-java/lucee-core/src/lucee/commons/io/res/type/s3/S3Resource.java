@@ -33,6 +33,7 @@ import com.mastercontrol.resource.s3.S3ListItem;
 import lucee.commons.io.StreamWithSize;
 import lucee.commons.io.res.Resource;
 import lucee.commons.io.res.ResourceProvider;
+import lucee.commons.io.res.type.file.FileResource;
 import lucee.commons.io.res.util.ResourceSupport;
 import lucee.commons.io.res.util.ResourceUtil;
 import lucee.loader.util.Util;
@@ -72,6 +73,10 @@ public final class S3Resource extends ResourceSupport {
 	private S3Resource(S3SDK s3, S3ResourceProvider provider, String path, boolean newPattern, S3ListItem cachedListItem) {
 		this(s3, provider, path, newPattern);
 		this.cachedListItem = cachedListItem;
+	}
+
+	public void putFile(FileResource fileResource) {
+		s3.put(objectName, fileResource);
 	}
 
 	public  static String[] toStringArray(Array array) {

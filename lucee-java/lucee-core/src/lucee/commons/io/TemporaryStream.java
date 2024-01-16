@@ -137,8 +137,8 @@ public final class TemporaryStream extends OutputStream implements StreamWithSiz
 
 		@Override
 		public void close() throws IOException {
-			ts.persis.delete();
 			is.close();
+			ts.persis.delete();
 		}
 
 		@Override
