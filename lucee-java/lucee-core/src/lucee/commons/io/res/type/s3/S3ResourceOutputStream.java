@@ -46,8 +46,12 @@ public final class S3ResourceOutputStream extends OutputStream {
 		ts.close();
 
 		try {
-			s3.put(objectName, ts.getBackingFile());
-			ts.deleteBackingFile();
+			if (ts.isMemoryMode()) {
+				s3.put(objectName, ts);
+			} else {
+				s3.put(objectName, ts.getBackingFile());
+				ts.deleteBackingFile();
+			}
 		} catch (Exception e) {
 			throw ExceptionUtil.toIOException(e);
 		}

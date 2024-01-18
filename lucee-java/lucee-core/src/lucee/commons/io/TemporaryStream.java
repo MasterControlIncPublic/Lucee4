@@ -51,7 +51,11 @@ public final class TemporaryStream extends OutputStream implements StreamWithSiz
 		while(persis.exists());
 		os=new java.io.ByteArrayOutputStream();
 	}
-	
+
+	public boolean isMemoryMode() {
+		return memoryMode;
+	}
+
 	@Override
 	public void write(int b) throws IOException {
 		count++;
