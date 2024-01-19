@@ -80,9 +80,9 @@ public final class S3Resource extends ResourceSupport {
 
 	@Override
 	public void copyFrom(Resource res,boolean append) throws IOException {
-		if (res instanceof S3Resource && !append) {
+		if (ResourceUtil.isNewS3Object(res, append)) {
 			s3CopyTo((S3Resource) res, this);
-		} else if (res instanceof FileResource && !append) {
+		} else if (ResourceUtil.isNewLocalFile(res, append)) {
 			this.putFile((FileResource) res);
 		} else {
 			super.copyFrom(res, append);
@@ -91,9 +91,9 @@ public final class S3Resource extends ResourceSupport {
 
 	@Override
 	public void copyTo(Resource res,boolean append) throws IOException {
-		if (res instanceof S3Resource && !append) {
+		if (ResourceUtil.isNewS3Object(res, append)) {
 			s3CopyTo(this, (S3Resource) res);
-		} else if (res instanceof FileResource && !append) {
+		} else if (ResourceUtil.isNewLocalFile(res, append)) {
 			this.downloadFile((FileResource) res);
 		} else {
 			super.copyTo(res, append);
