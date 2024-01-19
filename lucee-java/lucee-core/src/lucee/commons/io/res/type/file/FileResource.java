@@ -75,7 +75,7 @@ public final class FileResource extends File implements Resource {
 
 	@Override
 	public void copyTo(Resource res,boolean append) throws IOException {
-		if (res instanceof S3Resource && !append) {
+		if (ResourceUtil.isNewS3Object(res, append)) {
 			((S3Resource) res).putFile(this);
 		} else {
 			IOUtil.copy(this, res.getOutputStream(append),true);

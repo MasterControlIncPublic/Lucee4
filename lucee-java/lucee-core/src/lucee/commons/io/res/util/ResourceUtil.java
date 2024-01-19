@@ -37,7 +37,9 @@ import lucee.commons.io.res.filter.ExtensionResourceFilter;
 import lucee.commons.io.res.filter.IgnoreSystemFiles;
 import lucee.commons.io.res.filter.ResourceFilter;
 import lucee.commons.io.res.filter.ResourceNameFilter;
+import lucee.commons.io.res.type.file.FileResource;
 import lucee.commons.io.res.type.http.HTTPResource;
+import lucee.commons.io.res.type.s3.S3Resource;
 import lucee.commons.lang.StringUtil;
 import lucee.runtime.PageContext;
 import lucee.runtime.PageContextImpl;
@@ -1459,4 +1461,7 @@ public final class ResourceUtil {
 		return '/';
 	}
 
+	public static boolean isNewS3Object(Resource resource, boolean append) {
+		return resource instanceof S3Resource && !append;
+	}
 }
