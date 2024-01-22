@@ -68,7 +68,7 @@ configurations {
 }
 
 dependencies {
-    compile 'com.mastercontrol:s3-no-op-resource:0.2.0'
+    compile 'com.mastercontrol:s3-no-op-resource:0.3.1'
     compile 'software.amazon.awssdk:s3:2.20.56'
     compile 'antlr:antlr:2.7.6'
     compile 'org.apache.sanselan:sanselan:0.97-incubator'

@@ -33,6 +33,7 @@ import com.mastercontrol.resource.s3.S3ListItem;
 import lucee.commons.io.StreamWithSize;
 import lucee.commons.io.res.Resource;
 import lucee.commons.io.res.ResourceProvider;
+import lucee.commons.io.res.type.file.FileResource;
 import lucee.commons.io.res.util.ResourceSupport;
 import lucee.commons.io.res.util.ResourceUtil;
 import lucee.loader.util.Util;
@@ -67,6 +68,44 @@ public final class S3Resource extends ResourceSupport {
 			}
 		}
 		this.objectName = objectName.toLowerCase(Locale.ENGLISH);
+	}
+
+	public void putFile(FileResource fileResource) {
+		s3.put(objectName, fileResource);
+	}
+
+	public void downloadFile(FileResource fileResource) {
+		s3.downloadFile(objectName, fileResource);
+	}
+
+	@Override
+	public void copyFrom(Resource res,boolean append) throws IOException {
+		if (ResourceUtil.isNewS3Object(res, append)) {
+			s3CopyTo((S3Resource) res, this);
+		} else if (ResourceUtil.isNewLocalFile(res, append)) {
+			this.putFile((FileResource) res);
+		} else {
+			super.copyFrom(res, append);
+		}
+	}
+
+	@Override
+	public void copyTo(Resource res,boolean append) throws IOException {
+		if (ResourceUtil.isNewS3Object(res, append)) {
+			s3CopyTo(this, (S3Resource) res);
+		} else if (ResourceUtil.isNewLocalFile(res, append)) {
+			this.downloadFile((FileResource) res);
+		} else {
+			super.copyTo(res, append);
+		}
+	}
+
+	private void s3CopyTo(S3Resource from, S3Resource to) throws IOException {
+		try {
+			s3.copyTo(from.objectName, to.objectName);
+		} catch (Exception ex) {
+			super.copyTo(to, false);
+		}
 	}
 
 	private S3Resource(S3SDK s3, S3ResourceProvider provider, String path, boolean newPattern, S3ListItem cachedListItem) {
