@@ -3,6 +3,8 @@ package lucee.commons.io.res.type.s3;
 import com.mastercontrol.resource.s3.S3Facade;
 import com.mastercontrol.resource.s3.S3ListItem;
 import lucee.commons.io.StreamWithSize;
+
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -45,6 +47,10 @@ public class S3SDK {
 
     public void put(String objectName, StreamWithSize stream) throws IOException {
         new S3Facade(objectName).putInputStream(stream.getInputStream(), stream.getSize());
+    }
+
+    public void put(String objectName, File file) {
+        new S3Facade(objectName).putFile(file);
     }
 
     public InputStream getInputStream(String objectName) {
