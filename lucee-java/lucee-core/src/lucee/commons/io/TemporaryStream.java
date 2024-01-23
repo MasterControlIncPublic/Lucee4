@@ -25,6 +25,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import lucee.commons.io.res.Resource;
+import lucee.commons.io.res.type.file.FileResource;
 import lucee.commons.io.res.util.ResourceUtil;
 import lucee.runtime.engine.ThreadLocalPageContext;
 
@@ -50,7 +51,11 @@ public final class TemporaryStream extends OutputStream implements StreamWithSiz
 		while(persis.exists());
 		os=new java.io.ByteArrayOutputStream();
 	}
-	
+
+	public boolean isMemoryMode() {
+		return memoryMode;
+	}
+
 	@Override
 	public void write(int b) throws IOException {
 		count++;
@@ -102,6 +107,14 @@ public final class TemporaryStream extends OutputStream implements StreamWithSiz
 		return length();
 	}
 
+	public File getBackingFile() {
+		return (FileResource)this.persis;
+	}
+
+	public void deleteBackingFile() {
+		this.persis.delete();
+	}
+
 	class InpuStreamWrap extends InputStream {
 
 		private TemporaryStream ts;
@@ -137,8 +150,8 @@ public final class TemporaryStream extends OutputStream implements StreamWithSiz
 
 		@Override
 		public void close() throws IOException {
-			ts.persis.delete();
 			is.close();
+			ts.persis.delete();
 		}
 
 		@Override
