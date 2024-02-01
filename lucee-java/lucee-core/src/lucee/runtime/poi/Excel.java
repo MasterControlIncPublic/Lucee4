@@ -172,7 +172,7 @@ public class Excel extends StructSupport implements Cloneable,Struct {
         Struct infostruct = new StructImpl();
         
         int sheets = workbook.getNumberOfSheets();
-        infostruct.setEL("SHEETS", new Double(sheets));
+        infostruct.setEL("SHEETS", Double.valueOf(sheets));
         if(sheets>0) {
         	StringBuilder sb=new StringBuilder();
             for(int i=0; i<sheets; i++){

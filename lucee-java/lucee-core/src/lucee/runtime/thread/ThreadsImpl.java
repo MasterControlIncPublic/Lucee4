@@ -137,7 +137,7 @@ public class ThreadsImpl extends StructSupport implements lucee.runtime.type.sco
 	
 
 	private Object getMeta(Key key, Object defaultValue) {
-		if(KEY_ELAPSEDTIME.equalsIgnoreCase(key)) return new Double(System.currentTimeMillis()-ct.getStartTime());
+		if(KEY_ELAPSEDTIME.equalsIgnoreCase(key)) return Double.valueOf(System.currentTimeMillis()-ct.getStartTime());
 		if(KeyConstants._NAME.equalsIgnoreCase(key)) return ct.getTagName();
 		if(KEY_OUTPUT.equalsIgnoreCase(key)) return getOutput();
 		if(KEY_PRIORITY.equalsIgnoreCase(key)) return ThreadUtil.toStringPriority(ct.getPriority());

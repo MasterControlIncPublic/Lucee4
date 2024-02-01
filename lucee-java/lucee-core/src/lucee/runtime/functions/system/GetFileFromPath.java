@@ -28,6 +28,7 @@ import lucee.runtime.ext.function.Function;
 /**
  * @deprecated replaced wih <code>#{@link lucee.runtime.functions.file.GetFileFromPath}</code>
  */
+@Deprecated
 public final class GetFileFromPath implements Function {
 	public static String call(PageContext pc , String path) {
 		return lucee.runtime.functions.file.GetFileFromPath.call(pc, path);

@@ -129,6 +129,7 @@ public interface Excepton {
      * @return CustomTypeException
      * @deprecated use instead <code>createCustomTypeException(String message, String detail, String errorcode, String customType, String extendedInfo);</code>
      */
+    @Deprecated
     public PageException createCustomTypeException(String message, String detail, String errorcode, String customType);
     
     public PageException createCustomTypeException(String message, String detail, String errorcode, String customType, String extendedInfo);
@@ -181,6 +182,7 @@ public interface Excepton {
      * @return FunctionException
      * @deprecated use instead <code>createFunctionException(PageContext pc,String functionName, int badArgumentPosition, String badArgumentName, String message, String detail))</code>
      */
+    @Deprecated
     public PageException createFunctionException(PageContext pc,String functionName, String badArgumentPosition, String badArgumentName, String message);
     
     /**

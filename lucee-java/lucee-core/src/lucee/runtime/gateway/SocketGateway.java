@@ -146,7 +146,7 @@ public class SocketGateway implements GatewayPro {
         event.setEL(creator.createKey("originatorID"), originatorID);
         
         event.setEL(creator.createKey("cfcMethod"), "onIncomingMessage");
-        event.setEL(creator.createKey("cfcTimeout"), new Double(10));
+        event.setEL(creator.createKey("cfcTimeout"), Double.valueOf(10));
         event.setEL(creator.createKey("cfcPath"), cfcPath);
 
         event.setEL(creator.createKey("gatewayType"), "Socket");

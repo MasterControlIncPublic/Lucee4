@@ -65,12 +65,12 @@ public class SoapClient {
 		 
 		 Element e = new Element();
 		 e.setEternal(Boolean.TRUE);
-		 e.setExpirationDate(new Long(new Date().getTime()+1000000));
+		 e.setExpirationDate(Long.valueOf(new Date().getTime()+1000000));
 		 e.setKey("lami");
 		 e.setMimeType("application/x-java-serialized-object");
 		 e.setValue(Converter.toBytes("Lama"));
-		 e.setTimeToIdleSeconds(new Integer(10000));
-		 e.setTimeToLiveSeconds(new Integer(10000));
+		 e.setTimeToIdleSeconds(Integer.valueOf(10000));
+		 e.setTimeToLiveSeconds(Integer.valueOf(10000));
 		 //e.setResourceUri(resourceUri);
 		 
 		 client.put("susi", e);

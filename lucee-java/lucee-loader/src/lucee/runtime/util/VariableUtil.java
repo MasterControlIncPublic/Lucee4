@@ -46,6 +46,7 @@ public interface VariableUtil {
      * @return value or null
      * @deprecated use instead <code>get(PageContext pc, Object coll, Collection.Key key, Object defaultValue);</code>
      */
+    @Deprecated
     public abstract Object get(PageContext pc, Object coll, String key, Object defaultValue);
     
     /**
@@ -111,6 +112,7 @@ public interface VariableUtil {
      * @return value setted or null if can't set
      * @deprecated use instead <code>setEL(PageContext pc, Object coll, Collection.Key key,Object value);</code>
      */
+    @Deprecated
     public abstract Object setEL(PageContext pc, Object coll, String key,Object value);
     
     /**
@@ -162,6 +164,7 @@ public interface VariableUtil {
      * @throws PageException
      * @deprecated use instead <code>callFunctionWithoutNamedValues(PageContext pc, Object coll, Collection.Key key, Object[] args)</code> 
      */
+    @Deprecated
     public abstract Object callFunctionWithoutNamedValues(PageContext pc,
             Object coll, String key, Object[] args) throws PageException;
     
@@ -187,6 +190,7 @@ public interface VariableUtil {
      * @throws PageException
      * @deprecated use instead <code>callFunctionWithNamedValues(PageContext pc, Object coll, Collection.Key key, Object[] args)</code>
      */
+    @Deprecated
     public abstract Object callFunctionWithNamedValues(PageContext pc,
             Object coll, String key, Object[] args) throws PageException;
     

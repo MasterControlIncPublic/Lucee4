@@ -150,7 +150,8 @@ public interface ResourceUtil {
 	     * @return extension of file
 	     * @deprecated use instead <code>getExtension(Resource res, String defaultValue);</code>
 	     */
-	    public String getExtension(Resource res);
+		@Deprecated
+		public String getExtension(Resource res);
 
 	    /**
 	     * get the Extension of a file resource
@@ -165,7 +166,8 @@ public interface ResourceUtil {
 	     * @return extension of file
 	     * @deprecated use instead <code>getExtension(String strFile, String defaultValue);</code>
 	     */
-	    public String getExtension(String strFile);
+		@Deprecated
+		public String getExtension(String strFile);
 
 	    /**
 	     * get the Extension of a file resource

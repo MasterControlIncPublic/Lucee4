@@ -68,7 +68,7 @@ public final class QueryConvertForGrid extends BIF {
 		
 		Struct sct = new StructImpl();
 		sct.setEL(KeyConstants._QUERY, trg);
-		sct.setEL("TOTALROWCOUNT", new Integer(srcRows));
+		sct.setEL("TOTALROWCOUNT", Integer.valueOf(srcRows));
 		return sct;
 	}
 	

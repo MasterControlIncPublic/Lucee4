@@ -46,7 +46,7 @@ public final class REFindNoCase extends BIF {
 		try {
 			if(returnsubexpressions)
 				return Perl5Util.find(regExpr,str,(int)start,false);
-			return new Double(Perl5Util.indexOf(regExpr,str,(int)start,false));
+			return Double.valueOf(Perl5Util.indexOf(regExpr,str,(int)start,false));
 		} catch (MalformedPatternException e) {
 			throw new FunctionException(pc,"reFindNoCase",1,"regularExpression",e.getMessage());
 		}

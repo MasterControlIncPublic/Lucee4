@@ -139,12 +139,12 @@ public class EHCacheRemote extends CacheSupport {
 		try	{
 			CacheConfiguration conf = rest.getMeta(name).getCacheConfiguration();
 			
-			info.setEL("disk_expiry_thread_interval", new Double(conf.getDiskExpiryThreadIntervalSeconds()));
-			info.setEL("disk_spool_buffer_size", new Double(conf.getDiskSpoolBufferSize()));
-			info.setEL("max_elements_in_memory", new Double(conf.getMaxElementsInMemory()));
-			info.setEL("max_elements_on_disk", new Double(conf.getMaxElementsOnDisk()));
-			info.setEL("time_to_idle", new Double(conf.getTimeToIdleSeconds()));
-			info.setEL("time_to_live", new Double(conf.getTimeToLiveSeconds()));
+			info.setEL("disk_expiry_thread_interval", Double.valueOf(conf.getDiskExpiryThreadIntervalSeconds()));
+			info.setEL("disk_spool_buffer_size", Double.valueOf(conf.getDiskSpoolBufferSize()));
+			info.setEL("max_elements_in_memory", Double.valueOf(conf.getMaxElementsInMemory()));
+			info.setEL("max_elements_on_disk", Double.valueOf(conf.getMaxElementsOnDisk()));
+			info.setEL("time_to_idle", Double.valueOf(conf.getTimeToIdleSeconds()));
+			info.setEL("time_to_live", Double.valueOf(conf.getTimeToLiveSeconds()));
 			info.setEL(KeyConstants._name, conf.getName());
 		}
 		catch(Throwable t){
@@ -168,8 +168,8 @@ public class EHCacheRemote extends CacheSupport {
 
 	public void put(String key, Object value, Long idleTime, Long liveTime) {
 		Boolean eternal = idleTime==null && liveTime==null?Boolean.TRUE:Boolean.FALSE;
-		Integer idle = idleTime==null?null:new Integer((int)idleTime.longValue()/1000);
-		Integer live = liveTime==null?null:new Integer((int)liveTime.longValue()/1000);
+		Integer idle = idleTime==null?null:Integer.valueOf((int)idleTime.longValue()/1000);
+		Integer live = liveTime==null?null:Integer.valueOf((int)liveTime.longValue()/1000);
 		try {
 			Element el = new Element();
 			el.setKey(key);

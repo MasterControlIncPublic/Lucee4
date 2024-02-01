@@ -499,7 +499,7 @@ public class HibernateORMSession implements ORMSession {
 			return query.list();
 		}
 	    // update
-		return new Double(query.executeUpdate());
+		return Double.valueOf(query.executeUpdate());
 	}
 
 

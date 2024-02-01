@@ -32,6 +32,7 @@ public interface DataSourceManager {
 	 * @throws PageException 
 	 * @deprecated use instead <code>getConnection(PageContext pc,DataSource ds, String user, String pass)</code>
 	 */
+	@Deprecated
 	public DatasourceConnection getConnection(PageContext pc,String datasource,
 			String user, String pass) throws PageException;
 	

@@ -195,7 +195,7 @@ public class GetApplicationSettings {
 		StructImpl jsSct = new StructImpl();
 		jsSct.put("loadCFMLClassPath",js.loadCFMLClassPath());
 		jsSct.put("reloadOnChange",js.reloadOnChange());
-		jsSct.put("watchInterval",new Double(js.watchInterval()));
+		jsSct.put("watchInterval",Double.valueOf(js.watchInterval()));
 		jsSct.put("watchExtensions",ListUtil.arrayToList(js.watchedExtensions(),","));
 		Resource[] reses = js.getResources();
 		StringBuilder sb=new StringBuilder();

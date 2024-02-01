@@ -48,3 +48,5 @@ sample.mov
 **/db.log
 **/db.script
 gradle.properties
+/.gradle
+/builddir

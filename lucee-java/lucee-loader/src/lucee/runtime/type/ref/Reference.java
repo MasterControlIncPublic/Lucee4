@@ -31,6 +31,7 @@ public interface Reference {
 	 * @throws PageException
 	 * @deprecated use instead <code>{@link #getKey()}</code>
 	 */
+	@Deprecated
 	public abstract String getKeyAsString() throws PageException;
 
 	/**

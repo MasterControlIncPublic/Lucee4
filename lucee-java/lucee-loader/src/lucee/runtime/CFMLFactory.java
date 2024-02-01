@@ -94,7 +94,8 @@ public abstract class CFMLFactory extends JspFactory {
      * @deprecated no replacement
      * @param label
      */
-    public abstract void setLabel(String label);
+	@Deprecated
+	public abstract void setLabel(String label);
 
 	/**
 	 * @return the servlet

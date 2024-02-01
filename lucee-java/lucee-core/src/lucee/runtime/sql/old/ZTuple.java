@@ -46,7 +46,7 @@ public final class ZTuple
             String s1 = stringtokenizer.nextToken().trim();
             try
             {
-                Double double1 = new Double(s1);
+                Double double1 = Double.valueOf(s1);
                 setAtt(getAttName(i), double1);
             }
             catch(Exception exception)

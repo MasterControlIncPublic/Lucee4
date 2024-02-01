@@ -432,10 +432,10 @@ public class EHCache extends EHCacheSupport {
 		boolean eternal=toBooleanValue(arguments.get("eternal",Boolean.FALSE),ETERNAL);
 		
 		// max elements in memory
-		int maxElementsInMemory=toIntValue(arguments.get("maxelementsinmemory",new Integer(MAX_ELEMENTS_IN_MEMEORY)),MAX_ELEMENTS_IN_MEMEORY);
+		int maxElementsInMemory=toIntValue(arguments.get("maxelementsinmemory",Integer.valueOf(MAX_ELEMENTS_IN_MEMEORY)),MAX_ELEMENTS_IN_MEMEORY);
 		
 		// max elements on disk
-		int maxElementsOnDisk=toIntValue(arguments.get("maxelementsondisk",new Integer(MAX_ELEMENTS_ON_DISK)),MAX_ELEMENTS_ON_DISK);
+		int maxElementsOnDisk=toIntValue(arguments.get("maxelementsondisk",Integer.valueOf(MAX_ELEMENTS_ON_DISK)),MAX_ELEMENTS_ON_DISK);
 		
 		// memory eviction policy
 		String strPolicy=toString(arguments.get("memoryevictionpolicy",MEMORY_EVICTION_POLICY),MEMORY_EVICTION_POLICY);
@@ -447,10 +447,10 @@ public class EHCache extends EHCacheSupport {
 		boolean overflowToDisk=toBooleanValue(arguments.get("overflowtodisk",Boolean.FALSE),OVERFLOW_TO_DISK);
 		
 		// time to idle seconds
-		long timeToIdleSeconds=toLongValue(arguments.get("timeToIdleSeconds",new Long(TIME_TO_IDLE_SECONDS)),TIME_TO_IDLE_SECONDS);
+		long timeToIdleSeconds=toLongValue(arguments.get("timeToIdleSeconds",Long.valueOf(TIME_TO_IDLE_SECONDS)),TIME_TO_IDLE_SECONDS);
 		
 		// time to live seconds
-		long timeToLiveSeconds=toLongValue(arguments.get("timeToLiveSeconds",new Long(TIME_TO_LIVE_SECONDS)),TIME_TO_LIVE_SECONDS);
+		long timeToLiveSeconds=toLongValue(arguments.get("timeToLiveSeconds",Long.valueOf(TIME_TO_LIVE_SECONDS)),TIME_TO_LIVE_SECONDS);
 		
 	// REPLICATION
 		boolean replicatePuts=toBooleanValue(arguments.get("replicatePuts",Boolean.FALSE),REPLICATE_PUTS);
@@ -459,7 +459,7 @@ public class EHCache extends EHCacheSupport {
 		boolean replicateUpdatesViaCopy=toBooleanValue(arguments.get("replicateUpdatesViaCopy",Boolean.FALSE),REPLICATE_UPDATES_VIA_COPY);
 		boolean replicateRemovals=toBooleanValue(arguments.get("replicateRemovals",Boolean.FALSE),REPLICATE_REMOVALS);
 		boolean replicateAsynchronously=toBooleanValue(arguments.get("replicateAsynchronously",Boolean.FALSE),REPLICATE_ASYNC);
-		int asynchronousReplicationInterval=toIntValue(arguments.get("asynchronousReplicationIntervalMillis",new Integer(ASYNC_REP_INTERVAL)),ASYNC_REP_INTERVAL);
+		int asynchronousReplicationInterval=toIntValue(arguments.get("asynchronousReplicationIntervalMillis",Integer.valueOf(ASYNC_REP_INTERVAL)),ASYNC_REP_INTERVAL);
 		
 		
 		

@@ -46,38 +46,47 @@ public final class FunctionArgumentImpl implements FunctionArgument,Externalizab
 	
 
 	/** @deprecated use other constructor */
+	@Deprecated
 	public FunctionArgumentImpl(String name,String type,boolean required) {
 		this(name,type,required,"","");
 	}
 	/** @deprecated use other constructor */
+	@Deprecated
 	public FunctionArgumentImpl(String name,String type,boolean required,String dspName,String hint) {
 		this(name,type,required,DEFAULT_TYPE_RUNTIME_EXPRESSION,true,dspName,hint,null);
 	}
 	/** @deprecated use other constructor */
+	@Deprecated
 	public FunctionArgumentImpl(String name,String type,boolean required,String dspName,String hint,StructImpl meta) {
 		this(name,type,required,DEFAULT_TYPE_RUNTIME_EXPRESSION,true,dspName,hint,meta);
 	}
 	/** @deprecated use other constructor */
+	@Deprecated
 	public FunctionArgumentImpl(String name,String type,boolean required,int defaultType,String dspName,String hint,StructImpl meta) {
 		this(name, type, required, defaultType,true, dspName, hint, meta);
 	}
 	/** @deprecated use other constructor */
+	@Deprecated
 	public FunctionArgumentImpl(String name,String type,boolean required,double defaultType,String dspName,String hint,StructImpl meta) {
 		this(name, type, required, (int)defaultType,true, dspName, hint, meta);
 	}
 	/** @deprecated use other constructor */
+	@Deprecated
 	public FunctionArgumentImpl(String name,String type,boolean required,double defaultType,boolean passByReference,String dspName,String hint,StructImpl meta) {
 		this(name, type, required, (int)defaultType,passByReference, dspName, hint, meta);
 	}
 	/** @deprecated use other constructor */
+	@Deprecated
 	public FunctionArgumentImpl(String name,String type,boolean required,int defaultType,boolean passByReference,String dspName,String hint,StructImpl meta) {
 		this(KeyImpl.init(name),type,required,defaultType,passByReference,dspName,hint,meta);
 	}
 	/** @deprecated use other constructor */
+	@Deprecated
 	public FunctionArgumentImpl(String name,String strType,short type,boolean required,int defaultType,boolean passByReference,String dspName,String hint,StructImpl meta) {
 		this(KeyImpl.init(name), strType, type, required, defaultType, passByReference, dspName, hint, meta);
 	}
 	/** @deprecated use other constructor */
+	@Deprecated
 	public FunctionArgumentImpl(Collection.Key name,String type,boolean required,int defaultType,boolean passByReference,String dspName,String hint,StructImpl meta) {
 		this.name=name;
 		this.strType=(type);

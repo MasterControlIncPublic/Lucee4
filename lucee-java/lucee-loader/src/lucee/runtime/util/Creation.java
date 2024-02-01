@@ -158,6 +158,7 @@ public interface Creation {
      * @return created query Object
      * @deprecated usse instead <code>createQuery(Collection.Key[] columns, int rows, String name)</code>
      */
+    @Deprecated
     public abstract Query createQuery(String[] columns, int rows, String name);
     
     /**
@@ -177,7 +178,8 @@ public interface Creation {
 	 * @param maxrow maxrow for the resultset
      * @throws PageException
      * @deprecated replaced with <code>{@link #createQuery(DatasourceConnection, SQL, int, int, int, String)}</code>
-	 */	
+	 */
+    @Deprecated
     public abstract Query createQuery(DatasourceConnection dc,SQL sql,int maxrow, String name) throws PageException;
 
     /**

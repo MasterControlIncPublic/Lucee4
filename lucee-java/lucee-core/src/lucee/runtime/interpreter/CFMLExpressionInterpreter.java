@@ -155,8 +155,8 @@ import org.apache.commons.collections.map.ReferenceMap;
 public class CFMLExpressionInterpreter {
 
 
-    private static final LNumber PLUS_ONE = new LNumber(new Double(1));
-    private static final LNumber MINUS_ONE = new LNumber(new Double(-1));
+    private static final LNumber PLUS_ONE = new LNumber(Double.valueOf(1));
+    private static final LNumber MINUS_ONE = new LNumber(Double.valueOf(-1));
 	
     protected static final short STATIC=0;
     private static final short DYNAMIC=1;
@@ -884,7 +884,7 @@ public class CFMLExpressionInterpreter {
         	if (cfml.forwardIfCurrent('-')) {
         		cfml.removeSpace();
 				Ref expr = clip();
-				Ref res = preciseMath?new BigMinus(expr,new LNumber(new Double(1))):new Minus(expr,new LNumber(new Double(1)));
+				Ref res = preciseMath?new BigMinus(expr,new LNumber(Double.valueOf(1))):new Minus(expr,new LNumber(Double.valueOf(1)));
 				return new Assign(expr,res);
 			}	
             cfml.removeSpace();
@@ -895,7 +895,7 @@ public class CFMLExpressionInterpreter {
         	if (cfml.forwardIfCurrent('+')) {
         		cfml.removeSpace();
 				Ref expr = clip();
-				Ref res = preciseMath?new BigPlus(expr,new LNumber(new Double(1))):new Plus(expr,new LNumber(new Double(1)));
+				Ref res = preciseMath?new BigPlus(expr,new LNumber(Double.valueOf(1))):new Plus(expr,new LNumber(Double.valueOf(1)));
 				return new Assign(expr,res);
 			}
         	cfml.removeSpace();

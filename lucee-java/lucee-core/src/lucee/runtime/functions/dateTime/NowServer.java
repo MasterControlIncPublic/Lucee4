@@ -31,6 +31,7 @@ import lucee.runtime.type.dt.DateTimeImpl;
  * Implements the CFML Function now
  * @deprecated removed with no replacement
  */
+@Deprecated
 public final class NowServer implements Function {
 	/**
 	 * @param pc

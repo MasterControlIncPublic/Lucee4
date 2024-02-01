@@ -28,6 +28,7 @@ import org.apache.commons.codec.net.URLCodec;
  * @deprecated use instead lucee.commons.net.URLEncoder
  * 
  */
+@Deprecated
 public class URLEncoder {
 	
 	private static final BitSet WWW_FORM_URL = new BitSet(256);

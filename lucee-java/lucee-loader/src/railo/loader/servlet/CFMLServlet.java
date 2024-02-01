@@ -21,6 +21,7 @@ package railo.loader.servlet;
 /**
  * @deprecated use instead lucee.loader.servlet.CFMLServlet
  */
+@Deprecated
 public class CFMLServlet extends lucee.loader.servlet.CFMLServlet {
 
 }

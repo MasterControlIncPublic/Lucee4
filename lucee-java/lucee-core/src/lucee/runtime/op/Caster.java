@@ -350,11 +350,11 @@ public final class Caster {
      * @throws PageException
      */
     public static Double toDouble(float f) {
-        return new Double(f);
+        return Double.valueOf(f);
         
     }
     public static Double toDouble(Float f) {
-        return new Double(f.doubleValue());
+        return Double.valueOf(f.doubleValue());
     }
 
     /**
@@ -365,7 +365,7 @@ public final class Caster {
      */
     public static Double toDouble(Object o) throws PageException {
         if(o instanceof Double) return (Double)o;
-        return new Double(toDoubleValue(o));
+        return Double.valueOf(toDoubleValue(o));
         
     }
 
@@ -376,7 +376,7 @@ public final class Caster {
      * @throws PageException
      */
     public static Double toDouble(String str) throws PageException {
-        return new Double(toDoubleValue(str));
+        return Double.valueOf(toDoubleValue(str));
         
     }
 
@@ -390,7 +390,7 @@ public final class Caster {
         if(o instanceof Double) return (Double)o;
         double dbl = toDoubleValue(o,true,Double.NaN);
         if(Double.isNaN(dbl)) return defaultValue;
-        return new Double(dbl);
+        return Double.valueOf(dbl);
         
     }
     
@@ -402,7 +402,7 @@ public final class Caster {
     private static final int MAX_SMALL_DOUBLE=10000;
 	private static final Double[] smallDoubles=new Double[MAX_SMALL_DOUBLE];
 	static {
-		for(int i=0;i<MAX_SMALL_DOUBLE;i++) smallDoubles[i]=new Double(i);
+		for(int i=0;i<MAX_SMALL_DOUBLE;i++) smallDoubles[i]=Double.valueOf(i);
 	}
 	
 	public static Double toDouble(double d) {
@@ -410,7 +410,7 @@ public final class Caster {
 			int i;
 			if((i=((int)d))==d) return smallDoubles[i];
 		}
-		return new Double(d);
+		return Double.valueOf(d);
 	}
     
     
@@ -420,7 +420,7 @@ public final class Caster {
      * @return casted Double Object
      */
     public static Double toDouble(boolean b) {
-        return new Double(b?1:0);
+        return Double.valueOf(b?1:0);
     }
     
 
@@ -585,7 +585,7 @@ public final class Caster {
             
         }
         //else if(o == null) return defaultValue;
-        else if(o instanceof ObjectWrap) return toDoubleValue(((ObjectWrap)o).getEmbededObject(new Double(defaultValue)),true,defaultValue);
+        else if(o instanceof ObjectWrap) return toDoubleValue(((ObjectWrap)o).getEmbededObject(Double.valueOf(defaultValue)),true,defaultValue);
         else if(o instanceof Date) return DateTimeUtil.getInstance().toDoubleValue(((Date)o).getTime());
         else if(o instanceof Calendar) return DateTimeUtil.getInstance().toDoubleValue(((Calendar)o).getTimeInMillis());
         return defaultValue;
@@ -1149,7 +1149,7 @@ public final class Caster {
      * @return casted Character Object
      */
     public static Character toCharacter(boolean b) {
-        return new Character(toCharValue(b));
+        return Character.valueOf(toCharValue(b));
     }
     
     /**
@@ -1158,7 +1158,7 @@ public final class Caster {
      * @return casted Character Object
      */
     public static Character toCharacter(char c) {
-        return new Character(toCharValue(c));
+        return Character.valueOf(toCharValue(c));
     }
     
     /**
@@ -1167,7 +1167,7 @@ public final class Caster {
      * @return casted Character Object
      */
     public static Character toCharacter(double d) {
-        return new Character(toCharValue(d));
+        return Character.valueOf(toCharValue(d));
     }
 
     /**
@@ -1178,7 +1178,7 @@ public final class Caster {
      */
     public static Character toCharacter(Object o) throws PageException {
         if(o instanceof Character) return (Character)o;
-        return new Character(toCharValue(o));
+        return Character.valueOf(toCharValue(o));
         
     }
 
@@ -1189,7 +1189,7 @@ public final class Caster {
      * @throws PageException
      */
     public static Character toCharacter(String str) throws PageException {
-        return new Character(toCharValue(str));
+        return Character.valueOf(toCharValue(str));
         
     }
     
@@ -1201,11 +1201,11 @@ public final class Caster {
      */
     public static Character toCharacter(Object o, Character defaultValue) {
         if(o instanceof Character) return (Character)o;
-        if(defaultValue!=null)return new Character(toCharValue(o,defaultValue.charValue()));
+        if(defaultValue!=null)return Character.valueOf(toCharValue(o,defaultValue.charValue()));
         
         char res = toCharValue(o,Character.MIN_VALUE);
         if(res==Character.MIN_VALUE) return defaultValue;
-        return new Character(res);
+        return Character.valueOf(res);
     }
     
     /**
@@ -1289,7 +1289,7 @@ public final class Caster {
      * @return casted Byte Object
      */
     public static Byte toByte(boolean b) {
-        return new Byte(toByteValue(b));
+        return Byte.valueOf(toByteValue(b));
     }
     
     /**
@@ -1298,7 +1298,7 @@ public final class Caster {
      * @return casted Byte Object
      */
     public static Byte toByte(char c) {
-        return new Byte(toByteValue(c));
+        return Byte.valueOf(toByteValue(c));
     }
     
     /**
@@ -1307,7 +1307,7 @@ public final class Caster {
      * @return casted Byte Object
      */
     public static Byte toByte(double d) {
-        return new Byte(toByteValue(d));
+        return Byte.valueOf(toByteValue(d));
     }
 
     /**
@@ -1318,7 +1318,7 @@ public final class Caster {
      */
     public static Byte toByte(Object o) throws PageException {
         if(o instanceof Byte) return (Byte)o;
-        return new Byte(toByteValue(o));
+        return Byte.valueOf(toByteValue(o));
         
     }
 
@@ -1329,7 +1329,7 @@ public final class Caster {
      * @throws PageException
      */
     public static Byte toByte(String str) throws PageException {
-        return new Byte(toByteValue(str));
+        return Byte.valueOf(toByteValue(str));
         
     }
 
@@ -1341,10 +1341,10 @@ public final class Caster {
      */
     public static Byte toByte(Object o, Byte defaultValue) {
         if(o instanceof Byte) return (Byte)o;
-        if(defaultValue!=null) return new Byte(toByteValue(o,defaultValue.byteValue()));
+        if(defaultValue!=null) return Byte.valueOf(toByteValue(o,defaultValue.byteValue()));
         byte res=toByteValue(o,Byte.MIN_VALUE);
         if(res==Byte.MIN_VALUE) return defaultValue;
-        return new Byte(res);
+        return Byte.valueOf(res);
     }
 
     /**
@@ -1434,8 +1434,8 @@ public final class Caster {
 	    	// integer
 	    	BigInteger bi = new BigInteger(str);
 	    	int l = bi.bitLength();
-	    	if(l<32) return new Integer(bi.intValue());
-	    	if(l<64) return new Long(bi.longValue());
+	    	if(l<32) return Integer.valueOf(bi.intValue());
+	    	if(l<64) return Long.valueOf(bi.longValue());
 	    	return bi;
     	}
     	catch(Throwable t) {
@@ -1543,7 +1543,7 @@ public final class Caster {
      * @return casted Float Object
      */
     public static Float toFloat(boolean b) {
-        return new Float(toFloatValue(b));
+        return Float.valueOf(toFloatValue(b));
     }
     
     /**
@@ -1552,7 +1552,7 @@ public final class Caster {
      * @return casted Float Object
      */
     public static Float toFloat(char c) {
-        return new Float(toFloatValue(c));
+        return Float.valueOf(toFloatValue(c));
     }
     
     /**
@@ -1561,7 +1561,7 @@ public final class Caster {
      * @return casted Float Object
      */
     public static Float toFloat(double d) {
-        return new Float(toFloatValue(d));
+        return Float.valueOf(toFloatValue(d));
     }
 
     /**
@@ -1572,7 +1572,7 @@ public final class Caster {
      */
     public static Float toFloat(Object o) throws PageException {
         if(o instanceof Float) return (Float)o;
-        return new Float(toFloatValue(o));
+        return Float.valueOf(toFloatValue(o));
     }
 
     /**
@@ -1582,7 +1582,7 @@ public final class Caster {
      * @throws PageException
      */
     public static Float toFloat(String str) throws PageException {
-        return new Float(toFloatValue(str));
+        return Float.valueOf(toFloatValue(str));
     }
 
     /**
@@ -1593,11 +1593,11 @@ public final class Caster {
      */
     public static Float toFloat(Object o, Float defaultValue) {
         if(o instanceof Float) return (Float)o;
-        if(defaultValue!=null) return new Float(toFloatValue(o,defaultValue.floatValue()));
+        if(defaultValue!=null) return Float.valueOf(toFloatValue(o,defaultValue.floatValue()));
         
         float res=toFloatValue(o,Float.MIN_VALUE);
         if(res==Float.MIN_VALUE) return defaultValue;
-        return new Float(res);
+        return Float.valueOf(res);
     }
     
     
@@ -3713,7 +3713,7 @@ public final class Caster {
      * @return casted Integer
      */
     public static Byte toRef(byte b) {
-        return new Byte(b);
+        return Byte.valueOf(b);
     }
     
     /**
@@ -3731,7 +3731,7 @@ public final class Caster {
      * @return casted Float
      */
     public static Float toRef(float f) {
-        return new Float(f);
+        return Float.valueOf(f);
     }
     
     /**
@@ -3749,7 +3749,7 @@ public final class Caster {
      * @return casted Double
      */
     public static Double toRef(double d) {
-        return new Double(d);
+        return Double.valueOf(d);
     }
     
     /**
@@ -4310,7 +4310,7 @@ public final class Caster {
 		else if(trgClass==short.class)return Caster.toShort(obj); 
 		else if(trgClass==int.class)return Integer.valueOf(Caster.toDouble(obj).intValue()); 
 		else if(trgClass==long.class)return Caster.toLong(obj);
-		else if(trgClass==float.class)return new Float(Caster.toDouble(obj).floatValue()); 
+		else if(trgClass==float.class)return Float.valueOf(Caster.toDouble(obj).floatValue());
 		else if(trgClass==double.class)return Caster.toDouble(obj); 
 		else if(trgClass==char.class)return Caster.toCharacter(obj); 
 		
@@ -4319,7 +4319,7 @@ public final class Caster {
 		else if(trgClass==Short.class)return Caster.toShort(obj); 
 		else if(trgClass==Integer.class)return Integer.valueOf(Caster.toDouble(obj).intValue()); 
 		else if(trgClass==Long.class)return Caster.toLong(obj); 
-		else if(trgClass==Float.class)return new Float(Caster.toDouble(obj).floatValue()); 
+		else if(trgClass==Float.class)return Float.valueOf(Caster.toDouble(obj).floatValue());
 		else if(trgClass==Double.class)return Caster.toDouble(obj); 
 		else if(trgClass==Character.class)return Caster.toCharacter(obj); 
 		

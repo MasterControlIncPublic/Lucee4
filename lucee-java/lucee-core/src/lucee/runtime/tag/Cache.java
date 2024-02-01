@@ -163,6 +163,7 @@ public final class Cache extends BodyTagImpl {
 	 * @param obj
 	 * @throws DeprecatedException
 	 */
+	@Deprecated
 	public void setTimeout(Object obj) throws DeprecatedException {
 		DeprecatedUtil.tagAttribute(pageContext,"Cache","timeout");
 	}

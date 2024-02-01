@@ -733,7 +733,7 @@ public final class Query extends BodyTagTryCatchFinallyImpl {
 
 	private void setExecutionTime(long exe) {
 		Struct sct=new StructImpl();
-		sct.setEL(KeyConstants._executionTime,new Double(exe));
+		sct.setEL(KeyConstants._executionTime,Double.valueOf(exe));
 		pageContext.undefinedScope().setEL(CFQUERY,sct);
 	}
 
@@ -753,8 +753,8 @@ public final class Query extends BodyTagTryCatchFinallyImpl {
 		}
 		
 		// query options
-		if(maxrows!=-1 && !ormoptions.containsKey(MAX_RESULTS)) ormoptions.setEL(MAX_RESULTS, new Double(maxrows));
-		if(ormoptions!=null && timeout!=null && timeout.getSeconds()>0 && !ormoptions.containsKey(TIMEOUT)) ormoptions.setEL(TIMEOUT, new Double(timeout.getSeconds()));
+		if(maxrows!=-1 && !ormoptions.containsKey(MAX_RESULTS)) ormoptions.setEL(MAX_RESULTS, Double.valueOf(maxrows));
+		if(ormoptions!=null && timeout!=null && timeout.getSeconds()>0 && !ormoptions.containsKey(TIMEOUT)) ormoptions.setEL(TIMEOUT, Double.valueOf(timeout.getSeconds()));
 		/* MUST
 offset: Specifies the start index of the resultset from where it has to start the retrieval.
 cacheable: Whether the result of this query is to be cached in the secondary cache. Default is false.

@@ -329,6 +329,7 @@ public interface Config {
      * @return Returns the debug Template.
      * @deprecated use instead <code>getDebugEntry(ip, defaultValue)</code>
      */
+    @Deprecated
     public abstract String getDebugTemplate();
 
     /**
@@ -553,7 +554,8 @@ public interface Config {
 	 * @deprecated use instead <code>getDumpWriter(String key,int defaultType)</code>
 	 * @throws PageException if there is no DumpWriter for this key
 	 */
-	public abstract DumpWriter getDumpWriter(String key) throws PageException;
+    @Deprecated
+    public abstract DumpWriter getDumpWriter(String key) throws PageException;
 	
 	
 	/**
@@ -661,7 +663,8 @@ public interface Config {
 	 * @param onlyTopLevel checks only toplevel mappings
 	 * @deprecated use instead getPageSources or getPageSourceExisting
 	 */
-	public PageSource getPageSource(Mapping[] mappings, String relPath,boolean onlyTopLevel);
+    @Deprecated
+    public PageSource getPageSource(Mapping[] mappings, String relPath,boolean onlyTopLevel);
 	
 	/**
 	 * return existing PageSource that match the given criteria, if there is no PageSource null is returned.
@@ -692,7 +695,8 @@ public interface Config {
 	 * @param onlyTopLevel checks only toplevel mappings
 	 * @deprecated use instead getPhysicalResources or getPhysicalResourceExisting
 	 */
-	public Resource getPhysical(Mapping[] mappings, String relPath, boolean alsoDefaultMapping);
+    @Deprecated
+    public Resource getPhysical(Mapping[] mappings, String relPath, boolean alsoDefaultMapping);
     
 	/**
 	 * get all Resources that match the given criteria

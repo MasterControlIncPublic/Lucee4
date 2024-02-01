@@ -80,7 +80,7 @@ public final class Constants {
 	public static final short SHORT_VALUE_ZERO = (short)0;
 	public static final Short SHORT_ZERO = Short.valueOf((short)0);
 	public static final Long LONG_ZERO = Long.valueOf(0);
-	public static final Double DOUBLE_ZERO = new Double(0);
+	public static final Double DOUBLE_ZERO = Double.valueOf(0);
     
     
 	
@@ -90,7 +90,8 @@ public final class Constants {
      * @return Integer Object
      * @deprecated use Integer.valueOf() instead
      */
-    public static Integer Integer(int i) {
+	@Deprecated
+	public static Integer Integer(int i) {
         //if(i>-1 && i<100) return INTEGER[i];
         return Integer.valueOf(i);
     }
@@ -101,7 +102,8 @@ public final class Constants {
      * @return Boolean Object
      * @deprecated use Boolean.valueOf() instead
      */
-    public static Boolean Boolean(boolean b) {
+	@Deprecated
+	public static Boolean Boolean(boolean b) {
         return b?Boolean.TRUE:Boolean.FALSE;
     }
     

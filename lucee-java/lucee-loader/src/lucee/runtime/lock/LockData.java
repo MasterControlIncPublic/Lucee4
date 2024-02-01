@@ -30,6 +30,7 @@ public interface LockData {
      * @return is read only
      * @deprecated 
      */
+    @Deprecated
     boolean isReadOnly();
 
     /**

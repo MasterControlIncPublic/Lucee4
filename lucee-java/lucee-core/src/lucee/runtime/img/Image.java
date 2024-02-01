@@ -312,8 +312,8 @@ public class Image extends StructSupport implements Cloneable,Struct {
 		Struct sctInfo=new StructImpl(),sct;
 		
 		
-		sctInfo.setEL("height",new Double(getHeight()));
-		sctInfo.setEL("width",new Double(getWidth()));
+		sctInfo.setEL("height",Double.valueOf(getHeight()));
+		sctInfo.setEL("width",Double.valueOf(getWidth()));
 		sctInfo.setEL("source",source==null?"":source.getAbsolutePath());
 		//sct.setEL("mime_type",getMimeType());
 		
@@ -334,7 +334,7 @@ public class Image extends StructSupport implements Cloneable,Struct {
 		Array arr=new ArrayImpl();
 		Double value;
 	    for (int i = 0; i < bitspercomponent.length; i++) {
-	    	sct.setEL("bits_component_" + (i + 1),value=new Double(bitspercomponent[i]));
+	    	sct.setEL("bits_component_" + (i + 1),value=Double.valueOf(bitspercomponent[i]));
 	    	arr.appendEL(value);
 	    }
 		sct.setEL("bits_component",arr);
@@ -440,7 +440,7 @@ public class Image extends StructSupport implements Cloneable,Struct {
 		ParameterBlock params = new ParameterBlock();
 		params.addSource(image());
 		params.add((Object) null);
-		params.add(new Float(gain));
+		params.add(Float.valueOf(gain));
 		image(JAI.create("unsharpmask", params).getAsBufferedImage());
 	}
 	
@@ -616,7 +616,7 @@ public class Image extends StructSupport implements Cloneable,Struct {
     	}
     	
     	// width
-    	float width=Caster.toFloatValue(attr.get("width",new Float(1F)));
+    	float width=Caster.toFloatValue(attr.get("width",Float.valueOf(1F)));
     	if(width<0) throw new ExpressionException("key [width] should be a none negativ number");
     	
     	// endcaps
@@ -640,7 +640,7 @@ public class Image extends StructSupport implements Cloneable,Struct {
     	// miterlimit
     	float miterlimit = 10.0F;
     	if(linejoins==BasicStroke.JOIN_MITER) {
-    		miterlimit=Caster.toFloatValue(attr.get("miterlimit",new Float(10F)));
+    		miterlimit=Caster.toFloatValue(attr.get("miterlimit",Float.valueOf(10F)));
         	if(miterlimit<1F) throw new ExpressionException("key [miterlimit] should be greater or equal to 1");
     	}
     	
@@ -652,7 +652,7 @@ public class Image extends StructSupport implements Cloneable,Struct {
     	}
     	
     	// dash_phase
-    	float dash_phase=Caster.toFloatValue(attr.get("dash_phase",new Float(0F)));
+    	float dash_phase=Caster.toFloatValue(attr.get("dash_phase",Float.valueOf(0F)));
     	
     	
     	

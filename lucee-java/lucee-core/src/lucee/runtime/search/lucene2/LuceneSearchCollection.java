@@ -867,7 +867,8 @@ public final class LuceneSearchCollection extends SearchCollectionSupport {
      * @return returns language matching Analyzer
      * @throws SearchException
      */
-    public static Analyzer _getAnalyzer(String language) throws SearchException {
+	@Deprecated
+	public static Analyzer _getAnalyzer(String language) throws SearchException {
         return SearchUtil.getAnalyzer(language);
     }
 

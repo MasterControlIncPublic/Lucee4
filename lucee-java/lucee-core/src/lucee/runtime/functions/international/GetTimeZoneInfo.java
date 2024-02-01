@@ -49,9 +49,9 @@ public final class GetTimeZoneInfo implements Function {
         int minutes = j % 60;
         
         Struct struct = new StructImpl();
-        struct.setEL("utcTotalOffset", new Double(total));
-        struct.setEL("utcHourOffset", new Double(hour));
-        struct.setEL("utcMinuteOffset", new Double(minutes));
+        struct.setEL("utcTotalOffset", Double.valueOf(total));
+        struct.setEL("utcHourOffset", Double.valueOf(hour));
+        struct.setEL("utcMinuteOffset", Double.valueOf(minutes));
         struct.setEL("isDSTon", (dstOffset > 0)?Boolean.TRUE:Boolean.FALSE);
         struct.setEL(KeyConstants._id, timezone.getID());
         

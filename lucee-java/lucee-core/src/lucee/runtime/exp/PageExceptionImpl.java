@@ -294,11 +294,11 @@ public abstract class PageExceptionImpl extends PageException {
 			item=new StructImpl();
 			line=trace.getLineNumber();
 			item.setEL(KeyConstants._template,dspPath);
-			item.setEL(KeyConstants._line,new Double(line));
+			item.setEL(KeyConstants._line, Double.valueOf(line));
 			item.setEL(KeyConstants._id,"??");
 			item.setEL(KeyConstants._Raw_Trace,trace.toString());
 			item.setEL(KeyConstants._type,"cfml");
-			item.setEL(KeyConstants._column,new Double(0));
+			item.setEL(KeyConstants._column,Double.valueOf(0));
 			if(content!=null) {
 				if(content.length > 0) {
 					item.setEL(KeyConstants._codePrintHTML,getCodePrint(content,line,true));
@@ -407,11 +407,11 @@ public abstract class PageExceptionImpl extends PageException {
 		try {
 			String[] content=pr.getSource();
 			struct.set(KeyConstants._template,pr.getDisplayPath());
-			struct.set(KeyConstants._line,new Double(line));
+			struct.set(KeyConstants._line,Double.valueOf(line));
 			struct.set(KeyConstants._id,"??");
 			struct.set(KeyConstants._Raw_Trace,(element!=null)?element.toString():"");
 			struct.set(KeyConstants._Type,"cfml");
-			struct.set(KeyConstants._column,new Double(column));
+			struct.set(KeyConstants._column,Double.valueOf(column));
 			if(content!=null){
 				struct.set(KeyConstants._codePrintHTML,getCodePrint(content,line,true));
 				struct.set(KeyConstants._codePrintPlain,getCodePrint(content,line,false));

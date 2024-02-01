@@ -65,7 +65,7 @@ public final class LitInteger extends ExpressionBase implements Literal,ExprInt 
      * @return return value as Double Object
      */
     public Integer getInteger() {
-        return new Integer(i);
+        return Integer.valueOf(i);
     }
     
     /**
@@ -110,7 +110,7 @@ public final class LitInteger extends ExpressionBase implements Literal,ExprInt 
     }
 
     private Double getDouble() {
-		return new Double(i);
+		return Double.valueOf(i);
 	}
 
 	/**

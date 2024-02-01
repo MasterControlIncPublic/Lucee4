@@ -896,19 +896,19 @@ public class Video extends TagSupport {
 		// Audio
 		audio.setEL("channels", info.getAudioChannels());
 		audio.setEL(KeyConstants._codec, info.getAudioCodec());
-		if(info.getAudioBitrate()!=-1)audio.setEL("bitrate", new Double(info.getAudioBitrate()));
-		if(info.getAudioSamplerate()!=-1)audio.setEL("samplerate", new Double(info.getAudioSamplerate()));
+		if(info.getAudioBitrate()!=-1)audio.setEL("bitrate", Double.valueOf(info.getAudioBitrate()));
+		if(info.getAudioSamplerate()!=-1)audio.setEL("samplerate", Double.valueOf(info.getAudioSamplerate()));
 		
 		// Video
 		video.setEL(KeyConstants._codec, info.getVideoCodec());
 		video.setEL(KeyConstants._format, info.getVideoFormat());
-		if(info.getVideoBitrate()!=-1)video.setEL("bitrate", new Double(info.getVideoBitrate()));
-		if(info.getFramerate()!=-1)video.setEL("framerate", new Double(info.getFramerate()));
+		if(info.getVideoBitrate()!=-1)video.setEL("bitrate", Double.valueOf(info.getVideoBitrate()));
+		if(info.getFramerate()!=-1)video.setEL("framerate", Double.valueOf(info.getFramerate()));
 		
 		// Allgemein
-		if(info.getDuration()!=-1)sct.setEL("duration", new Double(info.getDuration()));
-		if(info.getHeight()!=-1)sct.setEL(KeyConstants._height, new Double(info.getHeight()));
-		if(info.getWidth()!=-1)sct.setEL(KeyConstants._width, new Double(info.getWidth()));
+		if(info.getDuration()!=-1)sct.setEL("duration", Double.valueOf(info.getDuration()));
+		if(info.getHeight()!=-1)sct.setEL(KeyConstants._height, Double.valueOf(info.getHeight()));
+		if(info.getWidth()!=-1)sct.setEL(KeyConstants._width, Double.valueOf(info.getWidth()));
 		
 		
 		

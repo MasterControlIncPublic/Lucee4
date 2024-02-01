@@ -41,6 +41,7 @@ public interface Collection extends Dumpable, Iteratorable, Cloneable, Serializa
 	 * @return returns a string array of all keys in the collection
 	 * @deprecated use instead <code>keyIterator()</code>
 	 */
+	@Deprecated
 	public Collection.Key[] keys();
 	
 	/**
@@ -70,6 +71,7 @@ public interface Collection extends Dumpable, Iteratorable, Cloneable, Serializa
 	 * @throws PageException
 	 * @deprecated use instead <code>{@link #get(lucee.runtime.type.Collection.Key)}</code>
 	 */
+	@Deprecated
 	public Object get(String key) throws PageException;
 	
 	
@@ -87,6 +89,7 @@ public interface Collection extends Dumpable, Iteratorable, Cloneable, Serializa
 	 * @return value on key position or null
 	 * @deprecated use instead <code>{@link #get(lucee.runtime.type.Collection.Key, Object)}</code>
 	 */
+	@Deprecated
 	public Object get(String key, Object defaultValue);
 		
 	/**
@@ -104,6 +107,7 @@ public interface Collection extends Dumpable, Iteratorable, Cloneable, Serializa
 	 * @throws PageException
 	 * @deprecated use instead <code>{@link #set(lucee.runtime.type.Collection.Key, Object)}</code>
 	 */
+	@Deprecated
 	public Object set(String key, Object value) throws PageException;
 	
 	/**
@@ -122,6 +126,7 @@ public interface Collection extends Dumpable, Iteratorable, Cloneable, Serializa
 	 * @return value on key position or null
 	 * @deprecated use instead <code>{@link #setEL(lucee.runtime.type.Collection.Key, Object)}</code>
 	 */
+	@Deprecated
 	public Object setEL(String key, Object value);
 	
 	/**
@@ -147,7 +152,8 @@ public interface Collection extends Dumpable, Iteratorable, Cloneable, Serializa
      * @return returns if collection has a key with given name
      * @deprecated use instead <code>{@link #containsKey(lucee.runtime.type.Collection.Key)}</code>
 	 */
-    public boolean containsKey(String key);
+	@Deprecated
+	public boolean containsKey(String key);
 	
     /**
      * contains this key

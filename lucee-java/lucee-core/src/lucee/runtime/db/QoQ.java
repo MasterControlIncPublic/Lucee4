@@ -462,21 +462,21 @@ public final class QoQ {
             // Functions
             switch(op.charAt(0)) {
             case 'a':
-                if(op.equals("abs"))    return new Double(MathUtil.abs(Caster.toDoubleValue(value)));
-                if(op.equals("acos"))   return new Double(Math.acos(Caster.toDoubleValue(value)));
-                if(op.equals("asin"))   return new Double(Math.asin(Caster.toDoubleValue(value)));
-                if(op.equals("atan"))   return new Double(Math.atan(Caster.toDoubleValue(value)));
+                if(op.equals("abs"))    return Double.valueOf(MathUtil.abs(Caster.toDoubleValue(value)));
+                if(op.equals("acos"))   return Double.valueOf(Math.acos(Caster.toDoubleValue(value)));
+                if(op.equals("asin"))   return Double.valueOf(Math.asin(Caster.toDoubleValue(value)));
+                if(op.equals("atan"))   return Double.valueOf(Math.atan(Caster.toDoubleValue(value)));
             break;
             case 'c':
-                if(op.equals("ceiling"))return new Double(Math.ceil(Caster.toDoubleValue(value)));
-                if(op.equals("cos"))    return new Double(Math.cos(Caster.toDoubleValue(value)));
+                if(op.equals("ceiling"))return Double.valueOf(Math.ceil(Caster.toDoubleValue(value)));
+                if(op.equals("cos"))    return Double.valueOf(Math.cos(Caster.toDoubleValue(value)));
                 if(op.equals("cast"))    return Caster.castTo(pc, CFTypes.toShort(operators[0].getAlias(),true,CFTypes.TYPE_UNKNOW),operators[0].getAlias(), value);
             break;
             case 'e':
-                if(op.equals("exp"))    return new Double(Math.exp(Caster.toDoubleValue(value)));
+                if(op.equals("exp"))    return Double.valueOf(Math.exp(Caster.toDoubleValue(value)));
             break;
             case 'f':
-                if(op.equals("floor"))  return new Double(Math.floor(Caster.toDoubleValue(value)));
+                if(op.equals("floor"))  return Double.valueOf(Math.floor(Caster.toDoubleValue(value)));
             break;
             case 'u':
                 if(op.equals("upper") || op.equals("ucase")) return Caster.toString(value).toUpperCase();
@@ -485,19 +485,19 @@ public final class QoQ {
             case 'l':
                 if(op.equals("lower")|| op.equals("lcase")) return Caster.toString(value).toLowerCase();
                 if(op.equals("ltrim"))  return StringUtil.ltrim(Caster.toString(value),null);
-                if(op.equals("length")) return new Double(Caster.toString(value).length());
+                if(op.equals("length")) return Double.valueOf(Caster.toString(value).length());
             break;
             case 'r':
                 if(op.equals("rtrim"))  return StringUtil.rtrim(Caster.toString(value),null);
             break;
             case 's':
-                if(op.equals("sign"))   return new Double(MathUtil.sgn(Caster.toDoubleValue(value)));
-                if(op.equals("sin"))    return new Double(Math.sin(Caster.toDoubleValue(value)));
+                if(op.equals("sign"))   return Double.valueOf(MathUtil.sgn(Caster.toDoubleValue(value)));
+                if(op.equals("sin"))    return Double.valueOf(Math.sin(Caster.toDoubleValue(value)));
                 if(op.equals("soundex"))return StringUtil.soundex(Caster.toString(value));
-                if(op.equals("sin"))    return new Double(Math.sqrt(Caster.toDoubleValue(value)));
+                if(op.equals("sin"))    return Double.valueOf(Math.sqrt(Caster.toDoubleValue(value)));
             break;
             case 't':
-                if(op.equals("tan"))    return new Double(Math.tan(Caster.toDoubleValue(value)));
+                if(op.equals("tan"))    return Double.valueOf(Math.tan(Caster.toDoubleValue(value)));
                 if(op.equals("trim"))   return Caster.toString(value).trim();
             break;
             }
@@ -516,13 +516,13 @@ public final class QoQ {
             switch(op.charAt(0)) {
             case 'a':
                 if(op.equals("atan2"))
-                    return new Double(Math.atan2(Caster.toDoubleValue(left),Caster.toDoubleValue(right)));
+                    return Double.valueOf(Math.atan2(Caster.toDoubleValue(left),Caster.toDoubleValue(right)));
             break;
             case 'b':
                 if(op.equals("bitand"))
-                    return new Double(Operator.bitand(Caster.toDoubleValue(left),Caster.toDoubleValue(right)));
+                    return Double.valueOf(Operator.bitand(Caster.toDoubleValue(left),Caster.toDoubleValue(right)));
                 if(op.equals("bitor"))
-                    return new Double(Operator.bitor(Caster.toDoubleValue(left),Caster.toDoubleValue(right)));
+                    return Double.valueOf(Operator.bitor(Caster.toDoubleValue(left),Caster.toDoubleValue(right)));
             break;
             case 'c':
                 if(op.equals("concat"))
@@ -530,7 +530,7 @@ public final class QoQ {
             break;
             case 'm':
                 if(op.equals("mod"))
-                    return new Double(Operator.modulus(Caster.toDoubleValue(left),Caster.toDoubleValue(right)));
+                    return Double.valueOf(Operator.modulus(Caster.toDoubleValue(left),Caster.toDoubleValue(right)));
             break;
             }
                 
@@ -821,8 +821,8 @@ public final class QoQ {
 	 * @throws PageException
 	 */
 	private Object executeMinus(PageContext pc,SQL sql,Query qr, Operation2 expression, int row) throws PageException {
-		return 
-		new Double(
+		return
+				Double.valueOf(
 			Caster.toDoubleValue(executeExp(pc,sql,qr,expression.getLeft(),row))
 			-
 			Caster.toDoubleValue(executeExp(pc,sql,qr,expression.getRight(),row))
@@ -840,8 +840,8 @@ public final class QoQ {
 	 * @throws PageException
 	 */
 	private Object executeDivide(PageContext pc,SQL sql,Query qr, Operation2 expression, int row) throws PageException {
-		return 
-		new Double(
+		return
+				Double.valueOf(
 			Caster.toDoubleValue(executeExp(pc,sql,qr,expression.getLeft(),row))
 			/
 			Caster.toDoubleValue(executeExp(pc,sql,qr,expression.getRight(),row))
@@ -859,8 +859,8 @@ public final class QoQ {
 	 * @throws PageException
 	 */
 	private Object executeMultiply(PageContext pc,SQL sql,Query qr, Operation2 expression, int row) throws PageException {
-		return 
-		new Double(
+		return
+				Double.valueOf(
 			Caster.toDoubleValue(executeExp(pc,sql,qr,expression.getLeft(),row))
 			*
 			Caster.toDoubleValue(executeExp(pc,sql,qr,expression.getRight(),row))
@@ -901,7 +901,7 @@ public final class QoQ {
 		Object right=executeExp(pc,sql,qr,expression.getRight(),row);
 		
 		try {
-			return new Double(Caster.toDoubleValue(left)+Caster.toDoubleValue(right));
+			return Double.valueOf(Caster.toDoubleValue(left)+Caster.toDoubleValue(right));
 		} catch (PageException e) {
 			return Caster.toString(left)+Caster.toString(right);
 		} 

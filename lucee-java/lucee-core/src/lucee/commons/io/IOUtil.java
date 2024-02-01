@@ -485,7 +485,8 @@ public final class IOUtil {
      * @return
      * @throws IOException
      */
-  	public static Reader getReader(Resource res, String charset) throws IOException {
+  	@Deprecated
+	public static Reader getReader(Resource res, String charset) throws IOException {
   		return getReader(res, CharsetUtil.toCharset(charset));
   	}
   	
@@ -598,7 +599,8 @@ public final class IOUtil {
  	 * @return
  	 * @throws IOException
  	 */
- 	public static Reader getReader(InputStream is, String charset) throws IOException {
+	@Deprecated
+	public static Reader getReader(InputStream is, String charset) throws IOException {
  		return getReader(is, CharsetUtil.toCharset(charset));    
     }
  	 
@@ -621,7 +623,8 @@ public final class IOUtil {
      * @return
      * @throws IOException
      */
-     public static String toString(InputStream is, String charset) throws IOException {
+	@Deprecated
+	public static String toString(InputStream is, String charset) throws IOException {
          return toString(is,CharsetUtil.toCharset(charset));
      }
      
@@ -643,7 +646,8 @@ public final class IOUtil {
       * @return
       * @throws IOException
       */
-     public static String toString(byte[] barr, String charset) throws IOException {
+	 @Deprecated
+	 public static String toString(byte[] barr, String charset) throws IOException {
          return toString(barr,CharsetUtil.toCharset(charset));
      }
      
@@ -686,6 +690,7 @@ public final class IOUtil {
     * @return
     * @throws IOException
     */
+   @Deprecated
    public static String toString(Resource file, String charset) throws IOException {
 	   return toString(file, CharsetUtil.toCharset(charset));
    }
@@ -741,7 +746,8 @@ public final class IOUtil {
      * @param append  append to cuuretn data or overwrite existing data
      * @throws IOException
      */
-    public static void write(File file, String string, String strCharset, boolean append) throws IOException {
+	@Deprecated
+	public static void write(File file, String string, String strCharset, boolean append) throws IOException {
         Charset charset;
     	if(StringUtil.isEmpty(strCharset)) {
             charset=SystemUtil.getCharset();
@@ -767,7 +773,8 @@ public final class IOUtil {
      * @param append
      * @throws IOException
      */
-    public static void write(Resource res, String string, String charset, boolean append) throws IOException {
+	@Deprecated
+	public static void write(Resource res, String string, String charset, boolean append) throws IOException {
     	write(res, string, CharsetUtil.toCharset(charset), append);
     }
     
@@ -806,7 +813,8 @@ public final class IOUtil {
      * @return returns the Content of the file as byte array
      * @throws IOException
      */
-    public static byte[] toBytes(File file) throws IOException {
+	@Deprecated
+	public static byte[] toBytes(File file) throws IOException {
         BufferedFileInputStream bfis = null;
         try {
         	bfis = new BufferedFileInputStream(file);
@@ -857,7 +865,8 @@ public final class IOUtil {
      * @return
      * @throws IOException
      */
-    public static BufferedReader getBufferedReader(Resource res,String charset) throws IOException {
+	@Deprecated
+	public static BufferedReader getBufferedReader(Resource res,String charset) throws IOException {
 		return getBufferedReader(res,CharsetUtil.toCharset(charset));
 	}
     
@@ -986,7 +995,8 @@ public final class IOUtil {
      * @return
      * @throws IOException
      */
-    public static Writer getWriter(Resource res, String charset) throws IOException {
+	@Deprecated
+	public static Writer getWriter(Resource res, String charset) throws IOException {
     	return getWriter(res, CharsetUtil.toCharset(charset));
     }
     
@@ -1011,7 +1021,8 @@ public final class IOUtil {
  	 * @return
  	 * @throws IOException
  	 */
- 	public static Writer getWriter(Resource res, String charset, boolean append) throws IOException {
+	@Deprecated
+	public static Writer getWriter(Resource res, String charset, boolean append) throws IOException {
  		return getWriter(res, CharsetUtil.toCharset(charset), append);
  	}
  	
@@ -1035,7 +1046,8 @@ public final class IOUtil {
      * @return Reader
      * @throws IOException
      */
-    public static Writer getWriter(File file, String charset) throws IOException {
+	@Deprecated
+	public static Writer getWriter(File file, String charset) throws IOException {
     	OutputStream os=null;
  		try {
  			os=new FileOutputStream(file);
@@ -1055,7 +1067,8 @@ public final class IOUtil {
      * @return Reader
      * @throws IOException
      */
-    public static Writer getWriter(File file, String charset, boolean append) throws IOException {
+	@Deprecated
+	public static Writer getWriter(File file, String charset, boolean append) throws IOException {
     	OutputStream os=null;
  		try {
  			os=new FileOutputStream(file,append);
@@ -1075,7 +1088,8 @@ public final class IOUtil {
      * @return
      * @throws IOException
      */
-    public static Writer getWriter(OutputStream os, String charset) throws IOException {
+	@Deprecated
+	public static Writer getWriter(OutputStream os, String charset) throws IOException {
     	return getWriter(os, CharsetUtil.toCharset(charset));
     }
     

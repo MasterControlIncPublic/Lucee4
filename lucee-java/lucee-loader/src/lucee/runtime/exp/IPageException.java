@@ -81,6 +81,7 @@ public interface IPageException extends Dumpable {
      * @return catch block
      * @deprecated use instead <code>getCatchBlock(Config config);</code>
      */
+    @Deprecated
     public Struct getCatchBlock(PageContext pc);
     
     /**
@@ -134,6 +135,7 @@ public interface IPageException extends Dumpable {
      * @return Returns the additional.
      * @deprecated use instead <code>getAdditional();</code>
      */
+    @Deprecated
     public Struct getAddional();
     
     /**
