@@ -206,7 +206,7 @@ public abstract class MailClient {
 		Properties properties = new Properties();
 		String type=getTypeAsString();
 		properties.put("mail."+type+".host", server);
-		properties.put("mail."+type+".port", new Double(port));
+		properties.put("mail."+type+".port", Double.valueOf(port));
 		properties.put("mail."+type+".connectiontimeout", String.valueOf(timeout));
 		properties.put("mail."+type+".timeout", String.valueOf(timeout));
 		//properties.put("mail.mime.charset", "UTF-8");
@@ -300,12 +300,12 @@ public abstract class MailClient {
 		
 		// size
 		try {
-			qry.setAtEL(SIZE, row, new Double(message.getSize()));
+			qry.setAtEL(SIZE, row, Double.valueOf(message.getSize()));
 		} 
 		catch (MessagingException e) {}
 		
 		qry.setAtEL(FROM, row, toList(getHeaderEL(message,"from")));
-		qry.setAtEL(MESSAGE_NUMBER, row, new Double(message.getMessageNumber()));
+		qry.setAtEL(MESSAGE_NUMBER, row, Double.valueOf(message.getMessageNumber()));
 		qry.setAtEL(MESSAGE_ID, row, toList(getHeaderEL(message,"Message-ID")));
 		String s = toList(getHeaderEL(message,"reply-to"));
 		if(s.length() == 0) {

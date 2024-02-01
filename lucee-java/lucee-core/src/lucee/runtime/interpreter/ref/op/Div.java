@@ -46,7 +46,7 @@ public final class Div extends RefSupport implements Ref {
 	public Object getValue(PageContext pc) throws PageException {
     	double r=Caster.toDoubleValue(right.getValue(pc));
     	if(r==0d)throw new ArithmeticException("Division by zero is not possible");
-        return new Double(Caster.toDoubleValue(left.getValue(pc))/r);
+        return Double.valueOf(Caster.toDoubleValue(left.getValue(pc))/r);
     }
 
     @Override

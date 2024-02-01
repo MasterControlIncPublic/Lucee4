@@ -23,6 +23,7 @@ import lucee.runtime.type.util.ListUtil;
 /**
  * @deprecated BACKCOMP this class only exists for backward compatibility to code genrated for .ra files, DO NOT USE
  */
+@Deprecated
 public class List {
 
 	public static Array listToArrayRemoveEmpty(String list, String delimiter){

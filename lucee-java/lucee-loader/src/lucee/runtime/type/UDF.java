@@ -145,7 +145,8 @@ public interface UDF extends Function,Dumpable,Member,Cloneable {
 	 * @return owner component
 	 * @deprecated 
 	 */
-	public Component getOwnerComponent();
+    @Deprecated
+    public Component getOwnerComponent();
 
 	
 }

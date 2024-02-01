@@ -33,7 +33,7 @@ public class SuggestionItem {
 	public void add(String[] arr) {
 		for(int i=0;i<arr.length;i++) {
 			keywords.appendEL(arr[i]);
-			keywordsScore.appendEL(new Double(99-i));
+			keywordsScore.appendEL(Double.valueOf(99-i));
 		}
 	}
 

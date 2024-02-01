@@ -530,7 +530,7 @@ public final class DebuggerImpl implements DebuggerPro {
 	        		row++;
 	        		qryDumps.setAt(KeyConstants._output,row,dd.getOutput());  
 	        		if(!StringUtil.isEmpty(dd.getTemplate()))qryDumps.setAt(KeyConstants._template,row,dd.getTemplate()); 
-	        		if(dd.getLine()>0)qryDumps.setAt(KeyConstants._line,row,new Double(dd.getLine())); 
+	        		if(dd.getLine()>0)qryDumps.setAt(KeyConstants._line,row,Double.valueOf(dd.getLine()));
 	        	}
 			}
 			catch(PageException dbe) {}
@@ -563,11 +563,11 @@ public final class DebuggerImpl implements DebuggerPro {
 	        		if(!StringUtil.isEmpty(trace.getCategory()))qryTraces.setAt(KeyConstants._category,row,trace.getCategory()); 
 	        		if(!StringUtil.isEmpty(trace.getText()))qryTraces.setAt(KeyConstants._text,row,trace.getText()); 
 	        		if(!StringUtil.isEmpty(trace.getTemplate()))qryTraces.setAt(KeyConstants._template,row,trace.getTemplate()); 
-	        		if(trace.getLine()>0)qryTraces.setAt(KeyConstants._line,row,new Double(trace.getLine())); 
+	        		if(trace.getLine()>0)qryTraces.setAt(KeyConstants._line,row,Double.valueOf(trace.getLine()));
 	        		if(!StringUtil.isEmpty(trace.getAction()))qryTraces.setAt(KeyConstants._action,row,trace.getAction()); 
 	        		if(!StringUtil.isEmpty(trace.getVarName()))qryTraces.setAt(KeyImpl.init("varname"),row,trace.getVarName()); 
 	        		if(!StringUtil.isEmpty(trace.getVarValue()))qryTraces.setAt(KeyImpl.init("varvalue"),row,trace.getVarValue()); 
-	        		qryTraces.setAt(KeyConstants._time,row,new Double(trace.getTime())); 
+	        		qryTraces.setAt(KeyConstants._time,row,Double.valueOf(trace.getTime()));
 	        	}
 			}
 			catch(PageException dbe) {}
@@ -594,9 +594,9 @@ public final class DebuggerImpl implements DebuggerPro {
 	        		das= it.next();
 	        		row++;
 	        		qryImplicitAccesseses.setAt(KeyConstants._template,row,das.getTemplate()); 
-	        		qryImplicitAccesseses.setAt(KeyConstants._line,row,new Double(das.getLine()));
+	        		qryImplicitAccesseses.setAt(KeyConstants._line,row,Double.valueOf(das.getLine()));
 	        		qryImplicitAccesseses.setAt(KeyConstants._scope,row,das.getScope()); 
-	        		qryImplicitAccesseses.setAt(KeyConstants._count,row,new Double(das.getCount())); 
+	        		qryImplicitAccesseses.setAt(KeyConstants._count,row,Double.valueOf(das.getCount()));
 	        		qryImplicitAccesseses.setAt(KeyConstants._name,row,das.getName());  
 	        		
 	        	}

@@ -174,6 +174,7 @@ sourceSets {
 }
 
 defaultTasks 'build'
+ant.properties.ct = new Date().getTime()
 ant.importBuild('build.xml'){
     String oldTargetName -> return 'ant_' + oldTargetName
 }
@@ -199,7 +200,7 @@ build.dependsOn {
 }
 def now = new SimpleDateFormat('yyyy/MM/dd HH:mm:ss z').format(new Date())
 
-tasks.register("stampInfoFile",Copy) {
+task stampInfoFile(type: Copy) {
     into "builddir"
     from "lucee-java/lucee-core/src/lucee/runtime"
     include "Info.ini"
@@ -208,6 +209,8 @@ tasks.register("stampInfoFile",Copy) {
     }
 }
 
+jar.dependsOn(stampInfoFile)
+compileTestJava.dependsOn(stampInfoFile)
 ant__core.dependsOn(stampInfoFile)
 
 

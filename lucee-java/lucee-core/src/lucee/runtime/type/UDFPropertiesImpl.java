@@ -192,6 +192,7 @@ public final class UDFPropertiesImpl implements UDFProperties {
 	/**
 	 * @deprecated only supported for old compile templates in .ra archives
 	 * */
+	@Deprecated
 	public UDFPropertiesImpl(
 	        PageSource pageSource,
 	        FunctionArgument[] arguments,
@@ -216,6 +217,7 @@ public final class UDFPropertiesImpl implements UDFProperties {
 	/**
 	 * @deprecated only supported for old compile templates in .ra archives
 	 * */
+	@Deprecated
 	public UDFPropertiesImpl(
 	        PageSource pageSource,
 	        FunctionArgument[] arguments,
@@ -241,6 +243,7 @@ public final class UDFPropertiesImpl implements UDFProperties {
 	/**
 	 * @deprecated only supported for old compile templates in .ra archives
 	 * */
+	@Deprecated
 	public UDFPropertiesImpl(
 	        PageSource pageSource,
 	        FunctionArgument[] arguments,
@@ -264,6 +267,7 @@ public final class UDFPropertiesImpl implements UDFProperties {
 	/**
 	 * @deprecated only supported for old compile templates in .ra archives
 	 * */
+	@Deprecated
 	public UDFPropertiesImpl(
 	        PageSource pageSource,
 	        FunctionArgument[] arguments,

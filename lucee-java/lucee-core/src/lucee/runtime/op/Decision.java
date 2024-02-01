@@ -238,7 +238,8 @@ public final class Decision {
 	 * @return is value numeric
 	 * @deprecated use instead <code>isUUId(Object obj)</code>
 	 */
-	public static boolean isUUID(Object obj) { 
+	@Deprecated
+	public static boolean isUUID(Object obj) {
 		return isUUId(obj);
 	}
 	
@@ -271,7 +272,8 @@ public final class Decision {
 	 * @return
 	 * @deprecated use instead <code>isGUId(Object)</code>
 	 */
-	public static boolean isGUID(Object obj) { 
+	@Deprecated
+	public static boolean isGUID(Object obj) {
 		return isGUId(obj);
 	}
 
@@ -824,7 +826,8 @@ public final class Decision {
      * @param str
      * @return return if a String is "Empty", that means NULL or String with length 0 (whitespaces will not counted) 
      */
-    public static boolean isEmpty(String str) {
+	@Deprecated
+	public static boolean isEmpty(String str) {
         return StringUtil.isEmpty(str);
     }
     
@@ -834,7 +837,8 @@ public final class Decision {
      * @param trim 
      * @return return if a String is "Empty", that means NULL or String with length 0 (whitespaces will not counted) 
      */
-    public static boolean isEmpty(String str, boolean trim) {
+	@Deprecated
+	public static boolean isEmpty(String str, boolean trim) {
         return StringUtil.isEmpty(str,trim);
     }
     

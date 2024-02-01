@@ -476,7 +476,7 @@ public final class Directory extends TagImpl  {
                 count++;
                 query.setAt(KeyConstants._name,count,list[i].getName());
                 isDir=list[i].isDirectory();
-                query.setAt(KeyConstants._size,count,new Double(isDir?0:list[i].length()));
+                query.setAt(KeyConstants._size,count,Double.valueOf(isDir?0:list[i].length()));
                 query.setAt(KeyConstants._type,count,isDir?"Dir":"File");
                 if(directory.getResourceProvider().isModeSupported()){
                 	query.setAt(MODE,count,new ModeObjectWrap(list[i]));

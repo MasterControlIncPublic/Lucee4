@@ -111,6 +111,7 @@ public interface Array extends Collection,Cloneable,Objects {
 	 * @throws PageException
 	 * @deprecated use instead <code>sort(Comparator comp)</code>
 	 */
+	@Deprecated
 	public void sort(String sortType, String sortOrder) throws PageException;
 	
 	

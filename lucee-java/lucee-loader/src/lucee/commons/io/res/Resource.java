@@ -56,7 +56,8 @@ public interface Resource extends Serializable {
      *          application; <code>false</code> otherwise
      * @deprecated use instead <code>#isReadable()</code>
      */
-	public abstract boolean canRead();
+    @Deprecated
+    public abstract boolean canRead();
 
     /**
      * Tests whether the application can modify the resource denoted by this
@@ -80,7 +81,8 @@ public interface Resource extends Serializable {
      *          <code>false</code> otherwise.
      * @deprecated use instead <code>#isWriteable()</code>
      */
-	public abstract boolean canWrite();
+    @Deprecated
+    public abstract boolean canWrite();
 
 
     /**
@@ -105,7 +107,8 @@ public interface Resource extends Serializable {
      *          if the file doesn't exists or can't delete
      *@deprecated replaced with method remove(boolean)
      */
-	public boolean delete();
+    @Deprecated
+    public boolean delete();
 	
 	/**
      * Tests whether the resource denoted by this abstract pathname
@@ -281,6 +284,7 @@ public interface Resource extends Serializable {
      *          abstract pathname is hidden
      * @deprecated use instead <code>{@link #getAttribute(short)}</code>
 	 */
+    @Deprecated
     public abstract boolean isHidden();
     
     /**
@@ -291,6 +295,7 @@ public interface Resource extends Serializable {
      *          abstract pathname is a archive
      * @deprecated use instead <code>{@link #getAttribute(short)}</code>
 	 */
+    @Deprecated
     public abstract boolean isArchive();
     
     /**
@@ -301,6 +306,7 @@ public interface Resource extends Serializable {
      *          abstract pathname is a system resource
      * @deprecated use instead <code>{@link #getAttribute(short)}</code>
 	 */
+    @Deprecated
     public abstract boolean isSystem();
 
     /**
@@ -461,7 +467,8 @@ public interface Resource extends Serializable {
      * @return has successfull renamed or not
      * 
      * @deprecated use instead <code>#moveTo(Resource)</code>
-     */ 
+     */
+    @Deprecated
     public boolean renameTo(Resource dest);
     
     
@@ -515,6 +522,7 @@ public interface Resource extends Serializable {
      * @deprecated use instead <code>{@link #setWritable(boolean)}</code>
      *
      */
+    @Deprecated
     public boolean setReadOnly();
     
     //public void setWritable(boolean value) throws IOException;
@@ -538,6 +546,7 @@ public interface Resource extends Serializable {
      *          If an I/O error occurred
      * @deprecated use instead <code>#createFile(boolean)</code>
      */
+    @Deprecated
     public boolean createNewFile();
 	
     /**
@@ -563,6 +572,7 @@ public interface Resource extends Serializable {
      *          created; <code>false</code> otherwise
      * @deprecated use <code>#createDirectory(boolean)</code>
      */
+    @Deprecated
     public boolean mkdir();
 
     /**
@@ -576,6 +586,7 @@ public interface Resource extends Serializable {
      *          otherwise
      * @deprecated use <code>#createDirectory(boolean)</code>
      */
+    @Deprecated
     public boolean mkdirs();
 	
 	
@@ -622,7 +633,8 @@ public interface Resource extends Serializable {
 	 * @throws IOException throwed when no access to change the value or the resource doesn't exists
 	 * @deprecated use instead <code>{@link #setAttribute(short, boolean)}</code>
 	 */
-	public void setHidden(boolean value) throws IOException;
+    @Deprecated
+    public void setHidden(boolean value) throws IOException;
 	
 	/**
 	 * sets system attribute of the resource
@@ -630,7 +642,8 @@ public interface Resource extends Serializable {
 	 * @throws IOException throwed when no access to change the value or the resource doesn't exists
 	 * @deprecated use instead <code>{@link #setAttribute(short, boolean)}</code>
 	 */
-	public void setSystem(boolean value) throws IOException;	
+    @Deprecated
+    public void setSystem(boolean value) throws IOException;
 	
 	/**
 	 * sets archive attribute of the resource
@@ -638,7 +651,8 @@ public interface Resource extends Serializable {
 	 * @throws IOException throwed when no access to change the value or the resource doesn't exists
 	 * @deprecated use instead <code>{@link #setAttribute(short, boolean)}</code>
 	 */
-	public void setArchive(boolean value) throws IOException;
+    @Deprecated
+    public void setArchive(boolean value) throws IOException;
 	
 	
 

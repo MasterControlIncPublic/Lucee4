@@ -481,6 +481,7 @@ public class QueryImpl implements Query,Objects {
 	 * @param name 
 	 * @deprecated use instead <code>QueryImpl(Collection.Key[] columnKeys, int rowNumber,String name)</code>
 	 */
+	@Deprecated
 	public QueryImpl(String[] strColumns, int rowNumber,String name) {
         this.name=name;
         columncount=strColumns.length;
@@ -775,8 +776,8 @@ public class QueryImpl implements Query,Objects {
 			return columns[index].get(row,defaultValue);
 		}
 		if(key.length()>=10) {
-	        if(key.equals(KeyConstants._RECORDCOUNT)) return new Double(getRecordcount());
-	        if(key.equals(KeyConstants._CURRENTROW)) return new Double(row);
+	        if(key.equals(KeyConstants._RECORDCOUNT)) return Double.valueOf(getRecordcount());
+	        if(key.equals(KeyConstants._CURRENTROW)) return Double.valueOf(row);
 	        if(key.equals(KeyConstants._COLUMNLIST)) return getColumnlist(true);
 		}
         return defaultValue;
@@ -794,8 +795,8 @@ public class QueryImpl implements Query,Objects {
 			return columns[index].get(row, NullSupportHelper.empty());
 		}
 		if(key.length()>=10) {
-        	if(key.equals(KeyConstants._RECORDCOUNT)) return new Double(getRecordcount());
-        	if(key.equals(KeyConstants._CURRENTROW)) return new Double(row);
+        	if(key.equals(KeyConstants._RECORDCOUNT)) return Double.valueOf(getRecordcount());
+        	if(key.equals(KeyConstants._CURRENTROW)) return Double.valueOf(row);
 			if(key.equals(KeyConstants._COLUMNLIST)) return getColumnlist(true);
         }
 		throw new DatabaseException("column ["+key+"] not found in query, columns are ["+getColumnlist(false)+"]",null,sql,null);
@@ -2418,12 +2419,12 @@ public class QueryImpl implements Query,Objects {
 
 	@Override
 	public void updateByte(int columnIndex, byte x) throws SQLException {
-		updateObject(columnIndex, new Byte(x));
+		updateObject(columnIndex, Byte.valueOf(x));
 	}
 
 	@Override
 	public void updateByte(String columnName, byte x) throws SQLException {
-		updateObject(columnName, new Byte(x));
+		updateObject(columnName, Byte.valueOf(x));
 	}
 
 	@Override

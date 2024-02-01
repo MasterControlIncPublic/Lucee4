@@ -10,10 +10,13 @@
   <property name="srcCore" location="lucee-java/lucee-core/src/"/>
   <property name="srcInst" location="lucee-java/lucee-instrumentation/src/"/>
   <property name="lib" location="lucee-java/libs/"/>
+  <property name="infoIni" location="${srcCore}/lucee/runtime/Info.ini"/>
   <property name="build" location="build"/>
 
   <property name="temp" location="temp"/>
   <property name="dist" location="dist"/>
+
+  <property file="${infoIni}"/>
 
   <path id="classpath">
     <!-- <pathelement location="${railoLoader}" /> -->
@@ -52,13 +55,8 @@
       </fileset>
     </copy>
 
-
-    <!-- set lucee/version file -->
-    <tstamp>
-      <format property="ct" pattern="SSS" locale="en,US"/>
-    </tstamp>
-
     <echo file="${temp}/loader/lucee/version" message="${number}:${ct}" encoding="UTF-8"/>
+    <echo message="${temp}/loader/lucee/version: ${number}:${ct}" />
 
 
   </target>

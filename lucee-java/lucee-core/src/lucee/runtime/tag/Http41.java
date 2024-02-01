@@ -1048,7 +1048,7 @@ public final class Http41 extends BodyTagImpl implements Http {
 			
 		// status code
 			cfhttp.set(STATUSCODE,((rsp.getStatusCode()+" "+rsp.getStatusText()).trim()));
-			cfhttp.set(STATUS_CODE,new Double(rsp.getStatusCode()));
+			cfhttp.set(STATUS_CODE,Double.valueOf(rsp.getStatusCode()));
 			cfhttp.set(STATUS_TEXT,(rsp.getStatusText()));
 			cfhttp.set(HTTP_VERSION,(rsp.getProtocolVersion()));
 			
@@ -1101,7 +1101,7 @@ public final class Http41 extends BodyTagImpl implements Http {
 	        }
 	        cfhttp.set(RESPONSEHEADER,responseHeader);
 	        cfhttp.set(KeyConstants._cookies,cookies);
-	        responseHeader.set(STATUS_CODE,new Double(rsp.getStatusCode()));
+	        responseHeader.set(STATUS_CODE,Double.valueOf(rsp.getStatusCode()));
 	        responseHeader.set(EXPLANATION,(rsp.getStatusText()));
 	        if(setCookie.size()>0)responseHeader.set(SET_COOKIE,setCookie);
 	        
@@ -1372,7 +1372,7 @@ public final class Http41 extends BodyTagImpl implements Http {
 		cfhttp.setEL(KeyConstants._mimetype,"Unable to determine MIME type of file.");
 		cfhttp.setEL(RESPONSEHEADER,new StructImpl());
 		cfhttp.setEL(STATUSCODE,"408 Request Time-out");
-		cfhttp.setEL(STATUS_CODE,new Double(408));
+		cfhttp.setEL(STATUS_CODE,Double.valueOf(408));
 		cfhttp.setEL(STATUS_TEXT,"Request Time-out");
 		cfhttp.setEL(KeyConstants._text,Boolean.TRUE);
 	}

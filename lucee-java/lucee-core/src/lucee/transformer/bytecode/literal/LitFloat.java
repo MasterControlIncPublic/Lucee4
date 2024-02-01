@@ -59,7 +59,7 @@ public final class LitFloat extends ExpressionBase implements Literal,ExprFloat 
     }
     
     public Float getFloat() {
-        return new Float(f);
+        return Float.valueOf(f);
     }
     
     /**
@@ -100,7 +100,7 @@ public final class LitFloat extends ExpressionBase implements Literal,ExprFloat 
      * @see lucee.transformer.bytecode.Literal#getDouble(java.lang.Double)
      */
     public Double getDouble(Double defaultValue) {
-        return new Double(getFloatValue());
+        return Double.valueOf(getFloatValue());
     }
 
     /**

@@ -99,12 +99,12 @@ public final class TagParam extends TagBaseNoFinal {
 			// min
 			if(attrMin!=null)attrMin.getValue().writeOut(bc, Expression.MODE_VALUE);
 			else {
-				adapter.visitLdcInsn(new Double("NaN"));
+				adapter.visitLdcInsn(Double.valueOf("NaN"));
 			}
 			// max
 			if(attrMax!=null)attrMax.getValue().writeOut(bc, Expression.MODE_VALUE);
 			else {
-				adapter.visitLdcInsn(new Double("NaN"));
+				adapter.visitLdcInsn(Double.valueOf("NaN"));
 			}
 			adapter.invokeVirtual(Types.PAGE_CONTEXT, PARAM_TYPE_NAME_DEFAULTVALUE_MIN_MAX);
 		}

@@ -191,7 +191,7 @@ public final class Chartseries extends BodyTagImpl {
 			int rowCount = query.getRecordcount();
 			for(int i=1;i<=rowCount;i++) {
 				data=new ChartDataBean();
-				data.setValue(Caster.toDoubleValue(query.getAt(valueColumn, i, new Double(0))));
+				data.setValue(Caster.toDoubleValue(query.getAt(valueColumn, i, Double.valueOf(0))));
 				data.setItem(pageContext,query.getAt(itemColumn, i, ""));
 				//data.setItem(itemToString(query.getAt(itemColumn, i, "")));
 				addChartData(data);

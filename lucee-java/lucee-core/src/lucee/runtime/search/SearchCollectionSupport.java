@@ -678,11 +678,11 @@ public abstract class SearchCollectionSupport implements SearchCollectionPlus {
 
                 qry.setAt(KeyConstants._summary,row,record.getSummary());
                 qry.setAt(KeyConstants._context,row,record.getContextSummary());
-                qry.setAt(KeyConstants._score,row,new Float(record.getScore()));
+                qry.setAt(KeyConstants._score,row,Float.valueOf(record.getScore()));
                 qry.setAt(KeyConstants._key,row,record.getKey());
                 qry.setAt(KeyConstants._url,row,url);
                 qry.setAt(KeyConstants._collection,row,getName());
-                qry.setAt(KeyConstants._rank,row,new Double(row));
+                qry.setAt(KeyConstants._rank,row,Double.valueOf(row));
                 String rootPath,file;
                 String urlPath;
                 if(si!=null) {

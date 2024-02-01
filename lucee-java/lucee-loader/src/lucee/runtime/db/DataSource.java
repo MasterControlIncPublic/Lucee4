@@ -198,6 +198,7 @@ public interface DataSource extends Cloneable {
      * @param clazz The clazz to set.
      * @deprecated this method is no longer supported with no replacement
      */
+    @Deprecated
     public abstract void setClazz(Class clazz);
 
     public abstract boolean isStorage();

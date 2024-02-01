@@ -111,7 +111,8 @@ public final class Content extends BodyTagImpl {
     * @param content value to set
     * @deprecated replaced with <code>{@link #setVariable(Object)}</code>
     **/
-    public void setContent(byte[] content)    {
+	@Deprecated
+	public void setContent(byte[] content)    {
         this.content=content;
     }
     

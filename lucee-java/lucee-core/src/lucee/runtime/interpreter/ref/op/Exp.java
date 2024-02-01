@@ -44,7 +44,7 @@ public final class Exp extends RefSupport implements Ref {
 
     @Override
 	public Object getValue(PageContext pc) throws PageException {
-        return new Double(Operator.exponent(left.getValue(pc),right.getValue(pc)));
+        return Double.valueOf(Operator.exponent(left.getValue(pc),right.getValue(pc)));
     }
 
     @Override

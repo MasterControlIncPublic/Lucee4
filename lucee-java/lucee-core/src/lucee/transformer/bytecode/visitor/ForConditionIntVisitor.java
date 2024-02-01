@@ -30,6 +30,7 @@ import org.objectweb.asm.commons.GeneratorAdapter;
 /**
  * @deprecated replaced with ForIntVisitor
  */
+@Deprecated
 public final class ForConditionIntVisitor implements Opcodes, LoopVisitor {
 
 	private Label l0;

@@ -29,13 +29,15 @@ public interface Session extends Scope,UserScope {
      * @return returns the last acces to this session scope
      * @deprecated 
      */
-    public abstract long getLastAccess();
+	@Deprecated
+	public abstract long getLastAccess();
 
     /**
      * @return returns the actuell timespan of the session
      * @deprecated 
      */
-    public abstract long getTimeSpan();
+	@Deprecated
+	public abstract long getTimeSpan();
     
 
 	public long getCreated();

@@ -52,6 +52,7 @@ public interface Query extends Collection, Iterator,com.allaire.cfx.Query {
 	 * @throws PageException if invalid position definition
 	 * @deprecated use instead <code>{@link #getAt(lucee.runtime.type.Collection.Key, int)}</code>
 	*/
+	@Deprecated
 	public Object getAt(String key,int row) throws PageException;
 	
 	/**
@@ -70,6 +71,7 @@ public interface Query extends Collection, Iterator,com.allaire.cfx.Query {
 	 * @return value at the called poition
 	 * @deprecated use instead <code>{@link #getAt(lucee.runtime.type.Collection.Key, int, Object)}</code>
 	*/
+	@Deprecated
 	public Object getAt(String key,int row, Object defaultValue);
 	
 	/**
@@ -89,7 +91,8 @@ public interface Query extends Collection, Iterator,com.allaire.cfx.Query {
      * @throws PageException 
      * @deprecated use instead <code>{@link #setAtEL(lucee.runtime.type.Collection.Key, int, Object)}</code>
 	*/
-    public Object setAt(String key,int row, Object value) throws PageException;
+	@Deprecated
+	public Object setAt(String key,int row, Object value) throws PageException;
 
     /**
      * set a value at the defined position
@@ -109,7 +112,8 @@ public interface Query extends Collection, Iterator,com.allaire.cfx.Query {
      * @return filled value
      * @deprecated use instead <code>{@link #setAtEL(lucee.runtime.type.Collection.Key, int, Object)}</code>
 	*/
-    public Object setAtEL(String key,int row, Object value);
+	@Deprecated
+	public Object setAtEL(String key,int row, Object value);
 
     /**
      * set a value at the defined position
@@ -150,6 +154,7 @@ public interface Query extends Collection, Iterator,com.allaire.cfx.Query {
 	 * @throws PageException
 	 * @deprecated use instead <code>{@link #addColumn(lucee.runtime.type.Collection.Key, Array)}</code>
 	*/
+	@Deprecated
 	public boolean addColumn(String columnName, Array content) throws PageException;
     
 	/**
@@ -170,7 +175,8 @@ public interface Query extends Collection, Iterator,com.allaire.cfx.Query {
 	 * @throws PageException
 	 * @deprecated use instead <code>{@link #addColumn(lucee.runtime.type.Collection.Key, Array, int)}</code>
 	*/
-    public boolean addColumn(String columnName, Array content, int type) throws PageException;
+	@Deprecated
+	public boolean addColumn(String columnName, Array content, int type) throws PageException;
 	
     /**
      * adds a new column to the resultset
@@ -205,7 +211,8 @@ public interface Query extends Collection, Iterator,com.allaire.cfx.Query {
      * @throws PageException
      * @deprecated use instead <code>{@link #getColumn(lucee.runtime.type.Collection.Key)}</code>
 	*/
-    public QueryColumn getColumn(String key) throws PageException;
+	@Deprecated
+	public QueryColumn getColumn(String key) throws PageException;
 
     /**
      * return the query column matching to key
@@ -221,6 +228,7 @@ public interface Query extends Collection, Iterator,com.allaire.cfx.Query {
 	 * @return QieryColumn object
 	 * @deprecated use instead <code>{@link #getColumn(lucee.runtime.type.Collection.Key, QueryColumn)}</code>
 	*/
+	@Deprecated
 	public QueryColumn getColumn(String key,QueryColumn column);
 
 	/**
@@ -237,7 +245,8 @@ public interface Query extends Collection, Iterator,com.allaire.cfx.Query {
      * @throws PageException
      * @deprecated use instead <code>{@link #removeColumn(lucee.runtime.type.Collection.Key)}</code>
 	*/
-    public QueryColumn removeColumn(String key) throws PageException;
+	@Deprecated
+	public QueryColumn removeColumn(String key) throws PageException;
 
     /**
      * remove column matching to key
@@ -254,7 +263,8 @@ public interface Query extends Collection, Iterator,com.allaire.cfx.Query {
      * @return QueryColumn object removed or null if column not exist
      * @deprecated use instead <code>{@link #removeColumnEL(lucee.runtime.type.Collection.Key)}</code>
 	*/
-    public QueryColumn removeColumnEL(String key);
+	@Deprecated
+	public QueryColumn removeColumnEL(String key);
 
 
     /**
@@ -276,6 +286,7 @@ public interface Query extends Collection, Iterator,com.allaire.cfx.Query {
 	 * @throws PageException
 	 * @deprecated use instead <code>{@link #sort(lucee.runtime.type.Collection.Key)}</code>
 	*/
+	@Deprecated
 	public void sort(String column) throws PageException;
 	
 	/**
@@ -292,6 +303,7 @@ public interface Query extends Collection, Iterator,com.allaire.cfx.Query {
 	 * @throws PageException
 	 * @deprecated use instead <code>{@link #sort(lucee.runtime.type.Collection.Key, int)}</code>
 	*/
+	@Deprecated
 	public void sort(String strColumn, int order) throws PageException;
 
 	/**
@@ -347,6 +359,7 @@ public interface Query extends Collection, Iterator,com.allaire.cfx.Query {
 	 * @return returns the execution time
 	 * @deprecated use <code>getExecutionTime()</code> instead
 	 */
+	@Deprecated
 	public int executionTime();
 
 	

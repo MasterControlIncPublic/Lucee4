@@ -67,7 +67,7 @@ public class RefIntegerImpl implements RefInteger {
      * @return returns value as integer
      */
     public Double toDouble() {
-        return new Double(value);
+        return Double.valueOf(value);
     }
     
 

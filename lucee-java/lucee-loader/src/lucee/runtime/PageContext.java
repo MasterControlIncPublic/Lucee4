@@ -202,6 +202,7 @@ public abstract class PageContext extends javax.servlet.jsp.PageContext {
      * @throws PageException
      * @deprecated use instead <code>{@link #set(Object, lucee.runtime.type.Collection.Key, Object)}</code>
 	 */
+    @Deprecated
     public abstract Object set(Object coll, String key, Object value) throws PageException;
 
     /**
@@ -222,6 +223,7 @@ public abstract class PageContext extends javax.servlet.jsp.PageContext {
      * @throws PageException
      * @deprecated use instead <code>{@link #touch(Object, lucee.runtime.type.Collection.Key)}</code>
 	 */
+    @Deprecated
     public abstract Object touch(Object coll, String key) throws PageException;
 
     /**
@@ -242,6 +244,7 @@ public abstract class PageContext extends javax.servlet.jsp.PageContext {
      * @throws PageException
      * @deprecated use instead <code>{@link #getCollection(Object, lucee.runtime.type.Collection.Key, Object)}</code>
 	 */
+    @Deprecated
     public abstract Object getCollection(Object coll, String key)
             throws PageException;
 
@@ -263,6 +266,7 @@ public abstract class PageContext extends javax.servlet.jsp.PageContext {
      * @return Property or QueryColumn
      * @deprecated use instead <code>{@link #getCollection(Object, lucee.runtime.type.Collection.Key, Object)}</code>
 	 */
+    @Deprecated
     public abstract Object getCollection(Object coll, String key, Object defaultValue);
 
     /**
@@ -281,6 +285,7 @@ public abstract class PageContext extends javax.servlet.jsp.PageContext {
      * @throws PageException
      * @deprecated use instead <code>{@link #get(Object, lucee.runtime.type.Collection.Key)}</code>
 	 */
+    @Deprecated
     public abstract Object get(Object coll, String key) throws PageException;
 
     /**
@@ -300,6 +305,7 @@ public abstract class PageContext extends javax.servlet.jsp.PageContext {
      * @throws PageException
      * @deprecated use instead <code>{@link #getReference(Object, lucee.runtime.type.Collection.Key)}</code>
 	 */
+    @Deprecated
     public abstract Reference getReference(Object coll, String key) throws PageException;
 
     /**
@@ -452,6 +458,7 @@ public abstract class PageContext extends javax.servlet.jsp.PageContext {
      * @return return value of a Collection, return null if value not exist
      * @deprecated use instead <code>{@link #get(Object, lucee.runtime.type.Collection.Key, Object)}</code>
 	 */
+    @Deprecated
     public abstract Object get(Object coll, String key, Object defaultValue);
     
     /**
@@ -559,6 +566,7 @@ public abstract class PageContext extends javax.servlet.jsp.PageContext {
      * @throws PageException
      * @deprecated use instead <code>{@link #setLocale(Locale)}</code> 
      */
+    @Deprecated
     public abstract void setLocale(String strLocale) throws PageException;
     
     /**
@@ -720,6 +728,7 @@ public abstract class PageContext extends javax.servlet.jsp.PageContext {
      * @throws ServletException
      * @deprecated use other doInclude methods
      */
+    @Deprecated
     public abstract void doInclude(PageSource source) throws  PageException;
 
     /**  
@@ -965,7 +974,8 @@ public abstract class PageContext extends javax.servlet.jsp.PageContext {
      * @return tag matching class
      * @throws PageException
      * @deprecated use instead <code>use(String tagClassName)</code>
-     */ 
+     */
+    @Deprecated
     public abstract Tag use(Class tagClass) throws PageException;
     
     /**
@@ -988,6 +998,7 @@ public abstract class PageContext extends javax.servlet.jsp.PageContext {
      * @throws PageException 
      * @deprecated use instead <code>compile(PageSource pageSource)</code>
      */
+    @Deprecated
     public abstract void compile(String templatePath)throws PageException;
     
     /**
@@ -1064,7 +1075,8 @@ public abstract class PageContext extends javax.servlet.jsp.PageContext {
 	 * @return
 	 * @deprecated use instead <code>setThreadScope(Collection.Key name,Threads t)</code>
 	 */
-	public abstract Threads getThreadScope(String name);
+    @Deprecated
+    public abstract Threads getThreadScope(String name);
 	
 	public abstract Threads getThreadScope(Collection.Key name);
 	
@@ -1074,7 +1086,8 @@ public abstract class PageContext extends javax.servlet.jsp.PageContext {
 	 * @param t
 	 * @deprecated use instead <code>setThreadScope(Collection.Key name,Threads t)</code>
 	 */
-	public abstract void setThreadScope(String name,Threads t);
+    @Deprecated
+    public abstract void setThreadScope(String name,Threads t);
 	
 	public abstract void setThreadScope(Collection.Key name,Threads t);
 

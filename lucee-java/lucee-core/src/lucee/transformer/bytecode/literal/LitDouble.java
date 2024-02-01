@@ -72,7 +72,7 @@ public final class LitDouble extends ExpressionBase implements Literal,ExprDoubl
      * @return return value as Double Object
      */
     public Double getDouble() {
-        return new Double(d);
+        return Double.valueOf(d);
     }
     
     /**

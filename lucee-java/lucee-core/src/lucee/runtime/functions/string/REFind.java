@@ -42,7 +42,7 @@ public final class REFind extends BIF {
 		try {
 			if(returnsubexpressions)
 				return Perl5Util.find(regExpr,str,(int)start,true);
-			return new Double(Perl5Util.indexOf(regExpr,str,(int)start,true));
+			return Double.valueOf(Perl5Util.indexOf(regExpr,str,(int)start,true));
 		} catch (MalformedPatternException e) {
 			throw new FunctionException(pc,"reFind",1,"regularExpression",e.getMessage());
 		}

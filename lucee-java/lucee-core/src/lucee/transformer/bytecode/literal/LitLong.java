@@ -62,7 +62,7 @@ public final class LitLong extends ExpressionBase implements Literal {
      * @return return value as Double Object
      */
     public Long getLong() {
-        return new Long(l);
+        return Long.valueOf(l);
     }
     
     /**
@@ -107,7 +107,7 @@ public final class LitLong extends ExpressionBase implements Literal {
     }
 
     private Double getDouble() {
-		return new Double(l);
+		return Double.valueOf(l);
 	}
 
 	/**

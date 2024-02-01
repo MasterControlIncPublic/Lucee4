@@ -110,6 +110,7 @@ public interface Scope extends Struct {
 	 * release scope for reuse
 	 * @deprecated use instead <code>release(PageContext)</code>
 	 */
+	@Deprecated
 	public void release();
 	
 	/**

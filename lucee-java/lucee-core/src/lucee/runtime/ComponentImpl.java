@@ -688,7 +688,8 @@ public final class ComponentImpl extends StructSupport implements Externalizable
      * @param pc
      * @param parent
      */
-    public void afterCall(PageContext pc, Variables parent) {
+	@Deprecated
+	public void afterCall(PageContext pc, Variables parent) {
     	afterConstructor(pc, parent);
 	}
 	

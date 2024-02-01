@@ -31,6 +31,7 @@ public interface ScriptConvertable {
      * @return serialized Object
      * @deprecated use instead <code>serialize(Set<Object> done</code>
      */
+    @Deprecated
     public String serialize();
     
     /**

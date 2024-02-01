@@ -272,7 +272,7 @@ public class HTTPEngine4Impl {
 
 	public static DefaultHttpClient createClient(BasicHttpParams params, int maxRedirect) {
     	params.setParameter(ClientPNames.HANDLE_REDIRECTS, maxRedirect==0?Boolean.FALSE:Boolean.TRUE);
-    	if(maxRedirect>0)params.setParameter(ClientPNames.MAX_REDIRECTS, new Integer(maxRedirect));
+    	if(maxRedirect>0)params.setParameter(ClientPNames.MAX_REDIRECTS, Integer.valueOf(maxRedirect));
     	params.setParameter(ClientPNames.REJECT_RELATIVE_REDIRECT, Boolean.FALSE);
     	return new DefaultHttpClient(params);
 	}

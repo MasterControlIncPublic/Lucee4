@@ -44,7 +44,7 @@ public final class Multi extends RefSupport implements Ref {
 
     @Override
 	public Object getValue(PageContext pc) throws PageException {
-        return new Double(Caster.toDoubleValue(left.getValue(pc))*Caster.toDoubleValue(right.getValue(pc)));
+        return Double.valueOf(Caster.toDoubleValue(left.getValue(pc))*Caster.toDoubleValue(right.getValue(pc)));
     }
 
     @Override

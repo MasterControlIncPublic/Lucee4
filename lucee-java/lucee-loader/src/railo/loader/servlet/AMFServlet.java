@@ -21,6 +21,7 @@ package railo.loader.servlet;
 /**
  * @deprecated use instead lucee.loader.servlet.AMFServlet
  */
+@Deprecated
 public class AMFServlet extends lucee.loader.servlet.AMFServlet {
 
 }
