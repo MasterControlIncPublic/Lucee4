@@ -102,19 +102,19 @@ public abstract class StorageScopeCookie extends StorageScopeImpl {
 		ApplicationContext ac=pc.getApplicationContext();
 		TimeSpan timespan=(getType()==SCOPE_CLIENT)?ac.getClientTimeout():ac.getSessionTimeout();
 		Cookie cookie = pc.cookieScope();
-		
-		
+
+
 		Date exp = new DateTimeImpl(pc,System.currentTimeMillis()+timespan.getMillis(),true);
 		try {
 			String ser=serializer.serializeStruct(sct, ignoreSet);
 			if(hasChanges()){
-				cookie.setCookie(KeyImpl.init(cookieName), ser,exp, false, "/", null);
+				cookie.setCookie(KeyImpl.init(cookieName), ser,exp, false, "/", null, null);
 			}
-			cookie.setCookie(KeyImpl.init(cookieName+"_LV"), Caster.toString(_lastvisit.getTime()), exp, false, "/", null);
+			cookie.setCookie(KeyImpl.init(cookieName+"_LV"), Caster.toString(_lastvisit.getTime()), exp, false, "/", null, null);
 			
 			if(getType()==SCOPE_CLIENT){
-				cookie.setCookie(KeyImpl.init(cookieName+"_TC"), Caster.toString(timecreated.getTime()),exp, false, "/", null);
-				cookie.setCookie(KeyImpl.init(cookieName+"_HC"), Caster.toString(sct.get(HITCOUNT,"")), exp, false, "/", null);
+				cookie.setCookie(KeyImpl.init(cookieName+"_TC"), Caster.toString(timecreated.getTime()),exp, false, "/", null, null);
+				cookie.setCookie(KeyImpl.init(cookieName+"_HC"), Caster.toString(sct.get(HITCOUNT,"")), exp, false, "/", null, null);
 			}
 			
 		} 

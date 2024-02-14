@@ -83,7 +83,7 @@ public final class Loginuser extends TagImpl {
 		        pageContext.sessionScope().set(KeyImpl.init(name),login.encode());
 		    else  {//if(loginStorage==Scope.SCOPE_COOKIE)
 		        pageContext.cookieScope().setCookie(KeyImpl.init(name),login.encode(),
-		        		-1,false,"/",Login.getCookieDomain(appContext));
+		        		-1,false,"/",Login.getCookieDomain(appContext), null);
 		    }
 		}
 		

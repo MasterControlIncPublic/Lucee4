@@ -52,8 +52,7 @@ import lucee.runtime.type.util.KeyConstants;
  * Implementation of the Cookie scope
  */
 public final class CookieImpl extends ScopeSupport implements Cookie,ScriptProtected {
-	
-	
+
 	private static final long serialVersionUID = -2341079090783313736L;
 
 	public static final int NEVER = 946626690;
@@ -105,10 +104,11 @@ public final class CookieImpl extends ScopeSupport implements Cookie,ScriptProte
 			boolean preserveCase=Caster.toBooleanValue(sct.get(KeyConstants._preservecase,null),false);
 			Boolean encode=Caster.toBoolean(sct.get(KeyConstants._encode,null),null);
 			if(encode==null)encode=Caster.toBoolean(sct.get(KeyConstants._encodevalue,Boolean.TRUE),Boolean.TRUE);
+			String samesite = Caster.toString(sct.get(KeyConstants._SameSite, null), null);
 			
-			setCookie(key, val, expires, secure, path, domain,httpOnly,preserveCase,encode.booleanValue());
+			setCookie(key, val, expires, secure, path, domain,httpOnly,preserveCase,encode.booleanValue(), samesite);
 		}
-		else setCookie(key,value,null,false,"/",null,false,false,true);
+		else setCookie(key,value,null,false,"/",null,false,false,true, null);
 		return value;
 	}
 	
@@ -162,23 +162,23 @@ public final class CookieImpl extends ScopeSupport implements Cookie,ScriptProte
     }
     
     @Override
-	public void setCookie(Collection.Key key, Object value, Object expires, boolean secure, String path, String domain) throws PageException {
-    	setCookie(key, value, expires, secure, path, domain, false, false, true);
+	public void setCookie(Collection.Key key, Object value, Object expires, boolean secure, String path, String domain, String sameSite) throws PageException {
+    	setCookie(key, value, expires, secure, path, domain, false, false, true, sameSite);
     }
     
     @Override
-	public void setCookie(Collection.Key key, Object value, int expires, boolean secure, String path, String domain) throws PageException {
-    	setCookie(key, value, expires, secure, path, domain, false, false, true);
+	public void setCookie(Collection.Key key, Object value, int expires, boolean secure, String path, String domain, String sameSite) throws PageException {
+    	setCookie(key, value, expires, secure, path, domain, false, false, true, sameSite);
     }
     
     @Override
-	public void setCookieEL(Collection.Key key, Object value, int expires, boolean secure, String path, String domain) {
-    	setCookieEL(key, value, expires, secure, path, domain, false, false, true);
+	public void setCookieEL(Collection.Key key, Object value, int expires, boolean secure, String path, String domain, String sameSite) {
+    	setCookieEL(key, value, expires, secure, path, domain, false, false, true, sameSite);
     }
     
     @Override
-	public void setCookie(Collection.Key key, Object value, Object expires, boolean secure, String path, String domain, 
-			boolean httpOnly, boolean preserveCase, boolean encode) throws PageException {
+	public void setCookie(Collection.Key key, Object value, Object expires, boolean secure, String path, String domain,
+						  boolean httpOnly, boolean preserveCase, boolean encode, String sameSite) throws PageException {
 		int exp=EXPIRES_NULL;
 		
 		// expires
@@ -201,29 +201,34 @@ public final class CookieImpl extends ScopeSupport implements Cookie,ScriptProte
 		else {
 			throw new ExpressionException("invalid type ["+Caster.toClassName(expires)+"] for expires");
 		}
+
+		String sameSameValidated = "";
+		if (!StringUtil.isEmpty(sameSite)) {
+			sameSameValidated = validateSameSiteValue(sameSite);
+		}
 		
-		setCookie(key, value, exp, secure, path, domain,httpOnly,preserveCase,encode);
+		setCookie(key, value, exp, secure, path, domain, httpOnly, preserveCase, encode, sameSite);
 	}
     
     @Override
     public void setCookie(Collection.Key key, Object value, int expires, boolean secure, String path, String domain, 
-    		boolean httpOnly, boolean preserveCase, boolean encode) throws PageException {
+    		boolean httpOnly, boolean preserveCase, boolean encode, String sameSite) throws PageException {
     	
-    	_addCookie(key,Caster.toString(value),expires,secure,path,domain,httpOnly,preserveCase,encode);
+    	_addCookie(key,Caster.toString(value),expires,secure,path, domain, httpOnly, preserveCase, encode, sameSite);
         super.set (key, value);
     }
 
 
 	@Override
     public void setCookieEL(Collection.Key key, Object value, int expires, boolean secure, String path, String domain, 
-    		boolean httpOnly, boolean preserveCase, boolean encode) {
+    		boolean httpOnly, boolean preserveCase, boolean encode, String sameSite) {
 		
-		_addCookie(key,Caster.toString(value,""),expires,secure,path,domain,httpOnly,preserveCase,encode);
+		_addCookie(key,Caster.toString(value,""), expires, secure, path, domain, httpOnly, preserveCase, encode, sameSite);
         super.setEL (key, value);
     }
     
     private void _addCookie(Key key, String value, int expires, boolean secure, String path, String domain, 
-    		boolean httpOnly, boolean preserveCase, boolean encode) {
+    		boolean httpOnly, boolean preserveCase, boolean encode, String sameSite) {
     	String name=preserveCase?key.getString():key.getUpperString();
     	
     	// build the value
@@ -234,28 +239,22 @@ public final class CookieImpl extends ScopeSupport implements Cookie,ScriptProte
 		/*Expires*/if(expires!=EXPIRES_NULL)sb.append(";Expires=").append(DateTimeUtil.toHTTPTimeString(System.currentTimeMillis()+(expires*1000L),false));
 		/*Secure*/if(secure)sb.append(";Secure");
 		/*HTTPOnly*/if(httpOnly)sb.append(";HTTPOnly");
+		if(!StringUtil.isEmpty(sameSite)) sb.append(";SameSite=").append(sameSite);
 		
 		rsp.addHeader("Set-Cookie", sb.toString());
         
 	}
-    
-    /*private void _addCookieOld(Key key, String value, int expires, boolean secure, String path, String domain, 
-    		boolean httpOnly, boolean preserveCase, boolean encode) {
-    	String name=preserveCase?key.getString():key.getUpperString();
-    	if(encode) {
-    		name=enc(name);
-    		value=enc(value);
-    	}
-    	 
-    	javax.servlet.http.Cookie cookie = new javax.servlet.http.Cookie(name,value);
-        cookie.setMaxAge(expires);
-        cookie.setSecure(secure);
-        cookie.setPath(path);
-        if(!StringUtil.isEmpty(domain,true))cookie.setDomain(domain);
-        if(httpOnly) setHTTPOnly(cookie);
-        rsp.addCookie(cookie);
-        
-	}*/
+
+	private static String validateSameSiteValue(String sameSite) throws PageException {
+		switch (sameSite) {
+			case "Strict":
+			case "Lax":
+			case "None":
+				return sameSite;
+			default:
+				throw new ExpressionException("Invalid value [" + sameSite + "] for SameSite");
+		}
+	}
 
 
 	private int toExpires(String expires) throws ExpressionException {
