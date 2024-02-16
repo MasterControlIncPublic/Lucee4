@@ -50,6 +50,7 @@ public final class Cookie extends TagImpl {
 
 	/** The name of the cookie variable. */
 	private String name;
+	private String sameSite;
 	
 	private boolean httponly;
 	private boolean preservecase;
@@ -68,6 +69,7 @@ public final class Cookie extends TagImpl {
 		httponly=false;
 		preservecase=false;
 		encode=true;
+		sameSite=null;
 	}
 	
 	/** set the value secure
@@ -148,10 +150,13 @@ public final class Cookie extends TagImpl {
 		this.encode=encode;
 	}
 
+	public void setSameSite(String sameSite) {
+		this.sameSite = sameSite;
+	}
 
 	@Override
 	public int doStartTag() throws PageException	{
-		pageContext.cookieScope().setCookie(KeyImpl.getInstance(name),value,expires,secure,path,domain,httponly,preservecase,encode);
+		pageContext.cookieScope().setCookie(KeyImpl.getInstance(name),value,expires,secure,path,domain,httponly,preservecase,encode,sameSite);
 		return SKIP_BODY;
 	}
 

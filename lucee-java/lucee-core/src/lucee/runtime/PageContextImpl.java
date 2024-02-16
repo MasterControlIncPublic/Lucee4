@@ -2484,8 +2484,8 @@ public final class PageContextImpl extends PageContext implements Sizeable {
 	private void setClientCookies() {
 
 		String domain = PageContextUtil.getCookieDomain( this );
-		cookieScope().setCookieEL( KeyConstants._cfid, cfid, CookieImpl.NEVER,false, "/", domain, true, true, false );
-		cookieScope().setCookieEL( KeyConstants._cftoken, cftoken, CookieImpl.NEVER,false, "/", domain, true, true, false );
+		cookieScope().setCookieEL( KeyConstants._cfid, cfid, CookieImpl.NEVER,false, "/", domain, true, true, false, null);
+		cookieScope().setCookieEL( KeyConstants._cftoken, cftoken, CookieImpl.NEVER,false, "/", domain, true, true, false, null);
 	}
     
 
