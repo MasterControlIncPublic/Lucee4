@@ -37,7 +37,7 @@ public interface Cookie extends Scope, UserScope {
      * @throws PageException 
      * @deprecated
      */
-	public abstract void setCookie(Collection.Key name, Object value, Object expires, boolean secure, String path, String domain) throws PageException;
+	public abstract void setCookie(Collection.Key name, Object value, Object expires, boolean secure, String path, String domain, String sameSite) throws PageException;
 
 	
 	/**
@@ -51,7 +51,7 @@ public interface Cookie extends Scope, UserScope {
      * @throws PageException
      * @deprecated
      */
-	public abstract void setCookie(Collection.Key name, Object value, int expires, boolean secure, String path, String domain) throws PageException;
+	public abstract void setCookie(Collection.Key name, Object value, int expires, boolean secure, String path, String domain, String sameSite) throws PageException;
 
     
     /**
@@ -64,7 +64,7 @@ public interface Cookie extends Scope, UserScope {
      * @param domain domain of the cookie
      * @deprecated
      */
-    public abstract void setCookieEL(Collection.Key name, Object value, int expires, boolean secure, String path, String domain);
+    public abstract void setCookieEL(Collection.Key name, Object value, int expires, boolean secure, String path, String domain, String sameSite);
     
 
 
@@ -82,7 +82,7 @@ public interface Cookie extends Scope, UserScope {
      * @throws PageException 
      */
 	public abstract void setCookie(Collection.Key name, Object value, Object expires, boolean secure, String path, String domain, 
-			boolean httpOnly, boolean preserveCase, boolean encode) throws PageException;
+			boolean httpOnly, boolean preserveCase, boolean encode, String sameSite) throws PageException;
 
 	
 	/**
@@ -99,7 +99,7 @@ public interface Cookie extends Scope, UserScope {
      * @throws PageException
      */
 	public abstract void setCookie(Collection.Key name, Object value, int expires, boolean secure, String path, String domain, 
-			boolean httpOnly, boolean preserveCase, boolean encode) throws PageException;
+			boolean httpOnly, boolean preserveCase, boolean encode, String sameSite) throws PageException;
 
     
     /**
@@ -115,7 +115,7 @@ public interface Cookie extends Scope, UserScope {
      * @param encode if true, url encode the name and the value
      */
     public abstract void setCookieEL(Collection.Key name, Object value, int expires, boolean secure, String path, String domain, 
-    		boolean httpOnly, boolean preserveCase, boolean encode);
+    		boolean httpOnly, boolean preserveCase, boolean encode, String sameSite);
     
    
 	

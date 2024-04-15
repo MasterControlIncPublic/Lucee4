@@ -68,7 +68,7 @@ configurations {
 }
 
 dependencies {
-    compile 'com.mastercontrol:s3-no-op-resource:0.2.0'
+    compile 'com.mastercontrol:s3-no-op-resource:0.3.1'
     compile 'software.amazon.awssdk:s3:2.20.56'
     compile 'antlr:antlr:2.7.6'
     compile 'org.apache.sanselan:sanselan:0.97-incubator'
@@ -108,7 +108,7 @@ dependencies {
     compile 'org.ow2.asm:asm-all:4.0' //cfml compilation
     compile 'org.swinglabs:pdf-renderer:1.0.5' //adds watermarks to pdf, etc
     compile 'javax.xml.stream:stax-api:1.0-2'
-    compile 'com.jcraft:jsch:0.1.53'
+    compile 'com.jcraft:jsch:0.1.55'
     compile 'cssparser:cssparser:0.9.4'
     compile 'javax.activation:activation:1.1'
     compile 'org.apache.flex.blazeds:flex-messaging-core:4.8.0'
