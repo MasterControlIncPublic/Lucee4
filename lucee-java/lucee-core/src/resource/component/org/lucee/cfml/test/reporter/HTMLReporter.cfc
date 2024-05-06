@@ -71,7 +71,7 @@
 	<meta charset="utf-8">
 	<meta name="generator" content="TestBox v#testbox.getVersion()#">
 	<title>Pass: #results.getTotalPass()# Fail: #results.getTotalFail()# Errors: #results.getTotalError()#</title>
-	<script src="/lucee/admin/resources/js/jquery-1.7.2.min.js.cfm" type="text/javascript"></script><!--- TODO use version indepent file --->
+	<script src="/lucee/admin/resources/js/jquery.min.js.cfm" type="text/javascript"></script><!--- TODO use version indepent file --->
 </cfoutput>
 	<style>
 body{
@@ -116,11 +116,11 @@ div.skipped{ display: none;}
 	<script>
 	$(document).ready(function() {
 		// spec toggler
-		$("span.specStatus").click( function(){
+		$("span.specStatus").on('click',  function(){
 			toggleSpecs( $( this ).attr( "data-status" ), $( this ).attr( "data-bundleid" ) );
 		});
 		// spec toggler
-		$("span.reset").click( function(){
+		$("span.reset").on('click',  function(){
 			resetSpecs();
 		});
 	});
