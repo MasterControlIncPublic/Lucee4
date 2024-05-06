@@ -26,7 +26,7 @@
 
 /* init functions */
 $(function(){
-	$('#resizewin').click(resizelayout);
+	$('#resizewin').on('click', resizelayout);
 
 	initTooltips();
 
@@ -61,7 +61,7 @@ function scrollToEl(selector)
 /* older functions */
 function initMenu() {
 	// $('#menu ul').show();
-	$('#menu > li > a').click(
+	$('#menu > li > a').on('click',
 		function(e) {
 			var $this = $(this);
 			var ul = $this.next();
@@ -83,8 +83,8 @@ function initMenu() {
 function initMenu2() {
 	$('#menu ul').hide();
 	$('#menu ul:first').show();
-	$('#menu li a').click(
-	function() {
+	$('#menu li a').on('click',
+			function() {
 		var checkElement = $(this).next();
 		if((checkElement.is('ul')) && (checkElement.is(':visible'))) {
 		return false;
@@ -258,7 +258,7 @@ function createTooltip(element, text, x, y, mouseAction )
 		} else if (mouseAction == 'click') {
 			var overlay = $('<div class="removeClickOverlay"></div>');
 			$('body').prepend(overlay);
-			$(overlay).click(function(){ $(element.tooltip).remove(); $(overlay).remove(); });
+			$(overlay).on('click', function(){ $(element.tooltip).remove(); $(overlay).remove(); });
 		}
 		return false;
 	})

@@ -403,7 +403,7 @@
 					__blockUI=function() {
 						setTimeout(createWaitBlockUI(<cfoutput>"#JSStringFormat(stText.general.wait)#"</cfoutput>),1000);
 					}
-					$('.submit,.menu_inactive,.menu_active').click(__blockUI);
+					$('.submit,.menu_inactive,.menu_active').on('click', __blockUI);
 				}); 
 			</script>
 			<cfoutput>#strNav#</cfoutput>
