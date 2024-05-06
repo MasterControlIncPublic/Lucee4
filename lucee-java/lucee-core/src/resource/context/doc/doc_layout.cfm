@@ -86,7 +86,7 @@
 
 	</cfoutput>
 
-		<script src="../res/js/jquery-1.9.min.js.cfm"></script>
+		<script src="../res/js/jquery.js.cfm"></script>
 
 		<script type="text/javascript">
 

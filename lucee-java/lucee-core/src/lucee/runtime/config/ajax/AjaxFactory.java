@@ -105,10 +105,10 @@ public static void deployTags(Resource dir, boolean doNew) {
         //jquery resources
         Resource jqDir = jsDir.getRealResource("jquery");
         if(!jqDir.isDirectory())jqDir.mkdirs();
-        f = jqDir.getRealResource("jquery-1.4.2.js");
-        if(!f.exists() || doNew)ConfigFactory.createFileFromResourceEL("/resource/library/tag/lucee/core/ajax/js/jquery/jquery-1.4.2.js",f);
-        f = jqDir.getRealResource("jquery-ui-1.8.2.js");
-        if(!f.exists() || doNew)ConfigFactory.createFileFromResourceEL("/resource/library/tag/lucee/core/ajax/js/jquery/jquery-ui-1.8.2.js",f);
+        f = jqDir.getRealResource("jquery.js");
+        if(!f.exists() || doNew)ConfigFactory.createFileFromResourceEL("/resource/library/tag/lucee/core/ajax/js/jquery/jquery.js",f);
+        f = jqDir.getRealResource("jquery-ui.js");
+        if(!f.exists() || doNew)ConfigFactory.createFileFromResourceEL("/resource/library/tag/lucee/core/ajax/js/jquery/jquery.js",f);
         f = jqDir.getRealResource("jquery.window.js");
         if(!f.exists() || doNew)ConfigFactory.createFileFromResourceEL("/resource/library/tag/lucee/core/ajax/js/jquery/jquery.window.js",f);
   
