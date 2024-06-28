@@ -303,7 +303,7 @@ function initTooltips()
 		$this.html('<div class="inner">' + html + "</div>");
 		createTooltip($this, html, 0, 0, 'mouseover');
 	});*/
-	$('body').live('click', function(){
+	$('body').on('click', function(){
 		$('div.tooltip.stayput').removeClass('stayput').each(function(){ $(this).data('parent').triggerHandler('mouseout') });
 	});
 }
