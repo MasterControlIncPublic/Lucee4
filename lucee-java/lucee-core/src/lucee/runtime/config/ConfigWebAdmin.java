@@ -83,7 +83,6 @@ import lucee.runtime.functions.string.Hash;
 import lucee.runtime.gateway.GatewayEntry;
 import lucee.runtime.gateway.GatewayEntryImpl;
 import lucee.runtime.listener.AppListenerUtil;
-import lucee.runtime.net.ntp.NtpClient;
 import lucee.runtime.op.Caster;
 import lucee.runtime.op.Decision;
 import lucee.runtime.orm.ORMConfiguration;
@@ -2587,13 +2586,6 @@ public final class ConfigWebAdmin {
      */
     public void updateTimeServer(String timeServer, Boolean useTimeServer) throws PageException {
     	checkWriteAccess();
-       if(useTimeServer!=null && useTimeServer.booleanValue() && !StringUtil.isEmpty(timeServer,true)) {
-            try {
-                new NtpClient(timeServer).getOffset();
-            } catch (IOException e) {
-                throw new ExpressionException("invalid timeserver (NTP) ["+timeServer+"] ");
-            }
-       }
         
        boolean hasAccess=ConfigWebUtil.hasAccess(config,SecurityManager.TYPE_SETTING);
        if(!hasAccess)
