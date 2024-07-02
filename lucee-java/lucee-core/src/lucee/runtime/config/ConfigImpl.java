@@ -105,7 +105,6 @@ import lucee.runtime.net.amf.AMFCaster;
 import lucee.runtime.net.amf.ClassicAMFCaster;
 import lucee.runtime.net.amf.ModernAMFCaster;
 import lucee.runtime.net.mail.Server;
-import lucee.runtime.net.ntp.NtpClient;
 import lucee.runtime.net.proxy.ProxyData;
 import lucee.runtime.op.Caster;
 import lucee.runtime.op.Duplicator;
@@ -456,14 +455,6 @@ public abstract class ConfigImpl implements Config {
     @Override
     public void reloadTimeServerOffset() {
     	timeOffset=0;
-        if(useTimeServer && !StringUtil.isEmpty(timeServer,true)) {
-            NtpClient ntp=new NtpClient(timeServer);
-            try {
-                timeOffset=ntp.getOffset();
-            } catch (IOException e) {
-                timeOffset=0;
-            }
-        }
     }
 
     
