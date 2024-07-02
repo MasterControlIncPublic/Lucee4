@@ -42,8 +42,6 @@ if (/1\.(0|1|2)\.(0|1|2)/.test($.fn.jquery) || /^1.1/.test($.fn.jquery)) {
 $.fn._fadeIn = $.fn.fadeIn;
 var noOp = function() {};
 var mode = document.documentMode || 0;
-var setExpr = $.browser.msie && (($.browser.version < 8 && !mode) || mode < 8);
-var ie6 = $.browser.msie && /MSIE 6.0/.test(navigator.userAgent) && !mode;
 $.blockUI   = function(opts) { install(window, opts); };
 $.unblockUI = function(opts) { remove(window, opts); };
 $.growlUI = function(title, message, timeout, onClose) {
@@ -62,8 +60,6 @@ $.fn.block = function(opts) {
 	return this.unblock({ fadeOut: 0 }).each(function() {
 		if ($.css(this,'position') == 'static')
 			this.style.position = 'relative';
-		if ($.browser.msie)
-			this.style.zoom = 1; // force 'hasLayout'
 		install(this, opts);
 	});
 };
@@ -164,7 +160,7 @@ function install(el, opts) {
 	}
 	$(el).data('blockUI.onUnblock', opts.onUnblock);
 	var z = opts.baseZ;
-	var lyr1 = ($.browser.msie || opts.forceIframe) 
+	var lyr1 = (opts.forceIframe)
 		? $('<iframe class="blockUI" style="z-index:'+ (z++) +';display:none;border:none;margin:0;padding:0;position:absolute;width:100%;height:100%;top:0;left:0" src="'+opts.iframeSrc+'"></iframe>')
 		: $('<div class="blockUI" style="display:none"></div>');
 	
@@ -202,7 +198,7 @@ function install(el, opts) {
 	if (!opts.theme && (!opts.applyPlatformOpacityRules || !($.browser.mozilla && /Linux/.test(navigator.platform))))
 		lyr2.css(opts.overlayCSS);
 	lyr2.css('position', full ? 'fixed' : 'absolute');
-	if ($.browser.msie || opts.forceIframe)
+	if (opts.forceIframe)
 		lyr1.css('opacity',0.0);
 	var layers = [lyr1,lyr2,lyr3], $par = full ? $('body') : $(el);
 	$.each(layers, function() {
@@ -215,37 +211,6 @@ function install(el, opts) {
 			cancel: 'li'
 		});
 	}
-	var expr = setExpr && (!$.boxModel || $('object,embed', full ? null : el).length > 0);
-	if (ie6 || expr) {
-		if (full && opts.allowBodyStretch && $.boxModel)
-			$('html,body').css('height','100%');
-		if ((ie6 || !$.boxModel) && !full) {
-			var t = sz(el,'borderTopWidth'), l = sz(el,'borderLeftWidth');
-			var fixT = t ? '(0 - '+t+')' : 0;
-			var fixL = l ? '(0 - '+l+')' : 0;
-		}
-		$.each([lyr1,lyr2,lyr3], function(i,o) {
-			var s = o[0].style;
-			s.position = 'absolute';
-			if (i < 2) {
-				full ? s.setExpression('height','Math.max(document.body.scrollHeight, document.body.offsetHeight) - (jQuery.boxModel?0:'+opts.quirksmodeOffsetHack+') + "px"')
-					 : s.setExpression('height','this.parentNode.offsetHeight + "px"');
-				full ? s.setExpression('width','jQuery.boxModel && document.documentElement.clientWidth || document.body.clientWidth + "px"')
-					 : s.setExpression('width','this.parentNode.offsetWidth + "px"');
-				if (fixL) s.setExpression('left', fixL);
-				if (fixT) s.setExpression('top', fixT);
-			}
-			else if (opts.centerY) {
-				if (full) s.setExpression('top','(document.documentElement.clientHeight || document.body.clientHeight) / 2 - (this.offsetHeight / 2) + (blah = document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop) + "px"');
-				s.marginTop = 0;
-			}
-			else if (!opts.centerY && full) {
-				var top = (opts.css && opts.css.top) ? parseInt(opts.css.top) : 0;
-				var expression = '((document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop) + '+top+') + "px"';
-				s.setExpression('top',expression);
-			}
-		});
-	}
 	if (msg) {
 		if (opts.theme)
 			lyr3.find('.ui-widget-content').append(msg);
@@ -254,7 +219,7 @@ function install(el, opts) {
 		if (msg.jquery || msg.nodeType)
 			$(msg).show();
 	}
-	if (($.browser.msie || opts.forceIframe) && opts.showOverlay)
+	if ((opts.forceIframe) && opts.showOverlay)
 		lyr1.show(); // opacity is zero
 	if (opts.fadeIn) {
 		var cb = opts.onBlock ? opts.onBlock : noOp;

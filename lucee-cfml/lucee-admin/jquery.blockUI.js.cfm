@@ -26,8 +26,6 @@ var noOp = function() {};
 // this bit is to ensure we don't call setExpression when we shouldn't (with extra muscle to handle
 // retarded userAgent strings on Vista)
 var mode = document.documentMode || 0;
-var setExpr = $.browser.msie && (($.browser.version < 8 && !mode) || mode < 8);
-var ie6 = $.browser.msie && /MSIE 6.0/.test(navigator.userAgent) && !mode;
 
 // global $ methods for blocking/unblocking the entire page
 $.blockUI   = function(opts) { install(window, opts); };
@@ -52,8 +50,6 @@ $.fn.block = function(opts) {
 	return this.unblock({ fadeOut: 0 }).each(function() {
 		if ($.css(this,'position') == 'static')
 			this.style.position = 'relative';
-		if ($.browser.msie)
-			this.style.zoom = 1; // force 'hasLayout'
 		install(this, opts);
 	});
 };
@@ -225,7 +221,7 @@ function install(el, opts) {
 	// layer2 is the overlay layer which has opacity and a wait cursor (by default)
 	// layer3 is the message content that is displayed while blocking
 
-	var lyr1 = ($.browser.msie || opts.forceIframe) 
+	var lyr1 = (opts.forceIframe)
 		? $('<iframe class="blockUI" style="z-index:'+ (z++) +';display:none;border:none;margin:0;padding:0;position:absolute;width:100%;height:100%;top:0;left:0" src="'+opts.iframeSrc+'"></iframe>')
 		: $('<div class="blockUI" style="display:none"></div>');
 	
@@ -269,10 +265,6 @@ function install(el, opts) {
 		lyr2.css(opts.overlayCSS);
 	lyr2.css('position', full ? 'fixed' : 'absolute');
 
-	// make iframe layer transparent in IE
-	if ($.browser.msie || opts.forceIframe)
-		lyr1.css('opacity',0.0);
-
 	//$([lyr1[0],lyr2[0],lyr3[0]]).appendTo(full ? 'body' : el);
 	var layers = [lyr1,lyr2,lyr3], $par = full ? $('body') : $(el);
 	$.each(layers, function() {
@@ -286,44 +278,6 @@ function install(el, opts) {
 		});
 	}
 
-	// ie7 must use absolute positioning in quirks mode and to account for activex issues (when scrolling)
-	var expr = setExpr && (!$.boxModel || $('object,embed', full ? null : el).length > 0);
-	if (ie6 || expr) {
-		// give body 100% height
-		if (full && opts.allowBodyStretch && $.boxModel)
-			$('html,body').css('height','100%');
-
-		// fix ie6 issue when blocked element has a border width
-		if ((ie6 || !$.boxModel) && !full) {
-			var t = sz(el,'borderTopWidth'), l = sz(el,'borderLeftWidth');
-			var fixT = t ? '(0 - '+t+')' : 0;
-			var fixL = l ? '(0 - '+l+')' : 0;
-		}
-
-		// simulate fixed position
-		$.each([lyr1,lyr2,lyr3], function(i,o) {
-			var s = o[0].style;
-			s.position = 'absolute';
-			if (i < 2) {
-				full ? s.setExpression('height','Math.max(document.body.scrollHeight, document.body.offsetHeight) - (jQuery.boxModel?0:'+opts.quirksmodeOffsetHack+') + "px"')
-					 : s.setExpression('height','this.parentNode.offsetHeight + "px"');
-				full ? s.setExpression('width','jQuery.boxModel && document.documentElement.clientWidth || document.body.clientWidth + "px"')
-					 : s.setExpression('width','this.parentNode.offsetWidth + "px"');
-				if (fixL) s.setExpression('left', fixL);
-				if (fixT) s.setExpression('top', fixT);
-			}
-			else if (opts.centerY) {
-				if (full) s.setExpression('top','(document.documentElement.clientHeight || document.body.clientHeight) / 2 - (this.offsetHeight / 2) + (blah = document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop) + "px"');
-				s.marginTop = 0;
-			}
-			else if (!opts.centerY && full) {
-				var top = (opts.css && opts.css.top) ? parseInt(opts.css.top) : 0;
-				var expression = '((document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop) + '+top+') + "px"';
-				s.setExpression('top',expression);
-			}
-		});
-	}
-
 	// show the message
 	if (msg) {
 		if (opts.theme)
@@ -334,7 +288,7 @@ function install(el, opts) {
 			$(msg).show();
 	}
 
-	if (($.browser.msie || opts.forceIframe) && opts.showOverlay)
+	if ((opts.forceIframe) && opts.showOverlay)
 		lyr1.show(); // opacity is zero
 	if (opts.fadeIn) {
 		var cb = opts.onBlock ? opts.onBlock : noOp;

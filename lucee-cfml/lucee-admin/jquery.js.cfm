@@ -3482,7 +3482,7 @@ jQuery.fn.extend({
 	},
 
 	delegate: function( selector, types, data, fn ) {
-		return this.live( types, data, fn, selector );
+		return this.on( types, data, fn, selector );
 	},
 
 	undelegate: function( selector, types, fn ) {
