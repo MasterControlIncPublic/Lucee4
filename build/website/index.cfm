@@ -261,7 +261,7 @@ In addition you should set a default password in the Server admin for all web ad
 	
 		
 
-<script src="/assets/js/lib/jquery-1.10.1.min.js"></script>
+<script src="/assets/js/lib/jquery.js"></script>
 <script src="/assets/js/lib/bootstrap.min.js"></script>
 <script src="/assets/js/core/_38444bee.core.min.js"></script>
 <script src="/assets/js/lib/SmoothScroll.js"></script>
