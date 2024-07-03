@@ -1,4 +1,4 @@
-<!--- 
+<!---
  *
  * Copyright (c) 2014, the Railo Company Ltd. All rights reserved.
  *
@@ -86,7 +86,7 @@
 
 	</cfoutput>
 
-		<script src="../res/js/jquery-1.9.min.js.cfm"></script>
+		<script src="../res/js/jquery.js.cfm"></script>
 
 		<script type="text/javascript">
 
