@@ -17,9 +17,9 @@ Intro: the Lucee admin page is loaded from the `lucee-context.lar` file inside o
   1. Move the generated `.ra` file to another directory
   2. Rename the `lucee-context.ra` file to `lucee-context.zip`
   3. Extract the zip file into its own folder
-  4. In another file explorer navigate to `server\railo\lucee-server\context\context`
-  5. In that folder there is a file named `lucee-context.lar`, change its extension to `zip` and extract it.
-  6. Within that unzip `lucee-context` folder is a `res` folder, copy the `css`, `img`, and `js` folders out of that folder and paste them into your extracted `lucee-context.ra's` its `res` folder from step 3.
+  4. In another file explorer, navigate to `<mastercontrol code location>\server\railo\lucee-server\context\context`
+  5. In that folder, there is a file named `lucee-context.lar`. Change its extension to `zip` and extract it.
+  6. Within the unzipped `lucee-context` folder is a `res` folder. Copy the `css`, `img`, and `js` folders out of that folder, and paste them into your extracted `lucee-context.ra`'s its `res` folder from step 3.
   7. Zip all the contents of the now modified `lucee-context` folder into a new `lucee-context.zip` file. (Ensure you don't introduce any intermediate folders.)
   8. Rename the `lucee-context.zip` file to `lucee-context.lar`
   9. Move this `.lar` file into `<mastercontrol code location>\server\railo\lucee-server\context\context` (your MasterControl instance will need to be stopped)
