@@ -26,7 +26,7 @@
 	<cfset nameAppendix=hash(server.lucee.version&server.lucee['release-date'],'quick')>
 	<link rel="stylesheet" href="../res/css/admin-#nameAppendix#.css.cfm?#getTickCount()#" type="text/css">
 
-	<script src="resources/js/jquery-1.7.2.min.js.cfm" type="text/javascript"></script>
+	<script src="resources/js/jquery.min.js.cfm" type="text/javascript"></script>
 	<script src="resources/js/jquery.blockUI.js.cfm" type="text/javascript"></script>
 	<script src="resources/js/admin.js.cfm" type="text/javascript"></script>
 </head>
@@ -145,7 +145,7 @@
 
 		$( function(){
 
-			$( '.coding-tip-trigger-#request.adminType#' ).click( 
+			$( '.coding-tip-trigger-#request.adminType#' ).on('click',
 				function(){ 
 					var $this = $(this);
 					$this.next( '.coding-tip-#request.adminType#' ).slideDown();
@@ -153,7 +153,7 @@
 				}
 			);
 
-			$( '.coding-tip-#request.adminType# code' ).click( 
+			$( '.coding-tip-#request.adminType# code' ).on('click',
 				function(){ 					
 					selectText(this);					
 				}

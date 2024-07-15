@@ -25,9 +25,10 @@ var noOp = function() {};
 
 // this bit is to ensure we don't call setExpression when we shouldn't (with extra muscle to handle
 // retarded userAgent strings on Vista)
+var msie = /MSIE/.test(navigator.userAgent);
+var ie6  = /MSIE 6.0/.test(navigator.userAgent);
 var mode = document.documentMode || 0;
-var setExpr = $.browser.msie && (($.browser.version < 8 && !mode) || mode < 8);
-var ie6 = $.browser.msie && /MSIE 6.0/.test(navigator.userAgent) && !mode;
+var setExpr = $.isFunction( document.createElement('div').style.setExpression );
 
 // global $ methods for blocking/unblocking the entire page
 $.blockUI   = function(opts) { install(window, opts); };
@@ -52,8 +53,7 @@ $.fn.block = function(opts) {
 	return this.unblock({ fadeOut: 0 }).each(function() {
 		if ($.css(this,'position') == 'static')
 			this.style.position = 'relative';
-		if ($.browser.msie)
-			this.style.zoom = 1; // force 'hasLayout'
+		this.style.zoom = 1; // force 'hasLayout'
 		install(this, opts);
 	});
 };
@@ -225,7 +225,7 @@ function install(el, opts) {
 	// layer2 is the overlay layer which has opacity and a wait cursor (by default)
 	// layer3 is the message content that is displayed while blocking
 
-	var lyr1 = ($.browser.msie || opts.forceIframe) 
+	var lyr1 = (msie || opts.forceIframe)
 		? $('<iframe class="blockUI" style="z-index:'+ (z++) +';display:none;border:none;margin:0;padding:0;position:absolute;width:100%;height:100%;top:0;left:0" src="'+opts.iframeSrc+'"></iframe>')
 		: $('<div class="blockUI" style="display:none"></div>');
 	
@@ -265,12 +265,11 @@ function install(el, opts) {
 	}
 
 	// style the overlay
-	if (!opts.theme && (!opts.applyPlatformOpacityRules || !($.browser.mozilla && /Linux/.test(navigator.platform))))
-		lyr2.css(opts.overlayCSS);
+	lyr2.css(opts.overlayCSS);
 	lyr2.css('position', full ? 'fixed' : 'absolute');
 
 	// make iframe layer transparent in IE
-	if ($.browser.msie || opts.forceIframe)
+	if (msie || opts.forceIframe)
 		lyr1.css('opacity',0.0);
 
 	//$([lyr1[0],lyr2[0],lyr3[0]]).appendTo(full ? 'body' : el);
@@ -334,7 +333,7 @@ function install(el, opts) {
 			$(msg).show();
 	}
 
-	if (($.browser.msie || opts.forceIframe) && opts.showOverlay)
+	if ((msie || opts.forceIframe) && opts.showOverlay)
 		lyr1.show(); // opacity is zero
 	if (opts.fadeIn) {
 		var cb = opts.onBlock ? opts.onBlock : noOp;

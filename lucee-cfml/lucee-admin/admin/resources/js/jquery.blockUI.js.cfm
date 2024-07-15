@@ -41,9 +41,10 @@ if (/1\.(0|1|2)\.(0|1|2)/.test($.fn.jquery) || /^1.1/.test($.fn.jquery)) {
 }
 $.fn._fadeIn = $.fn.fadeIn;
 var noOp = function() {};
+var msie = /MSIE/.test(navigator.userAgent);
+var ie6  = /MSIE 6.0/.test(navigator.userAgent);
 var mode = document.documentMode || 0;
-var setExpr = $.browser.msie && (($.browser.version < 8 && !mode) || mode < 8);
-var ie6 = $.browser.msie && /MSIE 6.0/.test(navigator.userAgent) && !mode;
+var setExpr = $.isFunction( document.createElement('div').style.setExpression );
 $.blockUI   = function(opts) { install(window, opts); };
 $.unblockUI = function(opts) { remove(window, opts); };
 $.growlUI = function(title, message, timeout, onClose) {
@@ -62,8 +63,7 @@ $.fn.block = function(opts) {
 	return this.unblock({ fadeOut: 0 }).each(function() {
 		if ($.css(this,'position') == 'static')
 			this.style.position = 'relative';
-		if ($.browser.msie)
-			this.style.zoom = 1; // force 'hasLayout'
+		this.style.zoom = 1; // force 'hasLayout'
 		install(this, opts);
 	});
 };
@@ -164,7 +164,7 @@ function install(el, opts) {
 	}
 	$(el).data('blockUI.onUnblock', opts.onUnblock);
 	var z = opts.baseZ;
-	var lyr1 = ($.browser.msie || opts.forceIframe) 
+	var lyr1 = (msie || opts.forceIframe)
 		? $('<iframe class="blockUI" style="z-index:'+ (z++) +';display:none;border:none;margin:0;padding:0;position:absolute;width:100%;height:100%;top:0;left:0" src="'+opts.iframeSrc+'"></iframe>')
 		: $('<div class="blockUI" style="display:none"></div>');
 	
@@ -199,10 +199,9 @@ function install(el, opts) {
 		else 
 			lyr3.css(css);
 	}
-	if (!opts.theme && (!opts.applyPlatformOpacityRules || !($.browser.mozilla && /Linux/.test(navigator.platform))))
-		lyr2.css(opts.overlayCSS);
+	lyr2.css(opts.overlayCSS);
 	lyr2.css('position', full ? 'fixed' : 'absolute');
-	if ($.browser.msie || opts.forceIframe)
+	if (msie || opts.forceIframe)
 		lyr1.css('opacity',0.0);
 	var layers = [lyr1,lyr2,lyr3], $par = full ? $('body') : $(el);
 	$.each(layers, function() {
@@ -254,7 +253,7 @@ function install(el, opts) {
 		if (msg.jquery || msg.nodeType)
 			$(msg).show();
 	}
-	if (($.browser.msie || opts.forceIframe) && opts.showOverlay)
+	if ((msie || opts.forceIframe) && opts.showOverlay)
 		lyr1.show(); // opacity is zero
 	if (opts.fadeIn) {
 		var cb = opts.onBlock ? opts.onBlock : noOp;

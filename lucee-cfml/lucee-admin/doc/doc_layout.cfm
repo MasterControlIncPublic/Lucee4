@@ -100,16 +100,16 @@
 
 		$( function(){
 
-			$( '.coding-tip-trigger-#request.adminType#' ).click( 
-				function(){ 
+			$( '.coding-tip-trigger-#request.adminType#' ).on('click',
+function(){
 					var $this = $(this);
 					$this.next( '.coding-tip-#request.adminType#' ).slideDown();
 					$this.hide();
 				}
 			);
 
-			$( '.coding-tip-#request.adminType# code' ).click( 
-				function(){ 					
+			$( '.coding-tip-#request.adminType# code' ).on('click',
+		function(){
 					selectText(this);					
 				}
 			).prop("title", "Click to select the text");
