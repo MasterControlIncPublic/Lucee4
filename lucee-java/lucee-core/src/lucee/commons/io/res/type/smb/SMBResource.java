@@ -6,15 +6,15 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either 
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public 
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  **/
 package lucee.commons.io.res.type.smb;
 
@@ -26,7 +26,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Random;
 
-import jcifs.smb.NtlmPasswordAuthentication;
+import jcifs.smb.NtlmPasswordAuthenticator;
 import jcifs.smb.SmbException;
 import jcifs.smb.SmbFile;
 import jcifs.smb.SmbFileOutputStream;
@@ -44,11 +44,11 @@ public class SMBResource extends ResourceSupport implements Resource{
 
 	private SMBResourceProvider provider;
 	private String path;
-	private NtlmPasswordAuthentication auth;
+	private NtlmPasswordAuthenticator auth;
 	private SmbFile _smbFile;
 	private SmbFile _smbDir;
-	
-	
+
+
 	private SMBResource(SMBResourceProvider provider) {
 		this.provider = provider;
 	}
@@ -57,36 +57,36 @@ public class SMBResource extends ResourceSupport implements Resource{
 		this(provider);
 		_init(_stripAuth(path), _extractAuth(path));
 	}
-	
-	public SMBResource(SMBResourceProvider provider, String path, NtlmPasswordAuthentication auth) {
+
+	public SMBResource(SMBResourceProvider provider, String path, NtlmPasswordAuthenticator auth) {
 		this(provider);
 		_init(path, auth);
 	}
-	
+
 	public SMBResource(SMBResourceProvider provider, String parent, String child) {
 		this(provider);
 		_init(ResourceUtil.merge(_stripAuth(parent), child), _extractAuth(parent));
 	}
 
-	public SMBResource(SMBResourceProvider provider, String parent, String child, NtlmPasswordAuthentication auth) {
+	public SMBResource(SMBResourceProvider provider, String parent, String child, NtlmPasswordAuthenticator auth) {
 		this(provider);
 		_init(ResourceUtil.merge(_stripAuth(parent), child), auth);
-		
+
 	}
-	
-	private void _init (String path, NtlmPasswordAuthentication auth ) {
+
+	private void _init (String path, NtlmPasswordAuthenticator auth ) {
 		//String[] pathName=ResourceUtil.translatePathName(path);
 		this.path = _stripScheme(path);
 		this.auth = auth;
-		
+
 	}
-	
+
 	private String _stripScheme(String path) {
 		return path.replace(_scheme(), "/");
 	}
-	
-	private String _userInfo (String path) {
-		
+
+	private SMBUserInfo _extractUserInfoFromPath (String path) {
+
 		try {
 			//use http scheme just so we can parse the url and get the user info out
 			String schemeless = _stripScheme(path);
@@ -95,16 +95,16 @@ public class SMBResource extends ResourceSupport implements Resource{
 			return SMBResourceProvider.unencryptUserInfo(result);
 		}
 		catch (MalformedURLException e) {
-			return "";
+			return null;
 		}
 	}
-	
-	
-	private static String _userInfo (NtlmPasswordAuthentication auth,boolean addAtSign) {
+
+
+	private static String _userInfo (NtlmPasswordAuthenticator auth) {
 		String result = "";
 		if( auth != null) {
-			if( !StringUtils.isEmpty( auth.getDomain() ) ) {
-				result += auth.getDomain() + ";";
+			if( !StringUtils.isEmpty( auth.getUserDomain() ) ) {
+				result += auth.getUserDomain() + ";";
 			}
 			if( !StringUtils.isEmpty( auth.getUsername() ) ) {
 				result += auth.getUsername() + ":";
@@ -112,25 +112,26 @@ public class SMBResource extends ResourceSupport implements Resource{
 			if( !StringUtils.isEmpty( auth.getPassword() ) ) {
 				result += auth.getPassword();
 			}
-			if( addAtSign && !StringUtils.isEmpty( result ) ) {
-				result += "@";
-			}
 		}
 		return result;
 	}
-	
-	private NtlmPasswordAuthentication _extractAuth(String path) {
-		return new NtlmPasswordAuthentication( _userInfo(path) );
+
+	private NtlmPasswordAuthenticator _extractAuth(String path) {
+		SMBUserInfo userInfo = _extractUserInfoFromPath(path);
+		if (userInfo == null) {
+			return new NtlmPasswordAuthenticator();
+		}
+		return new NtlmPasswordAuthenticator(userInfo.getDomain(), userInfo.getUsername(), userInfo.getPassword());
 	}
-	
+
 	private String _stripAuth(String path) {
 		return _calculatePath(path).replaceFirst(_scheme().concat("[^/]*@"),"");
 	}
-	
+
 	private SmbFile _file() {
 		return _file(false);
 	}
-	
+
 	private SmbFile _file( boolean expectDirectory ) {
 		String _path = _calculatePath(getInnerPath());
 		SmbFile result;
@@ -148,30 +149,30 @@ public class SMBResource extends ResourceSupport implements Resource{
 		}
 		return result;
 	}
-	
+
 	private String _calculatePath(String path) {
 		return _calculatePath(path,null);
 	}
-	
-	private String _calculatePath(String path, NtlmPasswordAuthentication auth) {
-		
+
+	private String _calculatePath(String path, NtlmPasswordAuthenticator auth) {
+
 		if ( !path.startsWith( _scheme() ) ) {
 			if(path.startsWith("/") || path.startsWith("\\")) {
 				path = path.substring(1);
 			}
 			if (auth != null) {
-				path = SMBResourceProvider.encryptUserInfo(_userInfo(auth,false)).concat("@").concat(path);
+				path = SMBResourceProvider.encryptUserInfo(_userInfo(auth)).concat("@").concat(path);
 			}
 			path = _scheme().concat( path );
 		}
 		return path;
 	}
-	
+
 	private String _scheme() {
 		return provider.getScheme().concat("://");
-		
+
 	}
-	
+
 	@Override
 	public boolean isReadable() {
 		SmbFile file = _file();
@@ -193,15 +194,15 @@ public class SMBResource extends ResourceSupport implements Resource{
 		catch (SmbException e1) {
 			return false;
 		}
-		
+
 		try {
 			if (file.getType() == SmbFile.TYPE_SHARE) {
 				// canWrite() doesn't work on shares. always returns false even if you can truly write, test this by opening a file on the share
-				
+
 				SmbFile testFile = _getTempFile(file,auth);
 				if (testFile == null) return false;
 				if (testFile.canWrite()) return true;
-				
+
 				OutputStream os=null;
 				try {
 					os = testFile.getOutputStream();
@@ -214,7 +215,7 @@ public class SMBResource extends ResourceSupport implements Resource{
 					testFile.delete();
 				}
 				return true;
-				
+
 			}
 			return file.canWrite();
 		}
@@ -223,19 +224,19 @@ public class SMBResource extends ResourceSupport implements Resource{
 		}
 	}
 
-	private SmbFile _getTempFile(SmbFile directory, NtlmPasswordAuthentication auth) throws SmbException {
+	private SmbFile _getTempFile(SmbFile directory, NtlmPasswordAuthenticator auth) throws SmbException {
 		if (!directory.isDirectory()) return null;
 		Random r = new Random();
-		
+
 		SmbFile result = provider.getFile(directory.getCanonicalPath() + "/write-test-file.unknown." + r.nextInt(), auth);
 		if (result.exists()) return _getTempFile(directory,auth); //try again
 		return result;
 	}
-	
+
 	@Override
 	public void remove(boolean alsoRemoveChildren) throws IOException {
 		if(alsoRemoveChildren)ResourceUtil.removeChildren(this);
-		
+
 		_delete();
 	}
 
@@ -278,7 +279,7 @@ public class SMBResource extends ResourceSupport implements Resource{
 	public String getParent() {
 		// SmbFile's getParent function seems to return just smb:// no matter what, implement custom getParent Function()
 		String path = getPath().replaceFirst("[\\\\/]+$", "");
-		
+
 		int location = Math.max(path.lastIndexOf('/'),path.lastIndexOf('\\'));
 		if (location == -1 || location == 0) return "";
 		return path.substring(0,location);
@@ -294,7 +295,7 @@ public class SMBResource extends ResourceSupport implements Resource{
 	@Override
 	public Resource getRealResource(String realpath) {
 		realpath=ResourceUtil.merge(getInnerPath() +"/", realpath);
-		
+
 		if(realpath.startsWith("../"))return null;
 		return new SMBResource( provider, _calculatePath(realpath,auth), auth );
 	}
@@ -303,7 +304,7 @@ public class SMBResource extends ResourceSupport implements Resource{
 		if(path==null) return "/";
 		return path;
 	}
-	
+
 	@Override
 	public String getPath() {
 		return _calculatePath(path,auth);
@@ -350,7 +351,7 @@ public class SMBResource extends ResourceSupport implements Resource{
 	public boolean isSystem() {
 		return _isFlagSet(_file(), SmbFile.ATTR_SYSTEM);
 	}
-	
+
 	private boolean _isFlagSet(SmbFile file, int flag) {
 		if (file == null) return false;
 		try {
@@ -392,7 +393,7 @@ public class SMBResource extends ResourceSupport implements Resource{
 		try {
 			SmbFile dir = _file(true);
 			SmbFile[] files = dir.listFiles();
-			
+
 			Resource[] result = new Resource[files.length];
 			for(int i = 0; i < files.length ; i++) {
 				SmbFile file = files[i];
@@ -403,8 +404,8 @@ public class SMBResource extends ResourceSupport implements Resource{
 		catch (SmbException e) {
 			return new Resource[0];
 		}
-		
-		
+
+
 	}
 
 	@Override
@@ -448,14 +449,14 @@ public class SMBResource extends ResourceSupport implements Resource{
 	@Override
 	public void createFile(boolean createParentWhenNotExists) throws IOException {
 		try {
-			
+
 			ResourceUtil.checkCreateFileOK(this, createParentWhenNotExists);
 			//client.unregisterFTPFile(this);
 			IOUtil.copy(new ByteArrayInputStream(new byte[0]), getOutputStream(), true, true);
 		} catch (SmbException e) {
 			throw new IOException(e); // for cfcatch type="java.io.IOException"
 		}
-	
+
 	}
 
 	@Override
@@ -472,7 +473,7 @@ public class SMBResource extends ResourceSupport implements Resource{
 		finally {
 			provider.unlock(this);
 		}
-		
+
 	}
 
 	@Override
@@ -547,7 +548,7 @@ public class SMBResource extends ResourceSupport implements Resource{
 			throw new IOException(e); // for cfcatch type="java.io.IOException"
 		} finally {
 			provider.unlock(this);
-		}	
+		}
 	}
 
 	@Override
@@ -564,7 +565,7 @@ public class SMBResource extends ResourceSupport implements Resource{
 			throw new IOException(e); // for cfcatch type="java.io.IOException"
 		}
 	}
-	
+
 	@Override
 	public boolean getAttribute(short attribute) {
 		try {
@@ -574,13 +575,13 @@ public class SMBResource extends ResourceSupport implements Resource{
 		catch (SmbException e) {
 			return false;
 		}
-		
+
 	}
-	
+
 	public SmbFile getSmbFile() {
 		return _file();
 	}
-	
+
 	private int _lookupAttribute(short attribute) {
 		int result = attribute;
 		switch (attribute) {

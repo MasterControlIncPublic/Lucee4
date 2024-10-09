@@ -100,7 +100,9 @@ dependencies {
     compile 'org.lucee:hsqldb:2.3.3' // a database lucee supports out of the box
     compile 'org.lucee.lib:icepdf-core:3.1.0_3'
     compile 'org.lucee.lib:javasysmon:0.3.3' // tool behind getCPUUsage()
-    compile 'org.lucee.lib:jcifs:1.3.17' //SMB:// protocol for file operations
+    compile('eu.agno3.jcifs:jcifs-ng:2.1.5') {
+        exclude(group: 'javax.servlet', module: 'servlet-api')
+    }
     compile 'org.jfree:jfreechart:1.0.19' //cfchart
     compile 'org.apache.tika:tika-core:2.8.0'
     compile 'org.lucee.lib:jpedal_gpl:3.51b12' //looks like it makes thumbnails from pdfs
