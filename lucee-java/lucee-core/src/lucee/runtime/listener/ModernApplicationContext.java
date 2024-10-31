@@ -109,9 +109,8 @@ public class ModernApplicationContext extends ApplicationContextSupport {
 	
 	private static final Key SUPPRESS_CONTENT = KeyImpl.intern("suppressRemoteComponentContent");
 
-	private static final Key CGI_READONLY = KeyImpl.intern("CGIReadOnly");
+	private static final Key CGI_READONLY = KeyImpl.intern("CGIReadOnly");;
 
-	private static final Collection.Key XML_FEATURES = KeyImpl.intern("xmlFeatures");
 
 	
 	
@@ -207,8 +206,7 @@ public class ModernApplicationContext extends ApplicationContextSupport {
 	private boolean initWebCharset;
 	private Charset resourceCharset;
 	private boolean initResourceCharset;
-	private boolean initXmlFeatures;
-	private Struct xmlFeatures;
+	
 	
 	
 	private Resource[] restCFCLocations;
@@ -1275,13 +1273,4 @@ public class ModernApplicationContext extends ApplicationContextSupport {
 		this.cgiScopeReadonly=cgiScopeReadonly;
 	}
 
-	public Struct getXmlFeatures() {
-		if (!initXmlFeatures) {
-			Struct sct = Caster.toStruct(get(component, XML_FEATURES, null), null);
-			if (sct != null)
-				xmlFeatures = sct;
-			initXmlFeatures = true;
-		}
-		return xmlFeatures;
-	}
 }

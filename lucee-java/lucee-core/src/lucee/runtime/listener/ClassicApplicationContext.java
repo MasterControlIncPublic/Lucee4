@@ -41,7 +41,6 @@ import lucee.runtime.op.Duplicator;
 import lucee.runtime.orm.ORMConfiguration;
 import lucee.runtime.rest.RestSettings;
 import lucee.runtime.type.CustomType;
-import lucee.runtime.type.Struct;
 import lucee.runtime.type.UDF;
 import lucee.runtime.type.dt.TimeSpan;
 import lucee.runtime.type.scope.FormImpl;
@@ -110,7 +109,6 @@ public class ClassicApplicationContext extends ApplicationContextSupport {
 	private short wstype;
 
 	private boolean cgiScopeReadonly;
-	private Struct xmlFeatures;
     
     /**
      * constructor of the class
@@ -755,13 +753,5 @@ public class ClassicApplicationContext extends ApplicationContextSupport {
 	@Override
 	public void setCGIScopeReadonly(boolean cgiScopeReadonly) {
 		this.cgiScopeReadonly=cgiScopeReadonly;
-	}
-
-	public void setXmlFeatures(Struct xmlFeatures) {
-		this.xmlFeatures = xmlFeatures;
-	}
-
-	public Struct getXmlFeatures() {
-		return xmlFeatures;
 	}
 }

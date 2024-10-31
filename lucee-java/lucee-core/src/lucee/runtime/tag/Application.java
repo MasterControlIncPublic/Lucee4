@@ -117,7 +117,6 @@ public final class Application extends TagImpl {
 	private short scopeCascading=-1;
 	private Boolean suppress;
 	private boolean cgiReadOnly=true;
-	private Struct xmlFeatures;
 	
      
     @Override
@@ -176,7 +175,6 @@ public final class Application extends TagImpl {
     	cacheInclude=null;
     	onmissingtemplate=null;
     	scopeCascading=-1;
-		xmlFeatures = null;
     }
     
     /** set the value setclientcookies
@@ -416,10 +414,7 @@ public final class Application extends TagImpl {
 	public void setComponentpaths(Object mappings) throws PageException	{
 	    this.componentMappings=AppListenerUtil.toComponentMappings(pageContext.getConfig(), mappings,getSource());
 	}
-
-	public void setXmlFeatures(Struct xmlFeatures) {
-		this.xmlFeatures = xmlFeatures;
-	}
+	
 
 	public void setSecurejsonprefix(String secureJsonPrefix) 	{
 		this.secureJsonPrefix=secureJsonPrefix;
@@ -560,13 +555,6 @@ public final class Application extends TagImpl {
 		
 		// Scope cascading
 		if(scopeCascading!=-1) ac.setScopeCascading(scopeCascading);
-
-		if (ac instanceof ClassicApplicationContext) {
-			ClassicApplicationContext cAppContext = (ClassicApplicationContext)ac;
-
-			if (xmlFeatures != null)
-				cAppContext.setXmlFeatures(xmlFeatures);
-		}
 		
 		// ORM
 		boolean initORM=false;
