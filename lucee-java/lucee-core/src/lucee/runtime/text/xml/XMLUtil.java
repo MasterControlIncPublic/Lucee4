@@ -250,11 +250,13 @@ public final class XMLUtil {
             else {
             	XMLUtil.setAttributeEL(factory,XMLConstants.VALIDATION_SCHEMA, Boolean.TRUE);
             	XMLUtil.setAttributeEL(factory,XMLConstants.VALIDATION_SCHEMA_FULL_CHECKING, Boolean.TRUE);
-            
-                
             }
-            
-            
+
+			XMLUtil.setAttributeEL(factory,XMLConstants.EXTERNAL_GENERAL_ENTITIES, Boolean.FALSE);
+			XMLUtil.setAttributeEL(factory,XMLConstants.EXTERNAL_PARAMETER_ENTITIES, Boolean.FALSE);
+			XMLUtil.setAttributeEL(factory,XMLConstants.DISALLOW_DOCTYPE_DECL, Boolean.TRUE);
+			factory.setXIncludeAware(false);
+
             factory.setNamespaceAware(true);
             factory.setValidating(validator!=null);
             
@@ -1009,7 +1011,11 @@ public final class XMLUtil {
      * @throws SAXException
      * @throws IOException
      */
-    public static String transform(InputSource xml, InputSource xsl) throws TransformerException, SAXException, IOException {
+    public static String transform(InputSource xml, InputSource xsl) throws
+            TransformerException,
+            SAXException,
+            IOException,
+            ParserConfigurationException {
     	return transform( parse( xml, null , false ), xsl, null );
     }
     
@@ -1023,7 +1029,11 @@ public final class XMLUtil {
      * @throws SAXException
      * @throws IOException
      */
-    public static String transform(InputSource xml, InputSource xsl, Map parameters) throws TransformerException, SAXException, IOException {
+    public static String transform(InputSource xml, InputSource xsl, Map parameters) throws
+            TransformerException,
+            SAXException,
+            IOException,
+            ParserConfigurationException {
     	return transform( parse( xml, null , false ), xsl, parameters );
     }
 

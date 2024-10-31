@@ -18,10 +18,16 @@
  **/
 package lucee.runtime.text.xml;
 
+import org.apache.axis.types.Entities;
+
 public interface XMLConstants {
 	public final static String NON_VALIDATING_DTD_GRAMMAR="http://apache.org/xml/features/nonvalidating/load-dtd-grammar";
 	public final static String NON_VALIDATING_DTD_EXTERNAL="http://apache.org/xml/features/nonvalidating/load-external-dtd";
 	
 	public final static String VALIDATION_SCHEMA="http://apache.org/xml/features/validation/schema";
 	public final static String VALIDATION_SCHEMA_FULL_CHECKING="http://apache.org/xml/features/validation/schema-full-checking";
+
+	public final static String EXTERNAL_GENERAL_ENTITIES = "http://xml.org/sax/features/external-general-entities";
+	public final static String EXTERNAL_PARAMETER_ENTITIES = "http://xml.org/sax/features/external-parameter-entities";
+	public final static String DISALLOW_DOCTYPE_DECL = "http://apache.org/xml/features/disallow-doctype-decl";
 }
