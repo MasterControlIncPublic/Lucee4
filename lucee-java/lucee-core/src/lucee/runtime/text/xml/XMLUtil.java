@@ -254,7 +254,6 @@ public final class XMLUtil {
 
 			XMLUtil.setAttributeEL(factory,XMLConstants.EXTERNAL_GENERAL_ENTITIES, Boolean.FALSE);
 			XMLUtil.setAttributeEL(factory,XMLConstants.EXTERNAL_PARAMETER_ENTITIES, Boolean.FALSE);
-			XMLUtil.setAttributeEL(factory,XMLConstants.DISALLOW_DOCTYPE_DECL, Boolean.TRUE);
 			factory.setXIncludeAware(false);
 
             factory.setNamespaceAware(true);
