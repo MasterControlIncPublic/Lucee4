@@ -1010,11 +1010,7 @@ public final class XMLUtil {
      * @throws SAXException
      * @throws IOException
      */
-    public static String transform(InputSource xml, InputSource xsl) throws
-            TransformerException,
-            SAXException,
-            IOException,
-            ParserConfigurationException {
+    public static String transform(InputSource xml, InputSource xsl) throws TransformerException, SAXException, IOException {
     	return transform( parse( xml, null , false ), xsl, null );
     }
     
@@ -1028,11 +1024,7 @@ public final class XMLUtil {
      * @throws SAXException
      * @throws IOException
      */
-    public static String transform(InputSource xml, InputSource xsl, Map parameters) throws
-            TransformerException,
-            SAXException,
-            IOException,
-            ParserConfigurationException {
+    public static String transform(InputSource xml, InputSource xsl, Map parameters) throws TransformerException, SAXException, IOException {
     	return transform( parse( xml, null , false ), xsl, parameters );
     }
 

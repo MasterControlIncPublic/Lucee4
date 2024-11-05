@@ -18,8 +18,6 @@
  **/
 package lucee.runtime.text.xml;
 
-import org.apache.axis.types.Entities;
-
 public interface XMLConstants {
 	public final static String NON_VALIDATING_DTD_GRAMMAR="http://apache.org/xml/features/nonvalidating/load-dtd-grammar";
 	public final static String NON_VALIDATING_DTD_EXTERNAL="http://apache.org/xml/features/nonvalidating/load-external-dtd";
