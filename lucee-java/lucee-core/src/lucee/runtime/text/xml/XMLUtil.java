@@ -257,7 +257,7 @@ public final class XMLUtil {
             XMLUtil.setAttributeEL(factory,XMLConstants.EXTERNAL_GENERAL_ENTITIES, Boolean.FALSE);
             XMLUtil.setAttributeEL(factory,XMLConstants.EXTERNAL_PARAMETER_ENTITIES, Boolean.FALSE);
             factory.setXIncludeAware(false);
-			factory.setExpandEntityReferences(false);
+            factory.setExpandEntityReferences(false);
 
             factory.setNamespaceAware(true);
             factory.setValidating(validator!=null);
