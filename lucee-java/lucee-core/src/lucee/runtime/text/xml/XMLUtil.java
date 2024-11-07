@@ -252,8 +252,6 @@ public final class XMLUtil {
             	XMLUtil.setAttributeEL(factory,XMLConstants.VALIDATION_SCHEMA_FULL_CHECKING, Boolean.TRUE);
             }
 
-            //Prevent Out of Band XML External Entity Injection
-            //See https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html#jaxp-documentbuilderfactory-saxparserfactory-and-dom4j
             XMLUtil.setAttributeEL(factory,XMLConstants.EXTERNAL_GENERAL_ENTITIES, Boolean.FALSE);
             XMLUtil.setAttributeEL(factory,XMLConstants.EXTERNAL_PARAMETER_ENTITIES, Boolean.FALSE);
             factory.setXIncludeAware(false);
