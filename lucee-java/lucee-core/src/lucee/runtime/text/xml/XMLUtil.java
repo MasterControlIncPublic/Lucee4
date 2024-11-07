@@ -250,11 +250,13 @@ public final class XMLUtil {
             else {
             	XMLUtil.setAttributeEL(factory,XMLConstants.VALIDATION_SCHEMA, Boolean.TRUE);
             	XMLUtil.setAttributeEL(factory,XMLConstants.VALIDATION_SCHEMA_FULL_CHECKING, Boolean.TRUE);
-            
-                
             }
-            
-            
+
+            XMLUtil.setAttributeEL(factory,XMLConstants.EXTERNAL_GENERAL_ENTITIES, Boolean.FALSE);
+            XMLUtil.setAttributeEL(factory,XMLConstants.EXTERNAL_PARAMETER_ENTITIES, Boolean.FALSE);
+            factory.setXIncludeAware(false);
+            factory.setExpandEntityReferences(false);
+
             factory.setNamespaceAware(true);
             factory.setValidating(validator!=null);
             
