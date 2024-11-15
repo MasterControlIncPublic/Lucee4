@@ -23,8 +23,8 @@ import java.io.OutputStream;
 import java.util.zip.GZIPOutputStream;
 
 import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import lucee.commons.lang.StringUtil;
 import lucee.runtime.Info;

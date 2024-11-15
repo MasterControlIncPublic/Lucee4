@@ -21,7 +21,7 @@ package lucee.runtime.cache.legacy;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import lucee.commons.io.cache.Cache;
 import lucee.commons.io.res.Resource;

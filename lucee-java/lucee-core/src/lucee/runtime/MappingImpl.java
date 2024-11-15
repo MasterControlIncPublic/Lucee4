@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Map;
 
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 
 import lucee.commons.io.FileUtil;
 import lucee.commons.io.res.Resource;

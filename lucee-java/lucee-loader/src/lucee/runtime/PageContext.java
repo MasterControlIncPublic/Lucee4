@@ -23,9 +23,9 @@ import java.io.OutputStream;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.BodyTag;
@@ -72,7 +72,7 @@ import lucee.runtime.util.VariableUtil;
  * for example you have the method getSession to get jsp combatible session object (HTTPSession)
  *  and with sessionScope() you get CFML combatible session object (Struct,Scope).
  */
-public abstract class PageContext extends javax.servlet.jsp.PageContext {
+public abstract class PageContext extends jakarta.servlet.jsp.PageContext {
  
     /**
      * returns matching scope

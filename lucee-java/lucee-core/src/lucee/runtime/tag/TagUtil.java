@@ -23,7 +23,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.servlet.http.Cookie;
+import jakarta.servlet.http.Cookie;
 import javax.servlet.jsp.tagext.Tag;
 
 import lucee.commons.io.DevNullOutputStream;

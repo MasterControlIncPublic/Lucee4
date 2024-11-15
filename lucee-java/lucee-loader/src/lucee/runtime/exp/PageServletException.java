@@ -19,7 +19,7 @@
 package lucee.runtime.exp;
 
 
-import javax.servlet.ServletException;
+import jakarta.servlet.ServletException;
 
 import lucee.runtime.PageContext;
 import lucee.runtime.PageSource;

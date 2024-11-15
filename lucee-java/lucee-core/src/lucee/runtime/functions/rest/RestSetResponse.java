@@ -18,7 +18,7 @@
  **/
 package lucee.runtime.functions.rest;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import lucee.runtime.PageContext;
 import lucee.runtime.exp.ApplicationException;

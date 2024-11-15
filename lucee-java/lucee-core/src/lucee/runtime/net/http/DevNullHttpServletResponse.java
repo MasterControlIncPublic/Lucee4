@@ -22,9 +22,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.servlet.ServletOutputStream;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpServletResponseWrapper;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponseWrapper;
 
 import lucee.commons.io.DevNullOutputStream;
 import lucee.commons.io.DevNullServletOutputStream;

@@ -18,7 +18,7 @@
  **/
 package lucee.runtime.net.flex;
 
-import javax.servlet.ServletException;
+import jakarta.servlet.ServletException;
 
 import lucee.loader.engine.CFMLEngine;
 import lucee.loader.engine.CFMLEngineFactory;

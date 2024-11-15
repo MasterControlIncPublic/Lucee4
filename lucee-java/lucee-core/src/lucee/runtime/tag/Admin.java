@@ -35,7 +35,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TimeZone;
 
-import javax.servlet.ServletConfig;
+import jakarta.servlet.ServletConfig;
 import javax.servlet.jsp.tagext.Tag;
 
 import lucee.commons.collection.MapFactory;

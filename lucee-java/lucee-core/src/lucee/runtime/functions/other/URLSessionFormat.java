@@ -18,7 +18,7 @@
  **/
 package lucee.runtime.functions.other;
 
-import javax.servlet.http.Cookie;
+import jakarta.servlet.http.Cookie;
 
 import lucee.runtime.PageContext;
 import lucee.runtime.PageContextImpl;

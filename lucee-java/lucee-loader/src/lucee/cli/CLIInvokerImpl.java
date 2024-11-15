@@ -23,7 +23,7 @@ import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.ServletException;
+import jakarta.servlet.ServletException;
 
 import lucee.cli.servlet.ServletConfigImpl;
 import lucee.cli.servlet.ServletContextImpl;

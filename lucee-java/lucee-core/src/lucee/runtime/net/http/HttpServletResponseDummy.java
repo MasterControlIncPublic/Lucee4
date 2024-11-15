@@ -22,11 +22,13 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.List;
 import java.util.Locale;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 
 import lucee.commons.io.DevNullOutputStream;
 import lucee.commons.lang.Pair;
@@ -174,6 +176,12 @@ public final class HttpServletResponseDummy implements HttpServletResponse,Seria
 	public void setContentLength(int contentLength) {
 		this.contentLength=contentLength;
 	}
+
+	@Override
+	public void setContentLengthLong(long l) {
+
+	}
+
 	@Override
 	public void setContentType(String contentType) {
 		this.contentType=contentType;
@@ -269,6 +277,21 @@ public final class HttpServletResponseDummy implements HttpServletResponse,Seria
 	 */
 	public int getStatus() {
 		return status;
+	}
+
+	@Override
+	public String getHeader(String s) {
+		return "";
+	}
+
+	@Override
+	public Collection<String> getHeaders(String s) {
+		return List.of();
+	}
+
+	@Override
+	public Collection<String> getHeaderNames() {
+		return List.of();
 	}
 
 	/**

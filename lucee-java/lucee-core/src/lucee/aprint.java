@@ -33,7 +33,7 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.http.Cookie;
+import jakarta.servlet.http.Cookie;
 
 import lucee.commons.io.IOUtil;
 import lucee.commons.io.SystemUtil;

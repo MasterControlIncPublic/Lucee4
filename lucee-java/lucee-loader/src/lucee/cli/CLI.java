@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.ServletException;
+import jakarta.servlet.ServletException;
 import javax.servlet.jsp.JspException;
 
 import lucee.loader.util.Util;
