@@ -18,8 +18,8 @@
  **/
 package lucee.runtime.ext.tag;
 
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.tagext.Tag;
+import jakarta.servlet.jsp.JspException;
+import jakarta.servlet.jsp.tagext.Tag;
 
 import lucee.commons.lang.StringUtil;
 import lucee.runtime.PageContext;
@@ -42,7 +42,7 @@ public abstract class TagImpl implements Tag {
 		this.pageContext=pageContext;
 	}
 	@Override
-	public void setPageContext(javax.servlet.jsp.PageContext pageContext) {
+	public void setPageContext(jakarta.servlet.jsp.PageContext pageContext) {
 		this.pageContext=(PageContext) pageContext;
 	}
 

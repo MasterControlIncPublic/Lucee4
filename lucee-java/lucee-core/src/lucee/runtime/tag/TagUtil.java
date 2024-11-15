@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import jakarta.servlet.http.Cookie;
-import javax.servlet.jsp.tagext.Tag;
+import jakarta.servlet.jsp.tagext.Tag;
 
 import lucee.commons.io.DevNullOutputStream;
 import lucee.commons.lang.Pair;

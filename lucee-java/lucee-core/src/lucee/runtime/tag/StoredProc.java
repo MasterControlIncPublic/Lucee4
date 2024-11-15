@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.servlet.jsp.JspException;
+import jakarta.servlet.jsp.JspException;
 
 import lucee.commons.io.IOUtil;
 import lucee.commons.io.log.Log;

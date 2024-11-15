@@ -18,7 +18,7 @@
  **/
 package lucee.runtime.tag;
 
-import javax.servlet.jsp.tagext.Tag;
+import jakarta.servlet.jsp.tagext.Tag;
 
 import lucee.runtime.exp.TagNotSupported;
 import lucee.runtime.ext.tag.TagImpl;

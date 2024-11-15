@@ -28,7 +28,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.JspException;
+import jakarta.servlet.jsp.JspException;
 
 import lucee.runtime.CFMLFactory;
 import lucee.runtime.PageContext;

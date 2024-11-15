@@ -18,8 +18,8 @@
  **/
 package lucee.runtime.tag;
 
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.tagext.Tag;
+import jakarta.servlet.jsp.JspException;
+import jakarta.servlet.jsp.tagext.Tag;
 
 import lucee.runtime.ext.tag.TagImpl;
 

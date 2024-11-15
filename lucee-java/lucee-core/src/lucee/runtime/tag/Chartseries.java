@@ -20,8 +20,8 @@ package lucee.runtime.tag;
 
 import java.awt.Color;
 
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.tagext.Tag;
+import jakarta.servlet.jsp.JspException;
+import jakarta.servlet.jsp.tagext.Tag;
 
 import lucee.commons.color.ColorCaster;
 import lucee.commons.lang.StringUtil;

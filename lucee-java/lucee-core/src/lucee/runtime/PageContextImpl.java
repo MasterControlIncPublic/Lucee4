@@ -49,6 +49,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.jsp.JspException;
 import jakarta.servlet.jsp.JspWriter;
+import jakarta.servlet.jsp.el.ExpressionEvaluator;
+import jakarta.servlet.jsp.el.VariableResolver;
 import jakarta.servlet.jsp.tagext.BodyContent;
 import jakarta.servlet.jsp.tagext.BodyTag;
 import jakarta.servlet.jsp.tagext.Tag;
@@ -550,11 +552,6 @@ public final class PageContextImpl extends PageContext implements Sizeable {
 		undefined.initialize(this);
 		return this;
 	 }
-
-	@Override
-	public void initialize(javax.servlet.Servlet servlet, javax.servlet.ServletRequest servletRequest, javax.servlet.ServletResponse servletResponse, String s, boolean b, int i, boolean b1) throws IOException, IllegalStateException, IllegalArgumentException {
-
-	}
 
 	@Override
 	public void release() {
@@ -1646,18 +1643,18 @@ public final class PageContextImpl extends PageContext implements Sizeable {
 	@Override
 	public void setAttribute(String name, Object value, int scope) {
 		switch(scope){
-		case javax.servlet.jsp.PageContext.APPLICATION_SCOPE:
+		case jakarta.servlet.jsp.PageContext.APPLICATION_SCOPE:
 			if(value==null) getServletContext().removeAttribute(name);
 			else getServletContext().setAttribute(name, value);
 		break;
-		case javax.servlet.jsp.PageContext.PAGE_SCOPE:
+		case jakarta.servlet.jsp.PageContext.PAGE_SCOPE:
 			setAttribute(name, value);
 		break;
-		case javax.servlet.jsp.PageContext.REQUEST_SCOPE:
+		case jakarta.servlet.jsp.PageContext.REQUEST_SCOPE:
 			if(value==null) req.removeAttribute(name);
 			else setAttribute(name, value);
 		break;
-		case javax.servlet.jsp.PageContext.SESSION_SCOPE:
+		case jakarta.servlet.jsp.PageContext.SESSION_SCOPE:
 			HttpSession s = req.getSession(true);
 			if(value==null)s.removeAttribute(name);
 			else s.setAttribute(name, value);
@@ -1677,13 +1674,13 @@ public final class PageContextImpl extends PageContext implements Sizeable {
 	@Override
 	public Object getAttribute(String name, int scope) {
 		switch(scope){
-		case javax.servlet.jsp.PageContext.APPLICATION_SCOPE:
+		case jakarta.servlet.jsp.PageContext.APPLICATION_SCOPE:
 			return getServletContext().getAttribute(name);
-		case javax.servlet.jsp.PageContext.PAGE_SCOPE:
+		case jakarta.servlet.jsp.PageContext.PAGE_SCOPE:
 			return getAttribute(name);
-		case javax.servlet.jsp.PageContext.REQUEST_SCOPE:
+		case jakarta.servlet.jsp.PageContext.REQUEST_SCOPE:
 			return req.getAttribute(name);
-		case javax.servlet.jsp.PageContext.SESSION_SCOPE:
+		case jakarta.servlet.jsp.PageContext.SESSION_SCOPE:
 			HttpSession s = req.getSession();
 			if(s!=null)return s.getAttribute(name);
 		break;
@@ -1740,13 +1737,13 @@ public final class PageContextImpl extends PageContext implements Sizeable {
 	public Enumeration getAttributeNamesInScope(int scope) {
 		
         switch(scope){
-		case javax.servlet.jsp.PageContext.APPLICATION_SCOPE:
+		case jakarta.servlet.jsp.PageContext.APPLICATION_SCOPE:
 			return getServletContext().getAttributeNames();
-		case javax.servlet.jsp.PageContext.PAGE_SCOPE:
+		case jakarta.servlet.jsp.PageContext.PAGE_SCOPE:
 			return ItAsEnum.toStringEnumeration(variablesScope().keyIterator());
-		case javax.servlet.jsp.PageContext.REQUEST_SCOPE:
+		case jakarta.servlet.jsp.PageContext.REQUEST_SCOPE:
 			return req.getAttributeNames();
-		case javax.servlet.jsp.PageContext.SESSION_SCOPE:
+		case jakarta.servlet.jsp.PageContext.SESSION_SCOPE:
 			return req.getSession(true).getAttributeNames();
 		}
 		return null;
@@ -1755,6 +1752,21 @@ public final class PageContextImpl extends PageContext implements Sizeable {
 	@Override
 	public JspWriter getOut() {
 		return forceWriter;
+	}
+
+	@Override
+	public ExpressionEvaluator getExpressionEvaluator() {
+		return null;
+	}
+
+	@Override
+	public VariableResolver getVariableResolver() {
+		return null;
+	}
+
+	@Override
+	public jakarta.el.ELContext getELContext() {
+		return null;
 	}
 
 	@Override
@@ -2334,7 +2346,12 @@ public final class PageContextImpl extends PageContext implements Sizeable {
 	public void include(String relPath) throws ServletException,IOException  {
 		HTTPUtil.include(this, relPath);
 	}
-	
+
+	@Override
+	public void include(String s, boolean b) throws ServletException, IOException {
+
+	}
+
 
 	@Override
 	public void forward(String relPath) throws ServletException, IOException {
@@ -2947,7 +2964,7 @@ public final class PageContextImpl extends PageContext implements Sizeable {
         }        
     }
 
-    @Override
+	@Override
     public void compile(String relPath) throws PageException {
     	SystemOut.printDate("method PageContext.compile(String) should no longer be used!");
     	compile(PageSourceImpl.best(getRelativePageSources(relPath)));

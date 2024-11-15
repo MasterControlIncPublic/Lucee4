@@ -28,7 +28,7 @@ import java.util.Enumeration;
 import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.RequestDispatcher;
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.Servlet;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;

@@ -26,13 +26,15 @@ import java.util.Stack;
 import java.util.concurrent.ConcurrentHashMap;
 
 import jakarta.servlet.Servlet;
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.JspEngineInfo;
+import jakarta.servlet.jsp.JspEngineInfo;
 
+import jakarta.servlet.jsp.JspApplicationContext;
 import lucee.commons.io.SystemUtil;
 import lucee.commons.io.log.Log;
 import lucee.commons.io.log.LogUtil;
@@ -104,7 +106,7 @@ public final class CFMLFactoryImpl extends CFMLFactory {
         }
     }
 
-	public javax.servlet.jsp.PageContext getPageContext(
+	public jakarta.servlet.jsp.PageContext getPageContext(
 		Servlet servlet,
 		ServletRequest req,
 		ServletResponse rsp,
@@ -113,11 +115,6 @@ public final class CFMLFactoryImpl extends CFMLFactory {
 		int bufferSize,
 		boolean autoflush) {
 			return getPageContextImpl((HttpServlet)servlet,(HttpServletRequest)req,(HttpServletResponse)rsp,errorPageURL,needsSession,bufferSize,autoflush,true,false);
-	}
-
-	@Override
-	public javax.servlet.jsp.PageContext getPageContext(javax.servlet.Servlet servlet, javax.servlet.ServletRequest servletRequest, javax.servlet.ServletResponse servletResponse, String s, boolean b, int i, boolean b1) {
-		return null;
 	}
 	
 	/**
@@ -175,7 +172,7 @@ public final class CFMLFactoryImpl extends CFMLFactory {
 	}
 
 	@Override
-	public void releasePageContext(javax.servlet.jsp.PageContext pc) {
+	public void releasePageContext(jakarta.servlet.jsp.PageContext pc) {
 		releaseLuceePageContext((PageContext)pc);
 	}
 	
@@ -277,6 +274,11 @@ public final class CFMLFactoryImpl extends CFMLFactory {
 	@Override
 	public JspEngineInfo getEngineInfo() {
 		return info;
+	}
+
+	@Override
+	public JspApplicationContext getJspApplicationContext(ServletContext servletContext) {
+		return null;
 	}
 
 

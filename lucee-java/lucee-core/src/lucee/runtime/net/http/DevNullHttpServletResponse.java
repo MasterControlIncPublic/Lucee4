@@ -21,7 +21,7 @@ package lucee.runtime.net.http;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import javax.servlet.ServletOutputStream;
+import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpServletResponseWrapper;

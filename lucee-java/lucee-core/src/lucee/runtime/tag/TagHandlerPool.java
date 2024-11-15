@@ -22,7 +22,7 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import javax.servlet.jsp.tagext.Tag;
+import jakarta.servlet.jsp.tagext.Tag;
 
 import lucee.commons.lang.ClassUtil;
 import lucee.runtime.config.ConfigWeb;

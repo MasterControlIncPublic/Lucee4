@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 import jakarta.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.JspException;
+import jakarta.servlet.jsp.JspException;
 
 import lucee.commons.io.IOUtil;
 import lucee.commons.io.res.Resource;

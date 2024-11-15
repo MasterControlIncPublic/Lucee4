@@ -24,9 +24,9 @@ import java.math.BigDecimal;
 import java.util.Iterator;
 import java.util.Map;
 
-import javax.servlet.jsp.JspWriter;
-import javax.servlet.jsp.tagext.BodyContent;
-import javax.servlet.jsp.tagext.Tag;
+import jakarta.servlet.jsp.JspWriter;
+import jakarta.servlet.jsp.tagext.BodyContent;
+import jakarta.servlet.jsp.tagext.Tag;
 
 import lucee.commons.io.IOUtil;
 import lucee.commons.io.res.Resource;

@@ -18,7 +18,8 @@
  **/
 package lucee.commons.io;
 
-import javax.servlet.ServletOutputStream;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.WriteListener;
 
 /**
  * ServletOutputStream impl.
@@ -72,6 +73,16 @@ public final class DevNullServletOutputStream extends ServletOutputStream {
 
     @Override
     public void println(double d) {}
+
+    @Override
+    public boolean isReady() {
+        return false;
+    }
+
+    @Override
+    public void setWriteListener(WriteListener writeListener) {
+
+    }
 
     @Override
     public void println(float f) {}

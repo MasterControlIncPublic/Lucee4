@@ -40,7 +40,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.JspException;
+import jakarta.servlet.jsp.JspException;
 
 import lucee.cli.servlet.HTTPServletImpl;
 import lucee.commons.collection.MapFactory;
@@ -437,17 +437,17 @@ public final class CFMLEngineImpl implements CFMLEngine {
         queue.enter(pc);
         try {
         	/*print.out("INCLUDE");
-        	print.out("servlet_path:"+req.getAttribute("javax.servlet.include.servlet_path"));
-        	print.out("request_uri:"+req.getAttribute("javax.servlet.include.request_uri"));
-        	print.out("context_path:"+req.getAttribute("javax.servlet.include.context_path"));
-        	print.out("path_info:"+req.getAttribute("javax.servlet.include.path_info"));
-        	print.out("query_string:"+req.getAttribute("javax.servlet.include.query_string"));
+        	print.out("servlet_path:"+req.getAttribute("jakarta.servlet.include.servlet_path"));
+        	print.out("request_uri:"+req.getAttribute("jakarta.servlet.include.request_uri"));
+        	print.out("context_path:"+req.getAttribute("jakarta.servlet.include.context_path"));
+        	print.out("path_info:"+req.getAttribute("jakarta.servlet.include.path_info"));
+        	print.out("query_string:"+req.getAttribute("jakarta.servlet.include.query_string"));
         	print.out("FORWARD");
-        	print.out("servlet_path:"+req.getAttribute("javax.servlet.forward.servlet_path"));
-        	print.out("request_uri:"+req.getAttribute("javax.servlet.forward.request_uri"));
-        	print.out("context_path:"+req.getAttribute("javax.servlet.forward.context_path"));
-        	print.out("path_info:"+req.getAttribute("javax.servlet.forward.path_info"));
-        	print.out("query_string:"+req.getAttribute("javax.servlet.forward.query_string"));
+        	print.out("servlet_path:"+req.getAttribute("jakarta.servlet.forward.servlet_path"));
+        	print.out("request_uri:"+req.getAttribute("jakarta.servlet.forward.request_uri"));
+        	print.out("context_path:"+req.getAttribute("jakarta.servlet.forward.context_path"));
+        	print.out("path_info:"+req.getAttribute("jakarta.servlet.forward.path_info"));
+        	print.out("query_string:"+req.getAttribute("jakarta.servlet.forward.query_string"));
         	print.out("---");
         	print.out(req.getServletPath());
         	print.out(pc.getHttpServletRequest().getServletPath());
