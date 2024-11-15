@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import lucee.commons.lang.StringUtil;
 import lucee.runtime.PageContext;
@@ -193,7 +193,7 @@ public final class CGIImplReadOnly extends ReadOnlyStruct implements CGI,ScriptP
                 if(key.equals(KeyConstants._remote_host))		return toString(req.getRemoteHost());
                 if(key.equals(KeyConstants._request_method))		return req.getMethod();
                 if(key.equals(KeyConstants._request_url))		return ReqRspUtil.getRequestURL( req, true );
-                if(key.equals(KeyConstants._request_uri))		return toString(req.getAttribute("javax.servlet.include.request_uri"));
+                if(key.equals(KeyConstants._request_uri))		return toString(req.getAttribute("jakarta.servlet.include.request_uri"));
                 if(key.getUpperString().startsWith("REDIRECT_")){
                 	// from attributes (key sensitive)
                 	Object value = req.getAttribute(key.getString());
@@ -228,7 +228,7 @@ public final class CGIImplReadOnly extends ReadOnlyStruct implements CGI,ScriptP
             }
             else if(first=='p') {
             	if(key.equals(KeyConstants._path_info)) {
-            		String pathInfo = Caster.toString(req.getAttribute("javax.servlet.include.path_info"),null);
+            		String pathInfo = Caster.toString(req.getAttribute("jakarta.servlet.include.path_info"),null);
             		if(StringUtil.isEmpty(pathInfo)) pathInfo = Caster.toString(req.getHeader("xajp-path-info"),null);
             		if(StringUtil.isEmpty(pathInfo)) pathInfo = req.getPathInfo();
             		if(StringUtil.isEmpty(pathInfo)) {

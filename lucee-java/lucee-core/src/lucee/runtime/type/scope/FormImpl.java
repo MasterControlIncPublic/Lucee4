@@ -26,8 +26,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 
-import javax.servlet.ServletInputStream;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.ServletInputStream;
+import jakarta.servlet.http.HttpServletRequest;
 
 import lucee.commons.collection.MapFactory;
 import lucee.commons.io.IOUtil;

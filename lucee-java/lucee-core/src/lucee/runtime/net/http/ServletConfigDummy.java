@@ -20,8 +20,8 @@ package lucee.runtime.net.http;
 
 import java.util.Enumeration;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletContext;
 
 
 public class ServletConfigDummy implements ServletConfig {

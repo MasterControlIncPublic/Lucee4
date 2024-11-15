@@ -23,8 +23,8 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.io.Writer;
 
-import javax.servlet.jsp.JspWriter;
-import javax.servlet.jsp.tagext.BodyContent;
+import jakarta.servlet.jsp.JspWriter;
+import jakarta.servlet.jsp.tagext.BodyContent;
 
 import lucee.commons.lang.CharBuffer;
 
@@ -58,105 +58,105 @@ public class BodyContentImpl extends BodyContent {
 	}
 
 	/**
-	 * @see javax.servlet.jsp.tagext.BodyContent#getReader()
+	 * @see jakarta.servlet.jsp.tagext.BodyContent#getReader()
 	 */
 	public Reader getReader() {
 		return new StringReader(charBuffer.toString());
 	}
 
 	/**
-	 * @see javax.servlet.jsp.tagext.BodyContent#getString()
+	 * @see jakarta.servlet.jsp.tagext.BodyContent#getString()
 	 */
 	public String getString() {
 		return charBuffer.toString();
 	}
 
 	/**
-	 * @see javax.servlet.jsp.tagext.BodyContent#writeOut(java.io.Writer)
+	 * @see jakarta.servlet.jsp.tagext.BodyContent#writeOut(java.io.Writer)
 	 */
 	public void writeOut(Writer writer) throws IOException {
 		charBuffer.writeOut(writer);
 	}
 
 	/**
-	 * @see javax.servlet.jsp.JspWriter#newLine()
+	 * @see jakarta.servlet.jsp.JspWriter#newLine()
 	 */
 	public void newLine() {
 		println();
 	}
 
 	/**
-	 * @see javax.servlet.jsp.JspWriter#print(boolean)
+	 * @see jakarta.servlet.jsp.JspWriter#print(boolean)
 	 */
 	public void print(boolean arg) {
 		print(arg?"true":"false");
 	}
 
 	/**
-	 * @see javax.servlet.jsp.JspWriter#print(char)
+	 * @see jakarta.servlet.jsp.JspWriter#print(char)
 	 */
 	public void print(char arg) {
 		charBuffer.append(String.valueOf(arg));
 	}
 
 	/**
-	 * @see javax.servlet.jsp.JspWriter#print(int)
+	 * @see jakarta.servlet.jsp.JspWriter#print(int)
 	 */
 	public void print(int arg) {
 		charBuffer.append(String.valueOf(arg));
 	}
 
 	/**
-	 * @see javax.servlet.jsp.JspWriter#print(long)
+	 * @see jakarta.servlet.jsp.JspWriter#print(long)
 	 */
 	public void print(long arg) {
 		charBuffer.append(String.valueOf(arg));
 	}
 
 	/**
-	 * @see javax.servlet.jsp.JspWriter#print(float)
+	 * @see jakarta.servlet.jsp.JspWriter#print(float)
 	 */
 	public void print(float arg) {
 		charBuffer.append(String.valueOf(arg));
 	}
 
 	/**
-	 * @see javax.servlet.jsp.JspWriter#print(double)
+	 * @see jakarta.servlet.jsp.JspWriter#print(double)
 	 */
 	public void print(double arg) {
 		charBuffer.append(String.valueOf(arg));
 	}
 
 	/**
-	 * @see javax.servlet.jsp.JspWriter#print(char[])
+	 * @see jakarta.servlet.jsp.JspWriter#print(char[])
 	 */
 	public void print(char[] arg) {
 		charBuffer.append(arg);
 	}
 
 	/**
-	 * @see javax.servlet.jsp.JspWriter#print(java.lang.String)
+	 * @see jakarta.servlet.jsp.JspWriter#print(java.lang.String)
 	 */
 	public void print(String arg) {
 		charBuffer.append(arg);
 	}
 
 	/**
-	 * @see javax.servlet.jsp.JspWriter#print(java.lang.Object)
+	 * @see jakarta.servlet.jsp.JspWriter#print(java.lang.Object)
 	 */
 	public void print(Object arg) {		
 		charBuffer.append(String.valueOf(arg));
 	}
 
 	/**
-	 * @see javax.servlet.jsp.JspWriter#println()
+	 * @see jakarta.servlet.jsp.JspWriter#println()
 	 */
 	public void println() {
 		charBuffer.append("\n");
 	}
 
 	/**
-	 * @see javax.servlet.jsp.JspWriter#println(boolean)
+	 * @see jakarta.servlet.jsp.JspWriter#println(boolean)
 	 */
 	public void println(boolean arg) {
 		print(arg);
@@ -164,7 +164,7 @@ public class BodyContentImpl extends BodyContent {
 	}
 
 	/**
-	 * @see javax.servlet.jsp.JspWriter#println(char)
+	 * @see jakarta.servlet.jsp.JspWriter#println(char)
 	 */
 	public void println(char arg) {
 		print(arg);
@@ -172,7 +172,7 @@ public class BodyContentImpl extends BodyContent {
 	}
 
 	/**
-	 * @see javax.servlet.jsp.JspWriter#println(int)
+	 * @see jakarta.servlet.jsp.JspWriter#println(int)
 	 */
 	public void println(int arg) {
 		print(arg);
@@ -180,7 +180,7 @@ public class BodyContentImpl extends BodyContent {
 	}
 
 	/**
-	 * @see javax.servlet.jsp.JspWriter#println(long)
+	 * @see jakarta.servlet.jsp.JspWriter#println(long)
 	 */
 	public void println(long arg) {
 		print(arg);
@@ -188,7 +188,7 @@ public class BodyContentImpl extends BodyContent {
 	}
 
 	/**
-	 * @see javax.servlet.jsp.JspWriter#println(float)
+	 * @see jakarta.servlet.jsp.JspWriter#println(float)
 	 */
 	public void println(float arg) {
 		print(arg);
@@ -196,7 +196,7 @@ public class BodyContentImpl extends BodyContent {
 	}
 
 	/**
-	 * @see javax.servlet.jsp.JspWriter#println(double)
+	 * @see jakarta.servlet.jsp.JspWriter#println(double)
 	 */
 	public void println(double arg) {
 		print(arg);
@@ -204,7 +204,7 @@ public class BodyContentImpl extends BodyContent {
 	}
 
 	/**
-	 * @see javax.servlet.jsp.JspWriter#println(char[])
+	 * @see jakarta.servlet.jsp.JspWriter#println(char[])
 	 */
 	public void println(char[] arg) {
 		print(arg);
@@ -212,7 +212,7 @@ public class BodyContentImpl extends BodyContent {
 	}
 
 	/**
-	 * @see javax.servlet.jsp.JspWriter#println(java.lang.String)
+	 * @see jakarta.servlet.jsp.JspWriter#println(java.lang.String)
 	 */
 	public void println(String arg) {
 		print(arg);
@@ -220,7 +220,7 @@ public class BodyContentImpl extends BodyContent {
 	}
 
 	/**
-	 * @see javax.servlet.jsp.JspWriter#println(java.lang.Object)
+	 * @see jakarta.servlet.jsp.JspWriter#println(java.lang.Object)
 	 */
 	public void println(Object arg) {
 		print(arg);
@@ -229,7 +229,7 @@ public class BodyContentImpl extends BodyContent {
 
 	/**
 	 * @throws IOException 
-	 * @see javax.servlet.jsp.JspWriter#clear()
+	 * @see jakarta.servlet.jsp.JspWriter#clear()
 	 */
 	public void clear() throws IOException {
 		charBuffer.clear();
@@ -237,7 +237,7 @@ public class BodyContentImpl extends BodyContent {
 	}
 
 	/**
-	 * @see javax.servlet.jsp.JspWriter#clearBuffer()
+	 * @see jakarta.servlet.jsp.JspWriter#clearBuffer()
 	 */
 	public void clearBuffer() {
 		charBuffer.clear();
@@ -260,7 +260,7 @@ public class BodyContentImpl extends BodyContent {
 	}
 
 	/**
-	 * @see javax.servlet.jsp.JspWriter#getRemaining()
+	 * @see jakarta.servlet.jsp.JspWriter#getRemaining()
 	 */
 	public int getRemaining() {
 		return bufferSize-charBuffer.size();
@@ -309,14 +309,14 @@ public class BodyContentImpl extends BodyContent {
 	}
 
 	/**
-	 * @see javax.servlet.jsp.tagext.BodyContent#clearBody()
+	 * @see jakarta.servlet.jsp.tagext.BodyContent#clearBody()
 	 */
 	public void clearBody() {
 		charBuffer.clear();
 	}
 
 	/**
-	 * @see javax.servlet.jsp.tagext.BodyContent#getEnclosingWriter()
+	 * @see jakarta.servlet.jsp.tagext.BodyContent#getEnclosingWriter()
 	 */
 	public JspWriter getEnclosingWriter() {
 		return enclosingWriter;
@@ -339,14 +339,14 @@ public class BodyContentImpl extends BodyContent {
 	}
 
 	/**
-	 * @see javax.servlet.jsp.JspWriter#getBufferSize()
+	 * @see jakarta.servlet.jsp.JspWriter#getBufferSize()
 	 */
 	public int getBufferSize() {
 		return charBuffer.size();
 	}
 
 	/**
-	 * @see javax.servlet.jsp.JspWriter#isAutoFlush()
+	 * @see jakarta.servlet.jsp.JspWriter#isAutoFlush()
 	 */
 	public boolean isAutoFlush() {
 		return super.isAutoFlush();

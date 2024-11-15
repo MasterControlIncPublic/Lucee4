@@ -20,7 +20,7 @@ package lucee.runtime.tag;
 
 import java.io.IOException;
 
-import javax.servlet.jsp.tagext.Tag;
+import jakarta.servlet.jsp.tagext.Tag;
 
 import lucee.commons.lang.StringUtil;
 import lucee.commons.pdf.PDFPageMark;

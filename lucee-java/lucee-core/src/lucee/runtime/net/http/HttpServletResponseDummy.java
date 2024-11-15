@@ -24,9 +24,9 @@ import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.Locale;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 
 import lucee.commons.io.DevNullOutputStream;
 import lucee.commons.lang.Pair;

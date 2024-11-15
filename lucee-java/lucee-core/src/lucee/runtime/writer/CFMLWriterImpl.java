@@ -22,9 +22,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.zip.GZIPOutputStream;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import lucee.commons.lang.StringUtil;
 import lucee.runtime.Info;
@@ -102,7 +102,7 @@ public class CFMLWriterImpl extends CFMLWriter {
 
 
 	/**
-     * @see javax.servlet.jsp.JspWriter#print(char[]) 
+     * @see jakarta.servlet.jsp.JspWriter#print(char[]) 
      */ 
     public void print(char[] arg) throws IOException { 
         buffer.append(arg);
@@ -227,7 +227,7 @@ public class CFMLWriterImpl extends CFMLWriter {
     }
 
     /** 
-     * @see javax.servlet.jsp.JspWriter#clear() 
+     * @see jakarta.servlet.jsp.JspWriter#clear() 
      */ 
     public void clear() throws IOException { 
         if (flushed)  throw new IOException("Response buffer is already flushed");
@@ -235,7 +235,7 @@ public class CFMLWriterImpl extends CFMLWriter {
     } 
 
     /** 
-     * @see javax.servlet.jsp.JspWriter#clearBuffer() 
+     * @see jakarta.servlet.jsp.JspWriter#clearBuffer() 
      */ 
     public void clearBuffer() { 
     	buffer=new StringBuilder(BUFFER_SIZE);
@@ -423,28 +423,28 @@ public class CFMLWriterImpl extends CFMLWriter {
 	}*/
 
     /** 
-     * @see javax.servlet.jsp.JspWriter#getRemaining() 
+     * @see jakarta.servlet.jsp.JspWriter#getRemaining() 
      */ 
     public int getRemaining() { 
         return bufferSize - buffer.length();
     }
 
     /** 
-     * @see javax.servlet.jsp.JspWriter#newLine() 
+     * @see jakarta.servlet.jsp.JspWriter#newLine() 
      */ 
     public void newLine() throws IOException { 
         println();
     } 
 
     /** 
-     * @see javax.servlet.jsp.JspWriter#print(boolean) 
+     * @see jakarta.servlet.jsp.JspWriter#print(boolean) 
      */ 
     public void print(boolean arg) throws IOException { 
         print(arg?new char[]{'t','r','u','e'}:new char[]{'f','a','l','s','e'}); 
     }
 
     /** 
-     * @see javax.servlet.jsp.JspWriter#print(char) 
+     * @see jakarta.servlet.jsp.JspWriter#print(char) 
      */ 
     public void print(char arg) throws IOException { 
         buffer.append(arg);
@@ -452,14 +452,14 @@ public class CFMLWriterImpl extends CFMLWriter {
     } 
 
     /** 
-     * @see javax.servlet.jsp.JspWriter#print(int) 
+     * @see jakarta.servlet.jsp.JspWriter#print(int) 
      */ 
     public void print(int arg) throws IOException { 
         _print(String.valueOf(arg)); 
     } 
 
     /** 
-     * @see javax.servlet.jsp.JspWriter#print(long) 
+     * @see jakarta.servlet.jsp.JspWriter#print(long) 
      */ 
     public void print(long arg) throws IOException { 
         _print(String.valueOf(arg)); 
@@ -467,21 +467,21 @@ public class CFMLWriterImpl extends CFMLWriter {
     } 
 
     /** 
-     * @see javax.servlet.jsp.JspWriter#print(float) 
+     * @see jakarta.servlet.jsp.JspWriter#print(float) 
      */ 
     public void print(float arg) throws IOException { 
         _print(String.valueOf(arg)); 
     } 
 
     /** 
-     * @see javax.servlet.jsp.JspWriter#print(double) 
+     * @see jakarta.servlet.jsp.JspWriter#print(double) 
      */ 
     public void print(double arg) throws IOException { 
         _print(String.valueOf(arg)); 
     } 
 
     /** 
-     * @see javax.servlet.jsp.JspWriter#print(java.lang.String) 
+     * @see jakarta.servlet.jsp.JspWriter#print(java.lang.String) 
      */ 
     public void print(String arg) throws IOException { 
         buffer.append(arg);
@@ -489,14 +489,14 @@ public class CFMLWriterImpl extends CFMLWriter {
     } 
 
     /** 
-     * @see javax.servlet.jsp.JspWriter#print(java.lang.Object) 
+     * @see jakarta.servlet.jsp.JspWriter#print(java.lang.Object) 
      */ 
     public void print(Object arg) throws IOException { 
         _print(String.valueOf(arg)); 
     } 
 
     /** 
-     * @see javax.servlet.jsp.JspWriter#println() 
+     * @see jakarta.servlet.jsp.JspWriter#println() 
      */ 
     public void println() throws IOException { 
         _print("\n"); 
@@ -504,21 +504,21 @@ public class CFMLWriterImpl extends CFMLWriter {
     } 
 
     /** 
-     * @see javax.servlet.jsp.JspWriter#println(boolean) 
+     * @see jakarta.servlet.jsp.JspWriter#println(boolean) 
      */ 
     public void println(boolean arg) throws IOException { 
         print(arg?new char[]{'t','r','u','e','\n'}:new char[]{'f','a','l','s','e','\n'}); 
     } 
 
     /** 
-     * @see javax.servlet.jsp.JspWriter#println(char) 
+     * @see jakarta.servlet.jsp.JspWriter#println(char) 
      */ 
     public void println(char arg) throws IOException { 
         print(new char[]{arg,'\n'}); 
     } 
 
     /** 
-     * @see javax.servlet.jsp.JspWriter#println(int) 
+     * @see jakarta.servlet.jsp.JspWriter#println(int) 
      */ 
     public void println(int arg) throws IOException { 
         print(arg); 
@@ -526,7 +526,7 @@ public class CFMLWriterImpl extends CFMLWriter {
     } 
 
     /** 
-     * @see javax.servlet.jsp.JspWriter#println(long) 
+     * @see jakarta.servlet.jsp.JspWriter#println(long) 
      */ 
     public void println(long arg) throws IOException { 
         print(arg); 
@@ -534,7 +534,7 @@ public class CFMLWriterImpl extends CFMLWriter {
     } 
 
     /** 
-     * @see javax.servlet.jsp.JspWriter#println(float) 
+     * @see jakarta.servlet.jsp.JspWriter#println(float) 
      */ 
     public void println(float arg) throws IOException { 
         print(arg); 
@@ -542,7 +542,7 @@ public class CFMLWriterImpl extends CFMLWriter {
     } 
 
     /** 
-     * @see javax.servlet.jsp.JspWriter#println(double) 
+     * @see jakarta.servlet.jsp.JspWriter#println(double) 
      */ 
     public void println(double arg) throws IOException { 
         print(arg); 
@@ -550,7 +550,7 @@ public class CFMLWriterImpl extends CFMLWriter {
     } 
 
     /** 
-     * @see javax.servlet.jsp.JspWriter#println(char[]) 
+     * @see jakarta.servlet.jsp.JspWriter#println(char[]) 
      */ 
     public void println(char[] arg) throws IOException { 
         print(arg); 
@@ -558,7 +558,7 @@ public class CFMLWriterImpl extends CFMLWriter {
     } 
 
     /** 
-     * @see javax.servlet.jsp.JspWriter#println(java.lang.String) 
+     * @see jakarta.servlet.jsp.JspWriter#println(java.lang.String) 
      */ 
     public void println(String arg) throws IOException { 
         _print(arg); 
@@ -566,7 +566,7 @@ public class CFMLWriterImpl extends CFMLWriter {
     } 
 
     /** 
-     * @see javax.servlet.jsp.JspWriter#println(java.lang.Object) 
+     * @see jakarta.servlet.jsp.JspWriter#println(java.lang.Object) 
      */ 
     public void println(Object arg) throws IOException { 
         print(arg); 

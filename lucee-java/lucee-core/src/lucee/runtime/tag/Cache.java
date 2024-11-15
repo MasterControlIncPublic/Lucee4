@@ -22,7 +22,7 @@ package lucee.runtime.tag;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 import lucee.commons.io.IOUtil;
 import lucee.commons.io.cache.CacheEntry;

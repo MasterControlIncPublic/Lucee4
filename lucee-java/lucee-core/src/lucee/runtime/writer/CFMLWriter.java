@@ -21,7 +21,7 @@ package lucee.runtime.writer;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import javax.servlet.jsp.JspWriter;
+import jakarta.servlet.jsp.JspWriter;
 
 import lucee.runtime.cache.legacy.CacheItem;
 

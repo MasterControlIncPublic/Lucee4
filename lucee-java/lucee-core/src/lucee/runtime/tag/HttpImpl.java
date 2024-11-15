@@ -8,11 +8,11 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.zip.GZIPInputStream;
 
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.PageContext;
-import javax.servlet.jsp.tagext.BodyContent;
-import javax.servlet.jsp.tagext.BodyTag;
-import javax.servlet.jsp.tagext.Tag;
+import jakarta.servlet.jsp.JspException;
+import jakarta.servlet.jsp.PageContext;
+import jakarta.servlet.jsp.tagext.BodyContent;
+import jakarta.servlet.jsp.tagext.BodyTag;
+import jakarta.servlet.jsp.tagext.Tag;
 
 import lucee.commons.io.CharsetUtil;
 import lucee.commons.io.IOUtil;

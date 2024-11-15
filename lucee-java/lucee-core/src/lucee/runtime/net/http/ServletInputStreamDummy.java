@@ -22,7 +22,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import javax.servlet.ServletInputStream;
+import jakarta.servlet.ServletInputStream;
 
 /**
  * implementation of <code>ServletInputStream</code>.

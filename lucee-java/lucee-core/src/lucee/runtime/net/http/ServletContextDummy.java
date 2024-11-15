@@ -26,10 +26,10 @@ import java.net.URL;
 import java.util.Enumeration;
 import java.util.Set;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.Servlet;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.Servlet;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
 
 import lucee.commons.io.log.log4j.Log4jUtil;
 import lucee.commons.io.res.Resource;

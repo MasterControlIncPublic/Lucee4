@@ -20,7 +20,7 @@ package lucee.runtime.thread;
 
 import java.io.Serializable;
 
-import javax.servlet.http.Cookie;
+import jakarta.servlet.http.Cookie;
 
 import lucee.runtime.type.scope.CookieImpl;
 

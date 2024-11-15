@@ -25,13 +25,15 @@ import java.util.Map.Entry;
 import java.util.Stack;
 import java.util.concurrent.ConcurrentHashMap;
 
-import javax.servlet.Servlet;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.JspEngineInfo;
+import jakarta.servlet.Servlet;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.jsp.JspApplicationContext;
+import jakarta.servlet.jsp.JspEngineInfo;
 
 import lucee.commons.io.SystemUtil;
 import lucee.commons.io.log.Log;
@@ -105,7 +107,7 @@ public final class CFMLFactoryImpl extends CFMLFactory {
     }
     
 	@Override
-	public javax.servlet.jsp.PageContext getPageContext(
+	public jakarta.servlet.jsp.PageContext getPageContext(
 		Servlet servlet,
 		ServletRequest req,
 		ServletResponse rsp,
@@ -171,7 +173,7 @@ public final class CFMLFactoryImpl extends CFMLFactory {
 	}
 
     @Override
-	public void releasePageContext(javax.servlet.jsp.PageContext pc) {
+	public void releasePageContext(jakarta.servlet.jsp.PageContext pc) {
 		releaseLuceePageContext((PageContext)pc);
 	}
 	
@@ -273,6 +275,11 @@ public final class CFMLFactoryImpl extends CFMLFactory {
 	@Override
 	public JspEngineInfo getEngineInfo() {
 		return info;
+	}
+
+	@Override
+	public JspApplicationContext getJspApplicationContext(ServletContext servletContext) {
+		return null;
 	}
 
 

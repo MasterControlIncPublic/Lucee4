@@ -20,7 +20,7 @@ package lucee.runtime.tag;
 
 import java.nio.charset.Charset;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 import lucee.commons.io.CharsetUtil;
 import lucee.runtime.PageContextImpl;

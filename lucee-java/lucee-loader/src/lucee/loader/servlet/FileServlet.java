@@ -20,10 +20,10 @@ package lucee.loader.servlet;
 
 import java.io.IOException;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import lucee.loader.engine.CFMLEngineFactory;
 
@@ -34,14 +34,14 @@ public class FileServlet extends LuceeServlet {
     private static final long serialVersionUID = 1555107078656945805L;
 	
 	/**
-     * @see javax.servlet.Servlet#init(javax.servlet.ServletConfig)
+     * @see jakarta.servlet.Servlet#init(jakarta.servlet.ServletConfig)
      */
     public void init(ServletConfig sg) throws ServletException {
         super.init(sg);
         engine=CFMLEngineFactory.getInstance(sg,this);
     }
     /**
-     * @see javax.servlet.http.HttpServlet#service(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see jakarta.servlet.http.HttpServlet#service(jakarta.servlet.http.HttpServletRequest, jakarta.servlet.http.HttpServletResponse)
      */
     protected void service(HttpServletRequest req, HttpServletResponse rsp) throws ServletException, IOException {
         engine.serviceFile(this,req,rsp);

@@ -18,10 +18,10 @@
  **/
 package lucee.runtime;
 
-import javax.servlet.jsp.JspEngineInfo;
+import jakarta.servlet.jsp.JspEngineInfo;
 
 /**
- * implementation of the javax.servlet.jsp.JspEngineInfo interface, 
+ * implementation of the jakarta.servlet.jsp.JspEngineInfo interface, 
  * return information to JSP Engine, 
  * lucee is no JSP Engine but compatible to the most j2ee specification for wen applications, also the most jsp specification
  */

@@ -28,10 +28,10 @@ import java.util.Enumeration;
 import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.Servlet;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.Servlet;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
 
 import lucee.cli.util.EnumerationWrapper;
 
@@ -52,49 +52,49 @@ public class ServletContextImpl implements ServletContext {
 	}
 
 	/**
-	 * @see javax.servlet.ServletContext#getAttribute(java.lang.String)
+	 * @see jakarta.servlet.ServletContext#getAttribute(java.lang.String)
 	 */
 	public Object getAttribute(String key) {
 		return attributes.get(key);
 	}
 
 	/**
-	 * @see javax.servlet.ServletContext#getAttributeNames()
+	 * @see jakarta.servlet.ServletContext#getAttributeNames()
 	 */
 	public Enumeration getAttributeNames() {
 		return new EnumerationWrapper(attributes);
 	}
 	
 	/**
-	 * @see javax.servlet.ServletContext#getInitParameter(java.lang.String)
+	 * @see jakarta.servlet.ServletContext#getInitParameter(java.lang.String)
 	 */
 	public String getInitParameter(String key) {
 		return parameters.get(key);
 	}
 
 	/**
-	 * @see javax.servlet.ServletContext#getInitParameterNames()
+	 * @see jakarta.servlet.ServletContext#getInitParameterNames()
 	 */
 	public Enumeration getInitParameterNames() {
 		return new EnumerationWrapper(parameters);
 	}
 
 	/**
-	 * @see javax.servlet.ServletContext#getMajorVersion()
+	 * @see jakarta.servlet.ServletContext#getMajorVersion()
 	 */
 	public int getMajorVersion() {
 		return majorVersion;
 	}
 
 	/**
-	 * @see javax.servlet.ServletContext#getMinorVersion()
+	 * @see jakarta.servlet.ServletContext#getMinorVersion()
 	 */
 	public int getMinorVersion() {
 		return minorVersion;
 	}
 
 	/**
-	 * @see javax.servlet.ServletContext#getMimeType(java.lang.String)
+	 * @see jakarta.servlet.ServletContext#getMimeType(java.lang.String)
 	 */
 	public String getMimeType(String file) {
 		throw notSupported("getMimeType(String file)");
@@ -108,7 +108,7 @@ public class ServletContextImpl implements ServletContext {
 	}
 
 	/**
-	 * @see javax.servlet.ServletContext#getResource(java.lang.String)
+	 * @see jakarta.servlet.ServletContext#getResource(java.lang.String)
 	 */
 	public URL getResource(String relpath) throws MalformedURLException {
 		File file = getRealFile(relpath);
@@ -116,7 +116,7 @@ public class ServletContextImpl implements ServletContext {
 	}
 
 	/**
-	 * @see javax.servlet.ServletContext#getResourceAsStream(java.lang.String)
+	 * @see jakarta.servlet.ServletContext#getResourceAsStream(java.lang.String)
 	 */
 	public InputStream getResourceAsStream(String relpath) {
 		try {
@@ -153,7 +153,7 @@ public class ServletContextImpl implements ServletContext {
 	}
 
 	/**
-	 * @see javax.servlet.ServletContext#log(java.lang.String, java.lang.Throwable)
+	 * @see jakarta.servlet.ServletContext#log(java.lang.String, java.lang.Throwable)
 	 */
 	public void log(String msg, Throwable t) {// TODO better
 		if(t==null)System.out.println(msg);
@@ -165,28 +165,28 @@ public class ServletContextImpl implements ServletContext {
 	}
 
 	/**
-	 * @see javax.servlet.ServletContext#log(java.lang.Exception, java.lang.String)
+	 * @see jakarta.servlet.ServletContext#log(java.lang.Exception, java.lang.String)
 	 */
 	public void log(Exception e, String msg) {
 		log(msg,e);
 	}
 
 	/**
-	 * @see javax.servlet.ServletContext#log(java.lang.String)
+	 * @see jakarta.servlet.ServletContext#log(java.lang.String)
 	 */
 	public void log(String msg) {
 		log(msg,null);
 	}
 
 	/**
-	 * @see javax.servlet.ServletContext#removeAttribute(java.lang.String)
+	 * @see jakarta.servlet.ServletContext#removeAttribute(java.lang.String)
 	 */
 	public void removeAttribute(String key) {
 		attributes.remove(key);
 	}
 
 	/**
-	 * @see javax.servlet.ServletContext#setAttribute(java.lang.String, java.lang.Object)
+	 * @see jakarta.servlet.ServletContext#setAttribute(java.lang.String, java.lang.Object)
 	 */
 	public void setAttribute(String key, Object value) {
 		attributes.put(key, value);

@@ -29,13 +29,13 @@ import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletInputStream;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletInputStream;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import lucee.commons.io.CharsetUtil;
 import lucee.commons.io.IOUtil;
@@ -182,7 +182,7 @@ public final class ReqRspUtil {
 	}
 
 	public static String getQueryString(HttpServletRequest req) {
-		//String qs = req.getAttribute("javax.servlet.include.query_string");
+		//String qs = req.getAttribute("jakarta.servlet.include.query_string");
 		return req.getQueryString();
 	}
 
@@ -586,7 +586,7 @@ public final class ReqRspUtil {
 	}
 
 	public static void removeCookie(HttpServletResponse rsp, String name) {
-		javax.servlet.http.Cookie cookie=new javax.servlet.http.Cookie(name,"");
+		jakarta.servlet.http.Cookie cookie=new jakarta.servlet.http.Cookie(name,"");
 		cookie.setMaxAge(0);
 		cookie.setSecure(false);
 		cookie.setPath("/");

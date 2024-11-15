@@ -18,7 +18,7 @@
  **/
 package lucee.runtime.tag;
 
-import javax.servlet.jsp.JspException;
+import jakarta.servlet.jsp.JspException;
 
 import lucee.runtime.exp.ApplicationException;
 import lucee.runtime.exp.TagNotSupported;

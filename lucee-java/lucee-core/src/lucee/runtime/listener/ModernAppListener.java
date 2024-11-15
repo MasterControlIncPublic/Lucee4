@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.servlet.http.Cookie;
+import jakarta.servlet.http.Cookie;
 
 import lucee.commons.io.DevNullOutputStream;
 import lucee.commons.io.res.Resource;

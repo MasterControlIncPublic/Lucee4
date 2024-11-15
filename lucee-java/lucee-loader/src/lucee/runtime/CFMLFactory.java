@@ -18,10 +18,10 @@
  **/
 package lucee.runtime;
 
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.JspFactory;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.jsp.JspFactory;
 
 import lucee.runtime.config.ConfigWeb;
 import lucee.runtime.query.QueryCache;

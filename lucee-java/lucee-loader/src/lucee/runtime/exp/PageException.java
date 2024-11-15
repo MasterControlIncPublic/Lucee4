@@ -18,7 +18,7 @@
  **/
 package lucee.runtime.exp;
 
-import javax.servlet.jsp.JspException;
+import jakarta.servlet.jsp.JspException;
 
 import lucee.runtime.dump.Dumpable;
 
