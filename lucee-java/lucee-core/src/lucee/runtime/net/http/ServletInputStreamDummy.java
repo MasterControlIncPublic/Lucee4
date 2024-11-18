@@ -22,6 +22,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import jakarta.servlet.ReadListener;
 import jakarta.servlet.ServletInputStream;
 
 /**
@@ -53,6 +54,21 @@ public final class ServletInputStreamDummy extends ServletInputStream
 	@Override
 	public int readLine(byte[] barr, int arg1, int arg2) throws IOException {
 		return stream.read(barr, arg1, arg2);
+	}
+
+	@Override
+	public boolean isFinished() {
+		return false;
+	}
+
+	@Override
+	public boolean isReady() {
+		return false;
+	}
+
+	@Override
+	public void setReadListener(ReadListener readListener) {
+
 	}
 
 	@Override

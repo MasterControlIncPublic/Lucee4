@@ -30,6 +30,7 @@ import jakarta.servlet.ServletInputStream;
 import jakarta.servlet.http.HttpServletRequest;
 
 import lucee.commons.collection.MapFactory;
+import lucee.commons.io.CharsetUtil;
 import lucee.commons.io.IOUtil;
 import lucee.commons.io.res.Resource;
 import lucee.commons.lang.ByteNameValuePair;
@@ -47,15 +48,13 @@ import lucee.runtime.type.Array;
 import lucee.runtime.type.util.ArrayUtil;
 import lucee.runtime.type.util.KeyConstants;
 import lucee.runtime.type.util.ListUtil;
-
-import org.apache.commons.fileupload.FileItemFactory;
-import org.apache.commons.fileupload.FileItemIterator;
-import org.apache.commons.fileupload.FileItemStream;
-import org.apache.commons.fileupload.disk.DiskFileItem;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.fileupload.servlet.ServletRequestContext;
-
+import org.apache.commons.fileupload2.core.DiskFileItem;
+import org.apache.commons.fileupload2.core.DiskFileItemFactory;
+import org.apache.commons.fileupload2.core.FileItemFactory;
+import org.apache.commons.fileupload2.core.FileItemInput;
+import org.apache.commons.fileupload2.core.FileItemInputIterator;
+import org.apache.commons.fileupload2.jakarta.servlet6.JakartaServletFileUpload;
+import org.apache.commons.fileupload2.jakarta.servlet6.JakartaServletRequestContext;
 
 /**
  * Form Scope
@@ -150,17 +149,17 @@ public final class FormImpl extends ScopeSupport implements Form,ScriptProtected
     	
     	// Create a new file upload handler
     	final String encoding=getEncoding();
-    	FileItemFactory factory = tempDir instanceof File? 
-    			new DiskFileItemFactory(DiskFileItemFactory.DEFAULT_SIZE_THRESHOLD,(File)tempDir):
-    				new DiskFileItemFactory();
+    	FileItemFactory factory = tempDir instanceof File ?
+				DiskFileItemFactory.builder().setFile((File)tempDir).get() :
+    				DiskFileItemFactory.builder().get();
     	
-    	ServletFileUpload upload = new ServletFileUpload(factory);
-    	upload.setHeaderEncoding(encoding);
+    	JakartaServletFileUpload upload = new JakartaServletFileUpload(factory);
+    	upload.setHeaderCharset(CharsetUtil.toCharset(encoding));
     	//ServletRequestContext c = new ServletRequestContext(pc.getHttpServletRequest());
     	
     	
     	HttpServletRequest req = pc.getHttpServletRequest();
-    	ServletRequestContext context = new ServletRequestContext(req) {
+		JakartaServletRequestContext context = new JakartaServletRequestContext(req) {
     		public String getCharacterEncoding() {
     			return encoding;
     		}
@@ -168,15 +167,15 @@ public final class FormImpl extends ScopeSupport implements Form,ScriptProtected
     	
     	// Parse the request
     	try {
-    		FileItemIterator iter = upload.getItemIterator(context);
+    		FileItemInputIterator iter = upload.getItemIterator(context);
         	//byte[] value;
         	InputStream is;
         	ArrayList<URLItem> list=new ArrayList<URLItem>();
         	String fileName;
 			while (iter.hasNext()) {
-			    FileItemStream item = iter.next();
+			    FileItemInput item = iter.next();
 
-			    is=IOUtil.toBufferedInputStream(item.openStream());
+			    is=IOUtil.toBufferedInputStream(item.getInputStream());
 			    if (item.getContentType()==null || StringUtil.isEmpty(item.getName())) {
 			    	list.add(new URLItem(item.getFieldName(),new String(IOUtil.toBytes(is),encoding),false));	     
 			    } 

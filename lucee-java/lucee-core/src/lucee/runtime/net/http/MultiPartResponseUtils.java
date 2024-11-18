@@ -34,7 +34,7 @@ import lucee.runtime.type.StructImpl;
 import lucee.runtime.type.util.KeyConstants;
 import lucee.runtime.type.util.ListUtil;
 
-import org.apache.commons.fileupload.MultipartStream;
+import org.apache.commons.fileupload2.core.MultipartInput;
 import org.apache.commons.lang.StringUtils;
 
 
@@ -48,9 +48,9 @@ public class MultiPartResponseUtils {
 	public static Array getParts(byte[] barr,String contentTypeHeader) throws IOException, PageException {
 		String boundary = extractBoundary(contentTypeHeader,"");
 		ByteArrayInputStream bis = new ByteArrayInputStream(barr);
-		MultipartStream stream;
+		MultipartInput stream;
 		Array result = new ArrayImpl();
-		stream = new MultipartStream(bis,getBytes(boundary,"UTF-8"));// 
+		stream = MultipartInput.builder().setInputStream(bis).setBoundary(getBytes(boundary,"UTF-8")).get();
 		
 		boolean hasNextPart = stream.skipPreamble();
 		while (hasNextPart) {
@@ -74,7 +74,7 @@ public class MultiPartResponseUtils {
 		return defaultValue;
 	}
 
-	private static Struct getPartData(MultipartStream stream) throws IOException, PageException {
+	private static Struct getPartData(MultipartInput stream) throws IOException, PageException {
 		Struct headers = extractHeaders(stream.readHeaders());
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		stream.readBodyData(baos);
