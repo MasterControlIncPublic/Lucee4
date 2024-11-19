@@ -114,8 +114,8 @@ dependencies {
     compile 'jakarta.servlet:jakarta.servlet-api:5.0.0'
     compile 'jakarta.servlet.jsp:jakarta.servlet.jsp-api:3.0.0'
     compile 'jakarta.el:jakarta.el-api:4.0.0'
-    compile 'org.apache.flex.blazeds:flex-messaging-core:4.8.0.1-SNAPSHOT'
-    compile 'org.apache.flex.blazeds:flex-messaging-common:4.8.0.1-SNAPSHOT'
+    compile(group: 'org.apache.flex.blazeds', name: 'flex-messaging-common', version: '4.8.0.3-20241119.212812-1')
+    compile(group: 'org.apache.flex.blazeds', name: 'flex-messaging-core', version: '4.8.0.3-20241119.212512-1')
     compile 'org.apache.axis:axis-jaxrpc:1.4'
     //compile 'org.apache.lucene:lucene-core:2.4.1'
 //    compile 'org.lucee.lib:javax-servlet:1.4.1-01' //servlet container being deployed in has this included
