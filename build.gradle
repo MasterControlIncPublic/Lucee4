@@ -118,7 +118,7 @@ dependencies {
     compile 'org.apache.flex.blazeds:flex-messaging-common:4.8.0.1-SNAPSHOT'
     compile 'org.apache.axis:axis-jaxrpc:1.4'
     //compile 'org.apache.lucene:lucene-core:2.4.1'
-    compile 'org.lucee.lib:javax-servlet:1.4.1-01' //servlet container being deployed in has this included
+//    compile 'org.lucee.lib:javax-servlet:1.4.1-01' //servlet container being deployed in has this included
     compile 'org.lucee.lib:openamf:1.5.8'
     compile 'wsdl4j:wsdl4j:1.6.3'
     compile 'org.lucee.lib:sun-jai_core:1.2.1' //cfimage
@@ -184,10 +184,15 @@ if (release == "true") {
 version = libversion + snapshotText
 publishing {
     publications {
-        LuceeCore(MavenPublication) {
+//        LuceeCore(MavenPublication) {
+//            version libversion + snapshotText
+//            from components.java
+//            artifacts = ['dist/' + project.version + '.jar']
+//        }
+        LuceeLoader(MavenPublication) {
             version libversion + snapshotText
             from components.java
-            artifacts = ['dist/' + project.version + '.jar']
+            artifacts = ['dist/lucee-loader.jar']
         }
     }
 }
@@ -208,6 +213,11 @@ task renameFile(dependsOn: 'core') {
     }
 }
 
+task copyDependencies(type: Copy) {
+    into "${projectDir}/lucee-java/libs"
+    from configurations.compileClasspath
+}
+
 artifactory {
     contextUrl = "${artifactory_context_url}"   //The base Artifactory URL if not overridden by the publisher/resolver
     publish {
@@ -221,7 +231,7 @@ artifactory {
             password = artifactory_api_key
         }
         defaults {
-            publications('LuceeCore')
+            publications('LuceeLoader')
         }
     }
     resolve {
