@@ -69,7 +69,7 @@ configurations {
 
 dependencies {
     compile 'com.mastercontrol:s3-no-op-resource:0.3.1'
-    compile 'software.amazon.awssdk:s3:2.20.56'
+    compile 'software.amazon.awssdk:s3:2.20.147'
     compile 'antlr:antlr:2.7.6'
     compile 'org.apache.sanselan:sanselan:0.97-incubator'
     compile 'org.apache.commons:commons-compress:1.3'
@@ -96,7 +96,7 @@ dependencies {
     compile 'org.lucee.lib:fonts:1.0.0' // for cfdocument
     compile 'org.lucee.lib:fusiondebug-api-server:1.0.20'
     compile 'com.h2database:h2:1.3.172' // a database lucee supports out of the box
-    compile(group: 'org.luceehibernate', name: 'hibernate-core', version: '3.5.5.1-Final')
+//    compile(group: 'org.luceehibernate', name: 'hibernate-core', version: '3.5.5.2.0-20241219.202311-1')
     compile 'org.lucee:hsqldb:2.3.3' // a database lucee supports out of the box
     compile 'org.lucee.lib:icepdf-core:3.1.0_3'
     compile 'org.lucee.lib:javasysmon:0.3.3' // tool behind getCPUUsage()
@@ -184,16 +184,16 @@ if (release == "true") {
 version = libversion + snapshotText
 publishing {
     publications {
-//        LuceeCore(MavenPublication) {
-//            version libversion + snapshotText
-//            from components.java
-//            artifacts = ['dist/' + project.version + '.jar']
-//        }
-        LuceeLoader(MavenPublication) {
+        LuceeCore(MavenPublication) {
             version libversion + snapshotText
             from components.java
-            artifacts = ['dist/lucee-loader.jar']
+            artifacts = ['dist/' + project.version + '.jar']
         }
+//        LuceeLoader(MavenPublication) {
+//            version libversion + snapshotText
+//            from components.java
+//            artifacts = ['dist/lucee-loader.jar']
+//        }
     }
 }
 
@@ -231,7 +231,7 @@ artifactory {
             password = artifactory_api_key
         }
         defaults {
-            publications('LuceeLoader')
+            publications('LuceeCore')
         }
     }
     resolve {
