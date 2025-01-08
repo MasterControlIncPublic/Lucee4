@@ -775,17 +775,14 @@ public final class HTTPServletRequestWrap implements HttpServletRequest,Serializ
 		return null;
 	}
 
-	@Override
 	public String getRequestId() {
 		return "";
 	}
 
-	@Override
 	public String getProtocolRequestId() {
 		return "";
 	}
 
-	@Override
 	public ServletConnection getServletConnection() {
 		return null;
 	}

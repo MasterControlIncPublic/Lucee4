@@ -195,22 +195,19 @@ public class HTTPServletRequestImpl implements HttpServletRequest {
 		return null;
 	}
 
-	@Override
-	public String getRequestId() {
-		return "";
-	}
+    public String getRequestId() {
+        return "";
+    }
 
-	@Override
-	public String getProtocolRequestId() {
-		return "";
-	}
+    public String getProtocolRequestId() {
+        return "";
+    }
 
-	@Override
-	public ServletConnection getServletConnection() {
-		return null;
-	}
+    public ServletConnection getServletConnection() {
+        return null;
+    }
 
-	@Override
+    @Override
 	public String getRemoteAddr() {
 		// TODO Auto-generated method stub
 		return null;

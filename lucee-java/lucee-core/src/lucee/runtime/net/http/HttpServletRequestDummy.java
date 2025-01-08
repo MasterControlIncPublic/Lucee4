@@ -763,17 +763,14 @@ public final class HttpServletRequestDummy implements HttpServletRequest,Seriali
 		return null;
 	}
 
-	@Override
 	public String getRequestId() {
 		return "";
 	}
 
-	@Override
 	public String getProtocolRequestId() {
 		return "";
 	}
 
-	@Override
 	public ServletConnection getServletConnection() {
 		return null;
 	}
