@@ -179,7 +179,6 @@ public class ServletContextDummy implements ServletContext {
 		else log.log(Level.ERROR, msg,t);
 	}
 
-	@Override
 	public void log(Exception e, String msg) {
 		log(msg,e);
 	}

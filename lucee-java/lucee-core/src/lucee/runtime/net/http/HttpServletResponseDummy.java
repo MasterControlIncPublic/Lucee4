@@ -90,11 +90,9 @@ public final class HttpServletResponseDummy implements HttpServletResponse,Seria
 	public String encodeRedirectURL(String url) {
 		return URLEncoder.encode(url);
 	}
-	@Override
 	public String encodeUrl(String value) {
 		return URLEncoder.encode(value);
 	}
-	@Override
 	public String encodeRedirectUrl(String value) {
 		return URLEncoder.encode(value);
 	}
@@ -145,7 +143,6 @@ public final class HttpServletResponseDummy implements HttpServletResponse,Seria
 	public void setStatus(int status) {
 		this.status=status; 
 	}
-	@Override
 	public void setStatus(int status, String statusCode) {
 		setStatus(status);
 		this.statusCode=statusCode;  

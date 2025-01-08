@@ -33,7 +33,6 @@ import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpUtils;
 import javax.xml.namespace.QName;
 import javax.xml.soap.MimeHeader;
 import javax.xml.soap.MimeHeaders;
@@ -281,7 +280,7 @@ public final class RPCServer{
 				/**********************************************************/
 			}
 			msgContext.setRequestMessage(requestMsg);
-			String url = HttpUtils.getRequestURL(req).toString().toLowerCase();
+			String url = req.getRequestURL().toString().toLowerCase();
 			msgContext.setProperty(MessageContext.TRANS_URL, url);
 			msgContext.setProperty(MessageContext.WSDLGEN_INTFNAMESPACE, AxisCaster.getRequestNameSpace());
 			// put character encoding of request to message context
@@ -747,7 +746,7 @@ public final class RPCServer{
 						Class plugin=ClassUtil.loadClass((String)this.transport.getOption(queryHandler));
 						Method pluginMethod = plugin.getDeclaredMethod("invoke", new Class[] {msgContext.getClass()});
 
-						msgContext.setProperty(MessageContext.TRANS_URL, HttpUtils.getRequestURL(request).toString().toLowerCase());
+						msgContext.setProperty(MessageContext.TRANS_URL, request.getRequestURL().toString().toLowerCase());
 						msgContext.setProperty(MessageContext.WSDLGEN_INTFNAMESPACE, AxisCaster.getRequestNameSpace());
 						//msgContext.setProperty(MessageContext.TRANS_URL, "http://DefaultNamespace");
 						msgContext.setProperty(HTTPConstants.PLUGIN_SERVICE_NAME, serviceName);

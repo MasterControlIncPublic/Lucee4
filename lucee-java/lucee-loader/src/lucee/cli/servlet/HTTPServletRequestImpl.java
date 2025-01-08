@@ -31,6 +31,7 @@ import java.util.Map;
 import jakarta.servlet.AsyncContext;
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletConnection;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletInputStream;
@@ -134,7 +135,6 @@ public class HTTPServletRequestImpl implements HttpServletRequest {
 		return null;
 	}
 
-	@Override
 	public String getRealPath(String arg0) {
 		// TODO Auto-generated method stub
 		return null;
@@ -192,6 +192,21 @@ public class HTTPServletRequestImpl implements HttpServletRequest {
 
 	@Override
 	public DispatcherType getDispatcherType() {
+		return null;
+	}
+
+	@Override
+	public String getRequestId() {
+		return "";
+	}
+
+	@Override
+	public String getProtocolRequestId() {
+		return "";
+	}
+
+	@Override
+	public ServletConnection getServletConnection() {
 		return null;
 	}
 
@@ -393,7 +408,6 @@ public class HTTPServletRequestImpl implements HttpServletRequest {
 		return false;
 	}
 
-	@Override
 	public boolean isRequestedSessionIdFromUrl() {
 		// TODO Auto-generated method stub
 		return false;

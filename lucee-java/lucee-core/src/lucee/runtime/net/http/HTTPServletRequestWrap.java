@@ -35,6 +35,7 @@ import java.util.Map;
 import jakarta.servlet.AsyncContext;
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletConnection;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletInputStream;
@@ -615,7 +616,6 @@ public final class HTTPServletRequestWrap implements HttpServletRequest,Serializ
 		return disconnectData.requestedSessionIdFromURL;
 	}
 
-	@Override
 	public boolean isRequestedSessionIdFromUrl() {
 		return isRequestedSessionIdFromURL();
 	}
@@ -709,14 +709,13 @@ public final class HTTPServletRequestWrap implements HttpServletRequest,Serializ
 		throw new RuntimeException("this method is not supported when root request is gone");
 	}
 
-	@Override
 	public String getRealPath(String path) {
-		if(!disconnected) return req.getRealPath(path);
-		// try it anyway, in some servlet engine it is still working
-		try{
-			return req.getRealPath(path);
-		}
-		catch(Throwable t){}
+//		if(!disconnected) return req.getRealPath(path);
+//		// try it anyway, in some servlet engine it is still working
+//		try{
+//			return req.getRealPath(path);
+//		}
+//		catch(Throwable t){}
 		// TODO add support for this
 		throw new RuntimeException("this method is not supported when root request is gone");
 	}
@@ -773,6 +772,21 @@ public final class HTTPServletRequestWrap implements HttpServletRequest,Serializ
 
 	@Override
 	public DispatcherType getDispatcherType() {
+		return null;
+	}
+
+	@Override
+	public String getRequestId() {
+		return "";
+	}
+
+	@Override
+	public String getProtocolRequestId() {
+		return "";
+	}
+
+	@Override
+	public ServletConnection getServletConnection() {
 		return null;
 	}
 
