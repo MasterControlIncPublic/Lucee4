@@ -75,6 +75,8 @@ dependencies {
     compile 'org.apache.axis2:axis2:1.8.2'
     compile 'org.apache.commons:commons-compress:1.3'
 //    compile 'org.apache.commons:commons-email:1.6.0'
+    compile 'org.apache.commons:commons-email2-jakarta:2.0.0-M1'
+
     compile 'jakarta.mail:jakarta.mail-api:2.1.3'
     compile 'org.eclipse.angus:jakarta.mail:2.0.3'
     compile 'org.apache.httpcomponents:httpmime:4.5.2'

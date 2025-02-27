@@ -27,7 +27,7 @@ import jakarta.mail.Transport;
 
 import lucee.commons.lang.StringUtil;
 
-import org.apache.commons.mail.DefaultAuthenticator;
+import org.apache.commons.mail2.jakarta.DefaultAuthenticator;
 
 /**
  * SMTP Server verifier

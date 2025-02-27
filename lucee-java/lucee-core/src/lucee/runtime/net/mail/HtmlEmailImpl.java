@@ -25,8 +25,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.activation.DataHandler;
-import javax.activation.URLDataSource;
+import jakarta.activation.DataHandler;
+import jakarta.activation.URLDataSource;
 import jakarta.mail.BodyPart;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeBodyPart;
@@ -34,9 +34,10 @@ import jakarta.mail.internet.MimeMultipart;
 
 import lucee.commons.lang.StringUtil;
 
-import org.apache.commons.mail.Email;
-import org.apache.commons.mail.EmailException;
-import org.apache.commons.mail.MultiPartEmail;
+import org.apache.commons.mail2.core.EmailConstants;
+import org.apache.commons.mail2.core.EmailException;
+import org.apache.commons.mail2.jakarta.Email;
+import org.apache.commons.mail2.jakarta.MultiPartEmail;
 
 /**
  * An HTML multipart email.
@@ -235,13 +236,13 @@ public final class HtmlEmailImpl extends MultiPartEmail
             msgText = new MimeBodyPart();
             subContainer.addBodyPart(msgText);
 
-            if (!StringUtil.isEmpty(this.charset)) {
+            if (!StringUtil.isEmpty(this.getCharsetName())) {
                 msgText.setContent(
                     this.text,
-                    Email.TEXT_PLAIN + "; charset=" + this.charset);
+                    EmailConstants.TEXT_PLAIN + "; charset=" + this.getCharsetName());
             }
             else {
-                msgText.setContent(this.text, Email.TEXT_PLAIN);
+                msgText.setContent(this.text, EmailConstants.TEXT_PLAIN);
             }
         }
 
@@ -258,15 +259,15 @@ public final class HtmlEmailImpl extends MultiPartEmail
                 subContainer.addBodyPart(msgHtml);
             }
 
-            if (!StringUtil.isEmpty(this.charset))
+            if (!StringUtil.isEmpty(this.getCharsetName()))
             {
                 msgHtml.setContent(
                     this.html,
-                    Email.TEXT_HTML + "; charset=" + this.charset);
+                    EmailConstants.TEXT_HTML + "; charset=" + this.getCharsetName());
             }
             else
             {
-                msgHtml.setContent(this.html, Email.TEXT_HTML);
+                msgHtml.setContent(this.html, EmailConstants.TEXT_HTML);
             }
 
             Iterator iter = this.inlineImages.iterator();
@@ -302,13 +303,13 @@ public final class HtmlEmailImpl extends MultiPartEmail
 
         if(!StringUtil.isEmpty(this.text)) {
             msgText = this.getPrimaryBodyPart();
-            if (!StringUtil.isEmpty(this.charset)) {
+            if (!StringUtil.isEmpty(this.getCharsetName())) {
                 msgText.setContent(
                     this.text,
-                    Email.TEXT_PLAIN + "; charset=" + this.charset);
+                    EmailConstants.TEXT_PLAIN + "; charset=" + this.getCharsetName());
             }
             else {
-                msgText.setContent(this.text, Email.TEXT_PLAIN);
+                msgText.setContent(this.text, EmailConstants.TEXT_PLAIN);
             }
         }
 
@@ -329,13 +330,13 @@ public final class HtmlEmailImpl extends MultiPartEmail
                 }
             }
 
-            if(!StringUtil.isEmpty(this.charset)) {
+            if(!StringUtil.isEmpty(this.getCharsetName())) {
                 msgHtml.setContent(
                     this.html,
-                    Email.TEXT_HTML + "; charset=" + this.charset);
+                    EmailConstants.TEXT_HTML + "; charset=" + this.getCharsetName());
             }
             else {
-                msgHtml.setContent(this.html, Email.TEXT_HTML);
+                msgHtml.setContent(this.html, EmailConstants.TEXT_HTML);
             }
 
             Iterator iter = this.inlineImages.iterator();

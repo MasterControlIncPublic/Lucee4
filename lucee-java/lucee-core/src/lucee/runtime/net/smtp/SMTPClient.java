@@ -35,8 +35,7 @@ import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.TimeZone;
 
-// TODO This one seems suspect as well
-import javax.activation.DataHandler;
+import jakarta.activation.DataHandler;
 import jakarta.mail.Authenticator;
 import jakarta.mail.BodyPart;
 import jakarta.mail.Message;

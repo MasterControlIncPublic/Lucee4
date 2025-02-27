@@ -25,7 +25,7 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
-import javax.activation.DataSource;
+import jakarta.activation.DataSource;
 
 import lucee.commons.io.IOUtil;
 
