@@ -18,7 +18,7 @@
  **/
 package lucee.runtime.net.smtp;
 
-import javax.mail.Transport;
+import jakarta.mail.Transport;
 
 import lucee.commons.io.SystemUtil;
 import lucee.runtime.net.smtp.SMTPClient.MimeMessageAndSession;

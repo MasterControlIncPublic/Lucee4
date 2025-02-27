@@ -44,7 +44,7 @@ import java.sql.ResultSet;
 import java.util.LinkedList;
 import java.util.zip.ZipFile;
 
-import javax.mail.Transport;
+import jakarta.mail.Transport;
 
 import org.apache.tika.Tika;
 import org.apache.tika.metadata.Metadata;

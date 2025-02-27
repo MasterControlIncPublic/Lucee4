@@ -18,9 +18,9 @@
  **/
 package lucee.runtime.net.imap;
 
-import javax.mail.Folder;
-import javax.mail.Message;
-import javax.mail.MessagingException;
+import jakarta.mail.Folder;
+import jakarta.mail.Message;
+import jakarta.mail.MessagingException;
 
 import lucee.runtime.net.mail.MailClient;
 import lucee.runtime.op.Caster;

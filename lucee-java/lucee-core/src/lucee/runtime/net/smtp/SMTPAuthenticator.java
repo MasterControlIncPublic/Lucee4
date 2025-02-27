@@ -18,8 +18,8 @@
  **/
 package lucee.runtime.net.smtp;
 
-import javax.mail.Authenticator;
-import javax.mail.PasswordAuthentication;
+import jakarta.mail.Authenticator;
+import jakarta.mail.PasswordAuthentication;
 
 /**
  * This is a very simple authentication object that can be used for any

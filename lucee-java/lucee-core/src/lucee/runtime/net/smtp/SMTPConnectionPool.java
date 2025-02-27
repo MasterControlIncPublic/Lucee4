@@ -26,11 +26,11 @@ import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Stack;
 
-import javax.mail.Authenticator;
-import javax.mail.MessagingException;
-import javax.mail.NoSuchProviderException;
-import javax.mail.Session;
-import javax.mail.Transport;
+import jakarta.mail.Authenticator;
+import jakarta.mail.MessagingException;
+import jakarta.mail.NoSuchProviderException;
+import jakarta.mail.Session;
+import jakarta.mail.Transport;
 
 public class SMTPConnectionPool {
 

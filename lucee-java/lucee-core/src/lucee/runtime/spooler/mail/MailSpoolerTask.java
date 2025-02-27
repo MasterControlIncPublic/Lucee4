@@ -18,7 +18,7 @@
  **/
 package lucee.runtime.spooler.mail;
 
-import javax.mail.internet.InternetAddress;
+import jakarta.mail.internet.InternetAddress;
 
 import lucee.commons.lang.StringUtil;
 import lucee.runtime.config.Config;
