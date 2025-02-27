@@ -670,7 +670,7 @@ public final class HTTPServletRequestWrap implements HttpServletRequest,Serializ
 
 	@Override
 	public long getContentLengthLong() {
-		return 0;
+		return getContentLength();
 	}
 
 	@Override

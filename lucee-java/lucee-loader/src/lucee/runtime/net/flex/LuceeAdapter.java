@@ -90,7 +90,8 @@ public class LuceeAdapter extends ServiceAdapter implements EngineChangeListener
     private CFMLEngine getEngine() {
     	if(engine==null){
         	try {CFMLEngineFactory.getInstance();
-				engine=CFMLEngineFactory.getInstance(FlexContext.getServletConfig(),this);
+				// TODO further breaking
+				engine=CFMLEngineFactory.getInstance(null,this);
 			} 
         	catch (Throwable e) {
 				throw new RuntimeException(e);
@@ -104,7 +105,8 @@ public class LuceeAdapter extends ServiceAdapter implements EngineChangeListener
      */
     public void onUpdate(CFMLEngine newEngine) {
         try {
-            engine=CFMLEngineFactory.getInstance(FlexContext.getServletConfig(),this);
+			// TODO further breaking
+            engine=CFMLEngineFactory.getInstance(null,this);
         } catch (ServletException e) {
             engine=newEngine;
         }

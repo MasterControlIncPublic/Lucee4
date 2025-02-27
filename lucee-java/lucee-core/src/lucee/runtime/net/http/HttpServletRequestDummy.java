@@ -26,18 +26,29 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import jakarta.servlet.AsyncContext;
+import jakarta.servlet.DispatcherType;
 import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletInputStream;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+import jakarta.servlet.http.HttpUpgradeHandler;
+import jakarta.servlet.http.Part;
 import lucee.commons.collection.MapFactory;
 import lucee.commons.io.IOUtil;
 import lucee.commons.io.res.Resource;
@@ -444,6 +455,12 @@ public final class HttpServletRequestDummy implements HttpServletRequest,Seriali
 	public HttpSession getSession() {
 		return getSession(true);
 	}
+
+	@Override
+	public String changeSessionId() {
+		return "";
+	}
+
 	@Override
 	public boolean isRequestedSessionIdValid() {
 //		 not supported
@@ -463,6 +480,37 @@ public final class HttpServletRequestDummy implements HttpServletRequest,Seriali
 	public boolean isRequestedSessionIdFromUrl() {
 		return isRequestedSessionIdFromURL();
 	}
+
+	@Override
+	public boolean authenticate(HttpServletResponse httpServletResponse) throws IOException, ServletException {
+		return false;
+	}
+
+	@Override
+	public void login(String s, String s1) throws ServletException {
+
+	}
+
+	@Override
+	public void logout() throws ServletException {
+
+	}
+
+	@Override
+	public Collection<Part> getParts() throws IOException, ServletException {
+		return List.of();
+	}
+
+	@Override
+	public Part getPart(String s) throws IOException, ServletException {
+		return null;
+	}
+
+	@Override
+	public <T extends HttpUpgradeHandler> T upgrade(Class<T> aClass) throws IOException, ServletException {
+		return null;
+	}
+
 	@Override
 	public Object getAttribute(String key) {
 		return attributes.get(key,null);
@@ -495,6 +543,12 @@ public final class HttpServletRequestDummy implements HttpServletRequest,Seriali
 	public int getContentLength() {
 		return -1;
 	}
+
+	@Override
+	public long getContentLengthLong() {
+		return 0;
+	}
+
 	@Override
 	public String getContentType() {
 		return contentType;
@@ -653,6 +707,61 @@ public final class HttpServletRequestDummy implements HttpServletRequest,Seriali
 	@Override
 	public String getRealPath(String path) {
 		return contextRoot.getReal(path);
+	}
+
+	@Override
+	public int getRemotePort() {
+		return 0;
+	}
+
+	@Override
+	public String getLocalName() {
+		return "";
+	}
+
+	@Override
+	public String getLocalAddr() {
+		return "";
+	}
+
+	@Override
+	public int getLocalPort() {
+		return 0;
+	}
+
+	@Override
+	public ServletContext getServletContext() {
+		return null;
+	}
+
+	@Override
+	public AsyncContext startAsync() throws IllegalStateException {
+		return null;
+	}
+
+	@Override
+	public AsyncContext startAsync(ServletRequest servletRequest, ServletResponse servletResponse) throws IllegalStateException {
+		return null;
+	}
+
+	@Override
+	public boolean isAsyncStarted() {
+		return false;
+	}
+
+	@Override
+	public boolean isAsyncSupported() {
+		return false;
+	}
+
+	@Override
+	public AsyncContext getAsyncContext() {
+		return null;
+	}
+
+	@Override
+	public DispatcherType getDispatcherType() {
+		return null;
 	}
 
 	/**

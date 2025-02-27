@@ -33,13 +33,11 @@ import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpUtils;
-import javax.xml.namespace.QName;
-import javax.xml.soap.MimeHeader;
-import javax.xml.soap.MimeHeaders;
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPMessage;
 
+import jakarta.xml.soap.MimeHeader;
+import jakarta.xml.soap.MimeHeaders;
+import jakarta.xml.soap.SOAPException;
+import jakarta.xml.soap.SOAPMessage;
 import lucee.commons.io.IOUtil;
 import lucee.commons.lang.ClassException;
 import lucee.commons.lang.ClassUtil;
@@ -72,6 +70,8 @@ import org.apache.axis.transport.http.ServletEndpointContextImpl;
 import org.apache.axis.utils.Messages;
 import org.apache.commons.logging.Log;
 import org.w3c.dom.Element;
+
+import javax.xml.namespace.QName;
 
 /**
  * xdoclet tags are not active yet; keep web.xml in sync.
@@ -281,7 +281,7 @@ public final class RPCServer{
 				/**********************************************************/
 			}
 			msgContext.setRequestMessage(requestMsg);
-			String url = HttpUtils.getRequestURL(req).toString().toLowerCase();
+			String url = req.getRequestURL().toString().toLowerCase();
 			msgContext.setProperty(MessageContext.TRANS_URL, url);
 			msgContext.setProperty(MessageContext.WSDLGEN_INTFNAMESPACE, AxisCaster.getRequestNameSpace());
 			// put character encoding of request to message context
@@ -747,7 +747,7 @@ public final class RPCServer{
 						Class plugin=ClassUtil.loadClass((String)this.transport.getOption(queryHandler));
 						Method pluginMethod = plugin.getDeclaredMethod("invoke", new Class[] {msgContext.getClass()});
 
-						msgContext.setProperty(MessageContext.TRANS_URL, HttpUtils.getRequestURL(request).toString().toLowerCase());
+						msgContext.setProperty(MessageContext.TRANS_URL, request.getRequestURL().toString().toLowerCase());
 						msgContext.setProperty(MessageContext.WSDLGEN_INTFNAMESPACE, AxisCaster.getRequestNameSpace());
 						//msgContext.setProperty(MessageContext.TRANS_URL, "http://DefaultNamespace");
 						msgContext.setProperty(HTTPConstants.PLUGIN_SERVICE_NAME, serviceName);

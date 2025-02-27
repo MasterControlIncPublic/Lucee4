@@ -23,6 +23,7 @@ import java.io.OutputStream;
 
 import jakarta.servlet.ServletOutputStream;
 
+import jakarta.servlet.WriteListener;
 import lucee.runtime.op.Caster;
 
 public final class ServletOutputStreamDummy extends ServletOutputStream {
@@ -92,6 +93,16 @@ public final class ServletOutputStreamDummy extends ServletOutputStream {
 	public void println(double d) throws IOException {
 		print(d);
 		println();
+	}
+
+	@Override
+	public boolean isReady() {
+		return false;
+	}
+
+	@Override
+	public void setWriteListener(WriteListener writeListener) {
+
 	}
 
 	@Override
