@@ -235,8 +235,6 @@ public abstract class MailClient {
 
 	/**
      * delete all message in ibox that match given criteria
-     * @param messageNumbers
-     * @param uIds
      * @throws MessagingException
 	 * @throws IOException 
      */
@@ -253,7 +251,7 @@ public abstract class MailClient {
 			amessage[i++] =  map.get(iterator.next());
 		}
 		try {
-			folder.setFlags(amessage, new Flags(javax.mail.Flags.Flag.DELETED), true);
+			folder.setFlags(amessage, new Flags(jakarta.mail.Flags.Flag.DELETED), true);
 		}
 		finally {
 			folder.close(true);
@@ -263,8 +261,6 @@ public abstract class MailClient {
     /**
      * return all messages from inbox
      * @param messageNumbers all messages with this ids
-     * @param uIds all messages with this uids
-     * @param withBody also return body
      * @return all messages from inbox
      * @throws MessagingException
      * @throws IOException
@@ -345,11 +341,8 @@ public abstract class MailClient {
      * gets all messages from given Folder that match given criteria
 	 * @param qry 
      * @param folder
-     * @param uIds
      * @param messageNumbers
-	 * @param all 
-     * @param startrow
-     * @param maxrows
+	 * @param all
 	 * @return 
      * @return matching Messages
 	 * @throws MessagingException 
@@ -398,8 +391,6 @@ public abstract class MailClient {
 
 	/**
      * write content data to query
-     * @param qry
-     * @param content
      * @param row
      * @throws MessagingException
      * @throws IOException
@@ -616,7 +607,6 @@ public abstract class MailClient {
 
 	/**
      * translate a String Array to String List
-     * @param arr Array to translate
      * @return List from Array
      */
 	private String toList(String ids[]) {
