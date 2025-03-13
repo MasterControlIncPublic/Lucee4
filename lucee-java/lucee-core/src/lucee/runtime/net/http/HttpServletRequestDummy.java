@@ -37,6 +37,7 @@ import java.util.Map;
 import jakarta.servlet.AsyncContext;
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletConnection;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletInputStream;
@@ -123,10 +124,7 @@ public final class HttpServletRequestDummy implements HttpServletRequest,Seriali
 	/**
 	 * constructor of the class
 	 * @param headers 
-	 * @param parameters 
-	 * @param httpSession 
-	 * @param pairs 
-	 * @param cookiess 
+	 * @param parameters
 	 */
 	public HttpServletRequestDummy(Resource contextRoot,String serverName, String scriptName,String queryString, 
 			Cookie[] cookies, Pair[] headers, Pair[] parameters, Struct attributes, HttpSession session) {
@@ -476,7 +474,7 @@ public final class HttpServletRequestDummy implements HttpServletRequest,Seriali
 //		 not supported
 		return false;
 	}
-	@Override
+
 	public boolean isRequestedSessionIdFromUrl() {
 		return isRequestedSessionIdFromURL();
 	}
@@ -704,7 +702,7 @@ public final class HttpServletRequestDummy implements HttpServletRequest,Seriali
 		return new RequestDispatcherDummy(this);
 	}
 	
-	@Override
+
 	public String getRealPath(String path) {
 		return contextRoot.getReal(path);
 	}
@@ -761,6 +759,18 @@ public final class HttpServletRequestDummy implements HttpServletRequest,Seriali
 
 	@Override
 	public DispatcherType getDispatcherType() {
+		return null;
+	}
+
+	public String getRequestId() {
+		return "";
+	}
+
+	public String getProtocolRequestId() {
+		return "";
+	}
+
+	public ServletConnection getServletConnection() {
 		return null;
 	}
 
