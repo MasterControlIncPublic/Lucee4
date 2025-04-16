@@ -101,7 +101,7 @@ dependencies {
     implementation 'jakarta.xml.soap:jakarta.xml.soap-api:3.0.2'
 
     // https://github.com/nec1704/axis1.4-java-patched
-    compile 'org.apache.axis:axis:1.4-20190730-jakarta-20250227.223133-1'
+    compile 'org.apache.axis:axis:1.4-20190730-jakarta'
     compile 'xalan:xalan:2.7.0'
     compile 'xerces:xercesImpl:2.9.0'
     compile 'backport-util-concurrent:backport-util-concurrent:2.2'
