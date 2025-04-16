@@ -83,11 +83,6 @@ dependencies {
     compile 'commons-httpclient:commons-httpclient:3.1-jenkins-3'
     compile 'commons-collections:commons-collections:3.2.1'
     compile 'commons-discovery:commons-discovery:0.4'
-//    compile 'commons-fileupload:commons-fileupload:1.2.1'
-    // https://mvnrepository.com/artifact/org.apache.commons/commons-fileupload2-jakarta
-//    compile 'org.apache.commons:commons-fileupload2-jakarta:2.0.0-M1'
-    // https://mvnrepository.com/artifact/org.apache.commons/commons-fileupload2-jakarta-servlet5
-//    compile 'org.apache.commons:commons-fileupload2-jakarta-servlet5:2.0.0-M2'
     // https://mvnrepository.com/artifact/org.apache.commons/commons-fileupload2-jakarta-servlet6
     compile 'org.apache.commons:commons-fileupload2-jakarta-servlet6:2.0.0-M2'
 
@@ -129,7 +124,8 @@ dependencies {
     compile 'jakarta.servlet:jakarta.servlet-api:5.0.0'
     compile 'jakarta.servlet.jsp:jakarta.servlet.jsp-api:3.0.0'
     compile 'jakarta.el:jakarta.el-api:4.0.0'
-    compile 'org.apache.flex.blazeds:flex-messaging-core:4.8.0'
+    compile(group: 'org.apache.flex.blazeds', name: 'flex-messaging-common', version: '4.8.0.3-jakarta')
+    compile(group: 'org.apache.flex.blazeds', name: 'flex-messaging-core', version: '4.8.0.3-jakarta')
     compile 'org.apache.axis:axis-jaxrpc:1.4'
     //compile 'org.apache.lucene:lucene-core:2.4.1'
     compile 'org.lucee.lib:javax-servlet:1.4.1-01' //servlet container being deployed in has this included
