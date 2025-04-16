@@ -3,7 +3,7 @@ package lucee.commons.io;
 import lucee.cli.servlet.ServletContextImpl;
 import org.junit.jupiter.api.Test;
 
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;

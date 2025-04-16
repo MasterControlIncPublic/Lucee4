@@ -20,7 +20,7 @@ package lucee.runtime.rest;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import lucee.commons.lang.mimetype.MimeType;
 import lucee.runtime.PageContext;

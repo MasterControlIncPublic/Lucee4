@@ -20,8 +20,8 @@ package lucee.cli.servlet;
 
 import java.util.Enumeration;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletContext;
 
 
 public class ServletConfigImpl implements ServletConfig {
@@ -41,21 +41,21 @@ public class ServletConfigImpl implements ServletConfig {
 	}
 	
 	/**
-	 * @see javax.servlet.ServletConfig#getInitParameter(java.lang.String)
+	 * @see jakarta.servlet.ServletConfig#getInitParameter(java.lang.String)
 	 */
 	public String getInitParameter(String key) {
 		return context.getInitParameter(key);
 	}
 
 	/**
-	 * @see javax.servlet.ServletConfig#getInitParameterNames()
+	 * @see jakarta.servlet.ServletConfig#getInitParameterNames()
 	 */
 	public Enumeration getInitParameterNames() {
 		return context.getInitParameterNames();
 	}
 
 	/**
-	 * @see javax.servlet.ServletConfig#getServletName()
+	 * @see jakarta.servlet.ServletConfig#getServletName()
 	 */
 	public String getServletName() {
 		return servletName;

@@ -21,7 +21,7 @@ package lucee.runtime.tag;
 
 import java.io.IOException;
 
-import javax.servlet.jsp.tagext.Tag;
+import jakarta.servlet.jsp.tagext.Tag;
 
 import lucee.commons.io.IOUtil;
 import lucee.commons.io.SystemUtil;
@@ -35,7 +35,7 @@ import lucee.runtime.ext.tag.TagImpl;
 import lucee.runtime.op.Caster;
 import lucee.runtime.type.util.ListUtil;
 
-import org.apache.commons.mail.EmailAttachment;
+import org.apache.commons.mail2.jakarta.EmailAttachment;
 /**
 * Can either attach a file or add a header to a message. It is nested within a cfmail tag. You can 
 *   use more than one cfmailparam tag within a cfmail tag.

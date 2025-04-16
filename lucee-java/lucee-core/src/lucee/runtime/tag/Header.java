@@ -20,7 +20,7 @@ package lucee.runtime.tag;
 
 import java.nio.charset.Charset;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 import lucee.commons.io.CharsetUtil;
 import lucee.runtime.PageContextImpl;
@@ -140,7 +140,7 @@ public final class Header extends TagImpl {
     		if(statustext != null) {
     			//try {
     				///rsp.sendError(statuscode, statustext);
-    				rsp.setStatus(statuscode,statustext);
+    				rsp.setStatus(statuscode);
     			/*} 
                 catch (IOException e) {
     				throw new TemplateException("can't assign value to header, header is alredy committed",e.getMessage());

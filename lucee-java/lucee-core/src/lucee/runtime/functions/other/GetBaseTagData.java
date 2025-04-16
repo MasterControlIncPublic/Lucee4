@@ -21,7 +21,7 @@
  */
 package lucee.runtime.functions.other;
 
-import javax.servlet.jsp.tagext.Tag;
+import jakarta.servlet.jsp.tagext.Tag;
 
 import lucee.commons.lang.StringUtil;
 import lucee.runtime.PageContext;

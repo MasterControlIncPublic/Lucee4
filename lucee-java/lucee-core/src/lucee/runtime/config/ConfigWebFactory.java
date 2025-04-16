@@ -40,7 +40,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TimeZone;
 
-import javax.servlet.ServletConfig;
+import jakarta.servlet.ServletConfig;
 
 import lucee.aprint;
 import lucee.commons.collection.MapFactory;

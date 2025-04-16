@@ -24,10 +24,10 @@ import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.Locale;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpServletResponseWrapper;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponseWrapper;
 
 import lucee.commons.io.DevNullOutputStream;
 import lucee.commons.lang.Pair;
@@ -107,11 +107,11 @@ public final class HttpServletResponseWrap extends HttpServletResponseWrapper im
 	public String encodeRedirectURL(String url) {
 		return URLEncoder.encode(url);
 	}
-	@Override
+
 	public String encodeUrl(String value) {
 		return URLEncoder.encode(value);
 	}
-	@Override
+
 	public String encodeRedirectUrl(String value) {
 		return URLEncoder.encode(value);
 	}
@@ -162,7 +162,7 @@ public final class HttpServletResponseWrap extends HttpServletResponseWrapper im
 	public void setStatus(int status) {
 		this.status=status; 
 	}
-	@Override
+
 	public void setStatus(int status, String statusCode) {
 		setStatus(status);
 		this.statusCode=statusCode;  

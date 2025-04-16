@@ -47,12 +47,13 @@ public class BlazeDSImpl implements BlazeDS {
         print.out(remotingMessage.getParameters().toArray());
          */      
         try {
+			// TODO all those nulls are going to break stuff if it tries anything
 			Object rtn = new CFMLProxy().invokeBody(
 					null,properties, 
-					FlexContext.getServletContext(),
-					FlexContext.getServletConfig(), 
-					FlexContext.getHttpRequest(), 
-					FlexContext.getHttpResponse(), 
+					null,
+					null,
+					null,
+					null,
 					remotingMessage.getSource(), 
 					remotingMessage.getOperation(), 
 					remotingMessage.getParameters());

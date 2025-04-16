@@ -24,8 +24,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import lucee.commons.date.DateTimeUtil;
 import lucee.commons.lang.StringUtil;
@@ -112,7 +112,7 @@ public final class CookieImpl extends ScopeSupport implements Cookie,ScriptProte
 		return value;
 	}
 	
-	private void set(Config config,javax.servlet.http.Cookie cookie) throws PageException {
+	private void set(Config config,jakarta.servlet.http.Cookie cookie) throws PageException {
 		
 		String name=StringUtil.toLowerCase(ReqRspUtil.decode(cookie.getName(),charset,false));
 		if (!raw.containsKey(name) || !StringUtil.isEmpty(cookie.getPath())) {
@@ -304,7 +304,7 @@ public final class CookieImpl extends ScopeSupport implements Cookie,ScriptProte
 		
 		HttpServletRequest req = pc. getHttpServletRequest();
 		this.rsp=pc. getHttpServletResponse();
-		javax.servlet.http.Cookie[] cookies=ReqRspUtil.getCookies(req,((PageContextImpl)pc).getWebCharset());
+		jakarta.servlet.http.Cookie[] cookies=ReqRspUtil.getCookies(req,((PageContextImpl)pc).getWebCharset());
 		try {
 			for(int i=0;i<cookies.length;i++) {
 				set(config,cookies[i]);
@@ -377,7 +377,7 @@ public final class CookieImpl extends ScopeSupport implements Cookie,ScriptProte
 	public void touchAfterRequest(PageContext pc) {
 	}
 	
-	public static void setHTTPOnly(javax.servlet.http.Cookie cookie) {
+	public static void setHTTPOnly(jakarta.servlet.http.Cookie cookie) {
     	try {
 	    	if(setHttpOnly==null) {
 				  setHttpOnly=cookie.getClass().getMethod("setHttpOnly", SET_HTTP_ONLY_ARGS_CLASSES);
@@ -389,7 +389,7 @@ public final class CookieImpl extends ScopeSupport implements Cookie,ScriptProte
 		}
 	}
 	
-	public static boolean isHTTPOnly(javax.servlet.http.Cookie cookie) {
+	public static boolean isHTTPOnly(jakarta.servlet.http.Cookie cookie) {
     	try {
 	    	if(isHttpOnly==null) {
 	    		isHttpOnly=cookie.getClass().getMethod("isHttpOnly", IS_HTTP_ONLY_ARGS_CLASSES);

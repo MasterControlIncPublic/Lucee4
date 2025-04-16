@@ -22,11 +22,16 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 
 import lucee.commons.io.DevNullOutputStream;
 import lucee.commons.lang.Pair;
@@ -88,11 +93,11 @@ public final class HttpServletResponseDummy implements HttpServletResponse,Seria
 	public String encodeRedirectURL(String url) {
 		return URLEncoder.encode(url);
 	}
-	@Override
+
 	public String encodeUrl(String value) {
 		return URLEncoder.encode(value);
 	}
-	@Override
+
 	public String encodeRedirectUrl(String value) {
 		return URLEncoder.encode(value);
 	}
@@ -143,7 +148,7 @@ public final class HttpServletResponseDummy implements HttpServletResponse,Seria
 	public void setStatus(int status) {
 		this.status=status; 
 	}
-	@Override
+
 	public void setStatus(int status, String statusCode) {
 		setStatus(status);
 		this.statusCode=statusCode;  
@@ -174,6 +179,12 @@ public final class HttpServletResponseDummy implements HttpServletResponse,Seria
 	public void setContentLength(int contentLength) {
 		this.contentLength=contentLength;
 	}
+
+	@Override
+	public void setContentLengthLong(long l) {
+
+	}
+
 	@Override
 	public void setContentType(String contentType) {
 		this.contentType=contentType;
@@ -269,6 +280,32 @@ public final class HttpServletResponseDummy implements HttpServletResponse,Seria
 	 */
 	public int getStatus() {
 		return status;
+	}
+
+	@Override
+	public String getHeader(String s) {
+		for (Pair<String, Object> header : headers) {
+			if (header.getName().equalsIgnoreCase(s)) {
+				return header.getValue().toString();
+			}
+		}
+		return "";
+	}
+
+	@Override
+	public Collection<String> getHeaders(String s) {
+		List<String> filteredHeaders = new ArrayList<>();
+		for (Pair<String, Object> header : headers) {
+			if (header.getName().equalsIgnoreCase(s)) {
+				filteredHeaders.add(header.getValue().toString());
+			}
+		}
+		return filteredHeaders;
+	}
+
+	@Override
+	public Collection<String> getHeaderNames() {
+		return Arrays.stream(headers).map(Pair::getName).collect(Collectors.toList());
 	}
 
 	/**

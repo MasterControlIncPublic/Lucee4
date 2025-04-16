@@ -21,8 +21,8 @@ package lucee.debug.loader.servlet;
 import java.io.File;
 import java.io.IOException;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletException;
 
 import lucee.commons.io.SystemUtil;
 import lucee.commons.lang.StringUtil;
