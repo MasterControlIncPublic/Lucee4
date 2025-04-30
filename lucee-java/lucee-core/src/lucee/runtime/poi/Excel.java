@@ -38,10 +38,10 @@ import lucee.runtime.type.it.StringIterator;
 import lucee.runtime.type.it.ValueIterator;
 import lucee.runtime.type.util.StructSupport;
 
-import org.apache.poi.POIXMLProperties;
 import org.apache.poi.hpsf.DocumentSummaryInformation;
 import org.apache.poi.hpsf.SummaryInformation;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ooxml.POIXMLProperties;
 import org.apache.poi.openxml4j.opc.internal.PackagePropertiesPart;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -123,22 +123,22 @@ public class Excel extends StructSupport implements Cloneable,Struct {
         CreationHelper createHelper = workbook.getCreationHelper();
         boolean isFormula=style != null && style.getDataFormatString().equals("@");
         
-        
+        cell.setCellValue(value);
         if(!isFormula && Decision.isNumeric(value)) {
-			cell.setCellType(Cell.CELL_TYPE_NUMERIC);
-			double dbl = Caster.toDoubleValue(value);
-            cell.setCellValue(dbl);
-            _expandColumnWidth(sheet,Caster.toString(dbl),columnNumber);
+//			cell.setCellType(CellType.forInt(0));
+//			double dbl = Caster.toDoubleValue(value);
+//            cell.setCellValue(dbl);
+            _expandColumnWidth(sheet,Caster.toString(value),columnNumber);
 		}
         else if(StringUtil.isEmpty("")) {
-            cell.setCellType(Cell.CELL_TYPE_BLANK);
+//            cell.setCellType(CellType.BLANK);
             cell.setCellValue(createHelper.createRichTextString(""));
         }
         else {
-            cell.setCellType(Cell.CELL_TYPE_STRING);
+//            cell.setCellType(CellType.STRING);
             cell.setCellValue(createHelper.createRichTextString(value));
             _expandColumnWidth(sheet,value,columnNumber);
-        } 
+        }
 	        
 	        
 	}
@@ -193,7 +193,7 @@ public class Excel extends StructSupport implements Cloneable,Struct {
         	infostruct.put("SPREADSHEETTYPE", "Excel (2007)");
             
         	XSSFWorkbook xssfworkbook = (XSSFWorkbook)workbook;
-            POIXMLProperties props = xssfworkbook.getProperties();
+			POIXMLProperties props = xssfworkbook.getProperties();
             info(infostruct,props.getCoreProperties().getUnderlyingProperties());
             info(infostruct,props.getExtendedProperties().getUnderlyingProperties());
         }
@@ -217,15 +217,15 @@ public class Excel extends StructSupport implements Cloneable,Struct {
 
 	private void info(Struct sct, PackagePropertiesPart props) {
 		if(props==null) return;
-		set(sct, "AUTHOR", props.getCreatorProperty().getValue());
-		set(sct, "CATEGORY", props.getCategoryProperty().getValue());
-		set(sct, "COMMENTS", props.getDescriptionProperty().getValue());
-		set(sct, "CREATIONDATE", props.getCreatedProperty().getValue());
-		set(sct, "KEYWORDS", props.getKeywordsProperty().getValue());
-		set(sct, "LASTAUTHOR", props.getLastModifiedByProperty().getValue());
-		set(sct, "LASTEDITED", props.getModifiedProperty().getValue());
-		set(sct, "SUBJECT", props.getSubjectProperty().getValue());
-		set(sct, "TITLE", props.getTitleProperty().getValue());
+		set(sct, "AUTHOR", props.getCreatorProperty().orElse(""));
+		set(sct, "CATEGORY", props.getCategoryProperty().orElse(""));
+		set(sct, "COMMENTS", props.getDescriptionProperty().orElse(""));
+		set(sct, "CREATIONDATE", props.getCreatedProperty().orElse(null));
+		set(sct, "KEYWORDS", props.getKeywordsProperty().orElse(""));
+		set(sct, "LASTAUTHOR", props.getLastModifiedByProperty().orElse(""));
+		set(sct, "LASTEDITED", props.getModifiedProperty().orElse(null));
+		set(sct, "SUBJECT", props.getSubjectProperty().orElse(""));
+		set(sct, "TITLE", props.getTitleProperty().orElse(""));
 	}
 
 	private void info(Struct sct, DocumentSummaryInformation summary) {

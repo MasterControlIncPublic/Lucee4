@@ -134,7 +134,7 @@ dependencies {
     compile 'org.lucee.lib:sun-jai_core:1.2.1' //cfimage
     compile 'org.lucee.lib:sun-jai_codec:1.2.1' //cfimage
     compile 'com.drewnoakes:metadata-extractor:2.6.2'
-    compile 'org.apache.poi:poi-ooxml:3.13'
+    compile 'org.apache.poi:poi-ooxml:5.4.1'
     compile 'org.apache.lucene:lucene-snowball:2.4.1'
     compile 'org.apache.lucene:lucene-spellchecker:2.4.1'
     compile 'org.apache.lucene:lucene-highlighter:2.4.1'
@@ -215,6 +215,11 @@ task renameFile(dependsOn: 'core') {
         println('renaming dist/' + libversion + '.lco to dist/' + libversion + snapshotText + '.jar')
         file('dist/' + libversion + '.lco').renameTo(file('dist/' + libversion + snapshotText + '.jar'))
     }
+}
+
+task copyDependencies(type: Copy) {
+    into "${projectDir}/lucee-java/libs"
+    from configurations.compileClasspath
 }
 
 artifactory {
