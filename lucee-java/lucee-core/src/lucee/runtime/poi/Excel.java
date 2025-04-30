@@ -125,17 +125,12 @@ public class Excel extends StructSupport implements Cloneable,Struct {
         
         cell.setCellValue(value);
         if(!isFormula && Decision.isNumeric(value)) {
-//			cell.setCellType(CellType.forInt(0));
-//			double dbl = Caster.toDoubleValue(value);
-//            cell.setCellValue(dbl);
             _expandColumnWidth(sheet,Caster.toString(value),columnNumber);
 		}
         else if(StringUtil.isEmpty("")) {
-//            cell.setCellType(CellType.BLANK);
             cell.setCellValue(createHelper.createRichTextString(""));
         }
         else {
-//            cell.setCellType(CellType.STRING);
             cell.setCellValue(createHelper.createRichTextString(value));
             _expandColumnWidth(sheet,value,columnNumber);
         }
