@@ -49,6 +49,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.jsp.JspException;
 import jakarta.servlet.jsp.JspWriter;
+import jakarta.servlet.jsp.el.ExpressionEvaluator;
+import jakarta.servlet.jsp.el.VariableResolver;
 import jakarta.servlet.jsp.tagext.BodyContent;
 import jakarta.servlet.jsp.tagext.BodyTag;
 import jakarta.servlet.jsp.tagext.Tag;
@@ -1753,6 +1755,21 @@ public final class PageContextImpl extends PageContext implements Sizeable {
 	}
 
 	@Override
+	public ExpressionEvaluator getExpressionEvaluator() {
+		return null;
+	}
+
+	@Override
+	public VariableResolver getVariableResolver() {
+		return null;
+	}
+
+	@Override
+	public jakarta.el.ELContext getELContext() {
+		return null;
+	}
+
+	@Override
 	public HttpSession getSession() {
 		return getHttpServletRequest().getSession();
 	}
@@ -2329,7 +2346,12 @@ public final class PageContextImpl extends PageContext implements Sizeable {
 	public void include(String relPath) throws ServletException,IOException  {
 		HTTPUtil.include(this, relPath);
 	}
-	
+
+	@Override
+	public void include(String s, boolean b) throws ServletException, IOException {
+
+	}
+
 
 	@Override
 	public void forward(String relPath) throws ServletException, IOException {

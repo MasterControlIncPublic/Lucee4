@@ -18,9 +18,9 @@
  **/
 package lucee.cli.servlet;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServlet;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpServlet;
 
 public class HTTPServletImpl extends HttpServlet {
 	private static final long serialVersionUID = 3270816399105433603L;
@@ -36,21 +36,21 @@ public class HTTPServletImpl extends HttpServlet {
 	}
 	
 	/**
-	 * @see javax.servlet.GenericServlet#getServletConfig()
+	 * @see jakarta.servlet.GenericServlet#getServletConfig()
 	 */
 	public ServletConfig getServletConfig() {
 		return config;
 	}
 
 	/**
-	 * @see javax.servlet.GenericServlet#getServletContext()
+	 * @see jakarta.servlet.GenericServlet#getServletContext()
 	 */
 	public ServletContext getServletContext() {
 		return context;
 	}
 
 	/**
-	 * @see javax.servlet.GenericServlet#getServletName()
+	 * @see jakarta.servlet.GenericServlet#getServletName()
 	 */
 	@Override
 	public String getServletName() {

@@ -26,11 +26,13 @@ import java.util.Stack;
 import java.util.concurrent.ConcurrentHashMap;
 
 import jakarta.servlet.Servlet;
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.jsp.JspApplicationContext;
 import jakarta.servlet.jsp.JspEngineInfo;
 
 import lucee.commons.io.SystemUtil;
@@ -275,6 +277,11 @@ public final class CFMLFactoryImpl extends CFMLFactory {
 		return info;
 	}
 
+	@Override
+	public JspApplicationContext getJspApplicationContext(ServletContext servletContext) {
+		return null;
+	}
+
 
 	/**
 	 * @return returns count of pagecontext in use
@@ -397,7 +404,7 @@ public final class CFMLFactoryImpl extends CFMLFactory {
 				} catch (PageException e2) {}
 
                 try {
-					data.setEL("id", Hash.call( pc,pc.getId()+":"+pc.getStartTime()));
+					data.setEL("id", Hash.call(pc, pc.getId()+":"+pc.getStartTime()));
 				} catch (PageException e1) {}
                 data.setEL("requestid", pc.getId());
 

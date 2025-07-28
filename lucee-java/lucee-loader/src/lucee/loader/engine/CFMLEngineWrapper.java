@@ -22,13 +22,13 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.JspException;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.jsp.JspException;
 
 import lucee.runtime.CFMLFactory;
 import lucee.runtime.PageContext;
@@ -58,14 +58,14 @@ public class CFMLEngineWrapper implements CFMLEngine, EngineChangeListener {
     }
     
     /**
-     * @see lucee.loader.engine.CFMLEngine#addServletConfig(javax.servlet.ServletConfig)
+     * @see lucee.loader.engine.CFMLEngine#addServletConfig(jakarta.servlet.ServletConfig)
      */
     public void addServletConfig(ServletConfig config) throws ServletException {
         engine.addServletConfig(config);
     }
 
     /**
-     * @see lucee.loader.engine.CFMLEngine#serviceCFML(javax.servlet.http.HttpServlet, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see lucee.loader.engine.CFMLEngine#serviceCFML(jakarta.servlet.http.HttpServlet, jakarta.servlet.http.HttpServletRequest, jakarta.servlet.http.HttpServletResponse)
      */
     public void serviceCFML(HttpServlet servlet, HttpServletRequest req,
             HttpServletResponse rsp) throws ServletException, IOException {
@@ -73,7 +73,7 @@ public class CFMLEngineWrapper implements CFMLEngine, EngineChangeListener {
     }
 
     /**
-     * @see lucee.loader.engine.CFMLEngine#serviceAMF(javax.servlet.http.HttpServlet, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see lucee.loader.engine.CFMLEngine#serviceAMF(jakarta.servlet.http.HttpServlet, jakarta.servlet.http.HttpServletRequest, jakarta.servlet.http.HttpServletResponse)
      */
     public void serviceAMF(HttpServlet servlet, HttpServletRequest req,
             HttpServletResponse rsp) throws ServletException, IOException {
@@ -81,7 +81,7 @@ public class CFMLEngineWrapper implements CFMLEngine, EngineChangeListener {
     }
     
     /**
-     * @see lucee.loader.engine.CFMLEngine#serviceFile(javax.servlet.http.HttpServlet, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see lucee.loader.engine.CFMLEngine#serviceFile(jakarta.servlet.http.HttpServlet, jakarta.servlet.http.HttpServletRequest, jakarta.servlet.http.HttpServletResponse)
      */
     public void serviceFile(HttpServlet servlet, HttpServletRequest req,
             HttpServletResponse rsp) throws ServletException, IOException {
@@ -187,7 +187,7 @@ public class CFMLEngineWrapper implements CFMLEngine, EngineChangeListener {
 
 	/**
 	 *
-	 * @see lucee.loader.engine.CFMLEngine#getCFMLFactory(javax.servlet.ServletContext, javax.servlet.ServletConfig, javax.servlet.http.HttpServletRequest)
+	 * @see lucee.loader.engine.CFMLEngine#getCFMLFactory(jakarta.servlet.ServletContext, jakarta.servlet.ServletConfig, jakarta.servlet.http.HttpServletRequest)
 	 */
 	public CFMLFactory getCFMLFactory(ServletContext srvContext, ServletConfig srvConfig, HttpServletRequest req) throws ServletException {
 		return engine.getCFMLFactory(srvContext, srvConfig, req);

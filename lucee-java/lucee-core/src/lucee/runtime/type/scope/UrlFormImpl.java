@@ -32,8 +32,7 @@ import lucee.runtime.op.Duplicator;
 import lucee.runtime.type.Collection;
 import lucee.runtime.type.dt.DateTime;
 import lucee.runtime.type.util.StructSupport;
-
-import org.apache.commons.fileupload.disk.DiskFileItem;
+import org.apache.commons.fileupload2.core.DiskFileItem;
 
 public final class UrlFormImpl extends StructSupport implements URLForm {
 

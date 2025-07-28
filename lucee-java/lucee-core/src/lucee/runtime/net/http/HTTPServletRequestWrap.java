@@ -28,15 +28,26 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import jakarta.servlet.AsyncContext;
+import jakarta.servlet.DispatcherType;
 import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletConnection;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletInputStream;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+import jakarta.servlet.http.HttpUpgradeHandler;
+import jakarta.servlet.http.Part;
 import lucee.commons.collection.MapFactory;
 import lucee.commons.io.IOUtil;
 import lucee.commons.lang.StringUtil;
@@ -577,6 +588,11 @@ public final class HTTPServletRequestWrap implements HttpServletRequest,Serializ
 	}
 
 	@Override
+	public String changeSessionId() {
+		return "";
+	}
+
+	@Override
 	public HttpSession getSession(boolean create) {
 		if(!disconnected) return req.getSession(create);
 		return this.disconnectData.session;
@@ -600,9 +616,39 @@ public final class HTTPServletRequestWrap implements HttpServletRequest,Serializ
 		return disconnectData.requestedSessionIdFromURL;
 	}
 
-	@Override
+
 	public boolean isRequestedSessionIdFromUrl() {
 		return isRequestedSessionIdFromURL();
+	}
+
+	@Override
+	public boolean authenticate(HttpServletResponse httpServletResponse) throws IOException, ServletException {
+		return false;
+	}
+
+	@Override
+	public void login(String s, String s1) throws ServletException {
+
+	}
+
+	@Override
+	public void logout() throws ServletException {
+
+	}
+
+	@Override
+	public java.util.Collection<Part> getParts() throws IOException, ServletException {
+		return List.of();
+	}
+
+	@Override
+	public Part getPart(String s) throws IOException, ServletException {
+		return null;
+	}
+
+	@Override
+	public <T extends HttpUpgradeHandler> T upgrade(Class<T> aClass) throws IOException, ServletException {
+		return null;
 	}
 
 	@Override
@@ -621,6 +667,11 @@ public final class HTTPServletRequestWrap implements HttpServletRequest,Serializ
 	public int getContentLength() {
 		if(!disconnected) return req.getContentLength();
 		return disconnectData.contentLength;
+	}
+
+	@Override
+	public long getContentLengthLong() {
+		return getContentLength();
 	}
 
 	@Override
@@ -659,16 +710,78 @@ public final class HTTPServletRequestWrap implements HttpServletRequest,Serializ
 		throw new RuntimeException("this method is not supported when root request is gone");
 	}
 
-	@Override
+//	@Override
 	public String getRealPath(String path) {
-		if(!disconnected) return req.getRealPath(path);
-		// try it anyway, in some servlet engine it is still working
-		try{
-			return req.getRealPath(path);
-		}
-		catch(Throwable t){}
+
 		// TODO add support for this
 		throw new RuntimeException("this method is not supported when root request is gone");
+	}
+
+	@Override
+	public int getRemotePort() {
+		return 0;
+	}
+
+	@Override
+	public String getLocalName() {
+		return "";
+	}
+
+	@Override
+	public String getLocalAddr() {
+		return "";
+	}
+
+	@Override
+	public int getLocalPort() {
+		return 0;
+	}
+
+	@Override
+	public ServletContext getServletContext() {
+		return null;
+	}
+
+	@Override
+	public AsyncContext startAsync() throws IllegalStateException {
+		return null;
+	}
+
+	@Override
+	public AsyncContext startAsync(ServletRequest servletRequest, ServletResponse servletResponse) throws IllegalStateException {
+		return null;
+	}
+
+	@Override
+	public boolean isAsyncStarted() {
+		return false;
+	}
+
+	@Override
+	public boolean isAsyncSupported() {
+		return false;
+	}
+
+	@Override
+	public AsyncContext getAsyncContext() {
+		return null;
+	}
+
+	@Override
+	public DispatcherType getDispatcherType() {
+		return null;
+	}
+
+	public String getRequestId() {
+		return "";
+	}
+
+	public String getProtocolRequestId() {
+		return "";
+	}
+
+	public ServletConnection getServletConnection() {
+		return null;
 	}
 
 	@Override

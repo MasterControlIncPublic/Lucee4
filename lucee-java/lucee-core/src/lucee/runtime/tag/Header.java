@@ -140,7 +140,7 @@ public final class Header extends TagImpl {
     		if(statustext != null) {
     			//try {
     				///rsp.sendError(statuscode, statustext);
-    				rsp.setStatus(statuscode,statustext);
+    				rsp.setStatus(statuscode);
     			/*} 
                 catch (IOException e) {
     				throw new TemplateException("can't assign value to header, header is alredy committed",e.getMessage());
