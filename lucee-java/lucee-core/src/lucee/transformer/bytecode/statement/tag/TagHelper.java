@@ -21,8 +21,8 @@ package lucee.transformer.bytecode.statement.tag;
 import java.util.Iterator;
 import java.util.Map;
 
-import javax.servlet.jsp.tagext.BodyTag;
-import javax.servlet.jsp.tagext.IterationTag;
+import jakarta.servlet.jsp.tagext.BodyTag;
+import jakarta.servlet.jsp.tagext.IterationTag;
 
 import lucee.commons.lang.ClassException;
 import lucee.runtime.exp.Abort;
@@ -55,7 +55,7 @@ import org.objectweb.asm.commons.Method;
 public final class TagHelper {
 	private static final Type MISSING_ATTRIBUTE = Type.getType(MissingAttribute.class);
 	private static final Type MISSING_ATTRIBUTE_ARRAY = Type.getType(MissingAttribute[].class);
-	private static final Type TAG=Type.getType(javax.servlet.jsp.tagext.Tag.class);
+	private static final Type TAG=Type.getType(jakarta.servlet.jsp.tagext.Tag.class);
 	private static final Type TAG_UTIL=Type.getType(lucee.runtime.tag.TagUtil.class);
 	
 	// TagUtil.setAttributeCollection(Tag, Struct)
@@ -288,7 +288,7 @@ public final class TagHelper {
 			// if (state!=Tag.SKIP_BODY)
 			Label endBody=new Label();
 			adapter.loadLocal(state);
-			adapter.push(javax.servlet.jsp.tagext.Tag.SKIP_BODY);
+			adapter.push(jakarta.servlet.jsp.tagext.Tag.SKIP_BODY);
 			adapter.visitJumpInsn(Opcodes.IF_ICMPEQ, endBody);
 				// pc.initBody(tag, state);
 				adapter.loadArg(0);
@@ -305,7 +305,7 @@ public final class TagHelper {
 							ASMUtil.visitLabel(adapter, fcf.getFinalEntryLabel());
 						}*/
 						adapter.loadLocal(state);
-						adapter.push(javax.servlet.jsp.tagext.Tag.EVAL_BODY_INCLUDE);
+						adapter.push(jakarta.servlet.jsp.tagext.Tag.EVAL_BODY_INCLUDE);
 						adapter.visitJumpInsn(Opcodes.IF_ICMPEQ, endIf);
 							// ... pc.popBody();
 							adapter.loadArg(0);
@@ -362,7 +362,7 @@ public final class TagHelper {
 		Label endDoEndTag=new Label();
 		adapter.loadLocal(currLocal);
 		adapter.invokeVirtual(currType, DO_END_TAG);
-		adapter.push(javax.servlet.jsp.tagext.Tag.SKIP_PAGE);
+		adapter.push(jakarta.servlet.jsp.tagext.Tag.SKIP_PAGE);
 		adapter.visitJumpInsn(Opcodes.IF_ICMPNE, endDoEndTag);
 			adapter.push(Abort.SCOPE_PAGE);
 			adapter.invokeStatic(ABORT, NEW_INSTANCE);

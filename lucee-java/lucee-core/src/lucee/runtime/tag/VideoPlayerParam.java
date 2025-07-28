@@ -19,7 +19,7 @@
 package lucee.runtime.tag;
 
 
-import javax.servlet.jsp.tagext.Tag;
+import jakarta.servlet.jsp.tagext.Tag;
 
 import lucee.runtime.exp.ApplicationException;
 import lucee.runtime.exp.PageException;

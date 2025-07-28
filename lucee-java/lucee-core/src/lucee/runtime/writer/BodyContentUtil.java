@@ -20,7 +20,7 @@ package lucee.runtime.writer;
 
 import java.io.IOException;
 
-import javax.servlet.jsp.tagext.BodyContent;
+import jakarta.servlet.jsp.tagext.BodyContent;
 
 import lucee.runtime.PageContext;
 

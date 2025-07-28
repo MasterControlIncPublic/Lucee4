@@ -21,7 +21,7 @@ package lucee.runtime.tag;
 import java.awt.Color;
 import java.io.IOException;
 
-import javax.servlet.jsp.JspException;
+import jakarta.servlet.jsp.JspException;
 
 import lucee.commons.color.ColorCaster;
 import lucee.commons.io.res.Resource;

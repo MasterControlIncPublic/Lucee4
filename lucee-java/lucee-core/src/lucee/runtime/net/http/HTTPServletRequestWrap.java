@@ -31,11 +31,11 @@ import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletInputStream;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletInputStream;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 import lucee.commons.collection.MapFactory;
 import lucee.commons.io.IOUtil;
@@ -115,11 +115,11 @@ public final class HTTPServletRequestWrap implements HttpServletRequest,Serializ
 	 */
 	public HTTPServletRequestWrap(HttpServletRequest req) {
 		this.req=pure(req);
-		if((servlet_path=attrAsString("javax.servlet.include.servlet_path"))!=null){
-			request_uri=attrAsString("javax.servlet.include.request_uri");
-			context_path=attrAsString("javax.servlet.include.context_path");
-			path_info=attrAsString("javax.servlet.include.path_info");
-			query_string = attrAsString("javax.servlet.include.query_string");
+		if((servlet_path=attrAsString("jakarta.servlet.include.servlet_path"))!=null){
+			request_uri=attrAsString("jakarta.servlet.include.request_uri");
+			context_path=attrAsString("jakarta.servlet.include.context_path");
+			path_info=attrAsString("jakarta.servlet.include.path_info");
+			query_string = attrAsString("jakarta.servlet.include.query_string");
 		}
 		else {
 			servlet_path=req.getServletPath();

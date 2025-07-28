@@ -37,22 +37,22 @@ import java.util.Stack;
 import java.util.TimeZone;
 import java.util.concurrent.ConcurrentHashMap;
 
-import javax.servlet.Servlet;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.JspWriter;
-import javax.servlet.jsp.tagext.BodyContent;
-import javax.servlet.jsp.tagext.BodyTag;
-import javax.servlet.jsp.tagext.Tag;
-import javax.servlet.jsp.tagext.TryCatchFinally;
+import jakarta.servlet.Servlet;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.jsp.JspException;
+import jakarta.servlet.jsp.JspWriter;
+import jakarta.servlet.jsp.tagext.BodyContent;
+import jakarta.servlet.jsp.tagext.BodyTag;
+import jakarta.servlet.jsp.tagext.Tag;
+import jakarta.servlet.jsp.tagext.TryCatchFinally;
 
 import lucee.commons.db.DBUtil;
 import lucee.commons.io.BodyContentStack;
@@ -1641,18 +1641,18 @@ public final class PageContextImpl extends PageContext implements Sizeable {
 	@Override
 	public void setAttribute(String name, Object value, int scope) {
 		switch(scope){
-		case javax.servlet.jsp.PageContext.APPLICATION_SCOPE:
+		case jakarta.servlet.jsp.PageContext.APPLICATION_SCOPE:
 			if(value==null) getServletContext().removeAttribute(name);
 			else getServletContext().setAttribute(name, value);
 		break;
-		case javax.servlet.jsp.PageContext.PAGE_SCOPE:
+		case jakarta.servlet.jsp.PageContext.PAGE_SCOPE:
 			setAttribute(name, value);
 		break;
-		case javax.servlet.jsp.PageContext.REQUEST_SCOPE:
+		case jakarta.servlet.jsp.PageContext.REQUEST_SCOPE:
 			if(value==null) req.removeAttribute(name);
 			else setAttribute(name, value);
 		break;
-		case javax.servlet.jsp.PageContext.SESSION_SCOPE:
+		case jakarta.servlet.jsp.PageContext.SESSION_SCOPE:
 			HttpSession s = req.getSession(true);
 			if(value==null)s.removeAttribute(name);
 			else s.setAttribute(name, value);
@@ -1672,13 +1672,13 @@ public final class PageContextImpl extends PageContext implements Sizeable {
 	@Override
 	public Object getAttribute(String name, int scope) {
 		switch(scope){
-		case javax.servlet.jsp.PageContext.APPLICATION_SCOPE:
+		case jakarta.servlet.jsp.PageContext.APPLICATION_SCOPE:
 			return getServletContext().getAttribute(name);
-		case javax.servlet.jsp.PageContext.PAGE_SCOPE:
+		case jakarta.servlet.jsp.PageContext.PAGE_SCOPE:
 			return getAttribute(name);
-		case javax.servlet.jsp.PageContext.REQUEST_SCOPE:
+		case jakarta.servlet.jsp.PageContext.REQUEST_SCOPE:
 			return req.getAttribute(name);
-		case javax.servlet.jsp.PageContext.SESSION_SCOPE:
+		case jakarta.servlet.jsp.PageContext.SESSION_SCOPE:
 			HttpSession s = req.getSession();
 			if(s!=null)return s.getAttribute(name);
 		break;
@@ -1735,13 +1735,13 @@ public final class PageContextImpl extends PageContext implements Sizeable {
 	public Enumeration getAttributeNamesInScope(int scope) {
 		
         switch(scope){
-		case javax.servlet.jsp.PageContext.APPLICATION_SCOPE:
+		case jakarta.servlet.jsp.PageContext.APPLICATION_SCOPE:
 			return getServletContext().getAttributeNames();
-		case javax.servlet.jsp.PageContext.PAGE_SCOPE:
+		case jakarta.servlet.jsp.PageContext.PAGE_SCOPE:
 			return ItAsEnum.toStringEnumeration(variablesScope().keyIterator());
-		case javax.servlet.jsp.PageContext.REQUEST_SCOPE:
+		case jakarta.servlet.jsp.PageContext.REQUEST_SCOPE:
 			return req.getAttributeNames();
-		case javax.servlet.jsp.PageContext.SESSION_SCOPE:
+		case jakarta.servlet.jsp.PageContext.SESSION_SCOPE:
 			return req.getSession(true).getAttributeNames();
 		}
 		return null;
@@ -2423,7 +2423,7 @@ public final class PageContextImpl extends PageContext implements Sizeable {
         		Charset charset = getWebCharset();
         		
         		// check if we have multiple cookies with the name "cfid" and a other one is valid
-        		javax.servlet.http.Cookie[] cookies = getHttpServletRequest().getCookies();
+        		jakarta.servlet.http.Cookie[] cookies = getHttpServletRequest().getCookies();
         		String name,value;
         		if(cookies!=null){
 	        		for(int i=0;i<cookies.length;i++){
