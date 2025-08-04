@@ -23,9 +23,9 @@ import java.net.IDN;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeUtility;
+import jakarta.mail.internet.AddressException;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeUtility;
 
 import lucee.commons.lang.StringUtil;
 import lucee.runtime.exp.PageException;

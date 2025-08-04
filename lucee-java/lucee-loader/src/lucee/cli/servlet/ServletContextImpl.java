@@ -25,14 +25,21 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Enumeration;
+import java.util.EventListener;
 import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.Servlet;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterRegistration;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.Servlet;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
 
+import jakarta.servlet.ServletRegistration;
+import jakarta.servlet.SessionCookieConfig;
+import jakarta.servlet.SessionTrackingMode;
+import jakarta.servlet.descriptor.JspConfigDescriptor;
 import lucee.cli.util.EnumerationWrapper;
 
 public class ServletContextImpl implements ServletContext {
@@ -52,49 +59,65 @@ public class ServletContextImpl implements ServletContext {
 	}
 
 	/**
-	 * @see javax.servlet.ServletContext#getAttribute(java.lang.String)
+	 * @see jakarta.servlet.ServletContext#getAttribute(java.lang.String)
 	 */
 	public Object getAttribute(String key) {
 		return attributes.get(key);
 	}
 
 	/**
-	 * @see javax.servlet.ServletContext#getAttributeNames()
+	 * @see jakarta.servlet.ServletContext#getAttributeNames()
 	 */
 	public Enumeration getAttributeNames() {
 		return new EnumerationWrapper(attributes);
 	}
 	
 	/**
-	 * @see javax.servlet.ServletContext#getInitParameter(java.lang.String)
+	 * @see jakarta.servlet.ServletContext#getInitParameter(java.lang.String)
 	 */
 	public String getInitParameter(String key) {
 		return parameters.get(key);
 	}
 
 	/**
-	 * @see javax.servlet.ServletContext#getInitParameterNames()
+	 * @see jakarta.servlet.ServletContext#getInitParameterNames()
 	 */
 	public Enumeration getInitParameterNames() {
 		return new EnumerationWrapper(parameters);
 	}
 
+	@Override
+	public boolean setInitParameter(String s, String s1) {
+		parameters.put(s,s1);
+		return true;
+	}
+
 	/**
-	 * @see javax.servlet.ServletContext#getMajorVersion()
+	 * @see jakarta.servlet.ServletContext#getMajorVersion()
 	 */
 	public int getMajorVersion() {
 		return majorVersion;
 	}
 
 	/**
-	 * @see javax.servlet.ServletContext#getMinorVersion()
+	 * @see jakarta.servlet.ServletContext#getMinorVersion()
 	 */
 	public int getMinorVersion() {
 		return minorVersion;
 	}
 
+	@Override
+	public int getEffectiveMajorVersion() {
+		return majorVersion;
+	}
+
+	@Override
+	public int getEffectiveMinorVersion() {
+		return minorVersion;
+	}
+
 	/**
-	 * @see javax.servlet.ServletContext#getMimeType(java.lang.String)
+	 * @see jakarta.servlet.ServletContext#getMimeType(java.lang.String)
 	 */
 	public String getMimeType(String file) {
 		throw notSupported("getMimeType(String file)");
@@ -108,7 +131,7 @@ public class ServletContextImpl implements ServletContext {
 	}
 
 	/**
-	 * @see javax.servlet.ServletContext#getResource(java.lang.String)
+	 * @see jakarta.servlet.ServletContext#getResource(java.lang.String)
 	 */
 	public URL getResource(String relpath) throws MalformedURLException {
 		File file = getRealFile(relpath);
@@ -116,7 +139,7 @@ public class ServletContextImpl implements ServletContext {
 	}
 
 	/**
-	 * @see javax.servlet.ServletContext#getResourceAsStream(java.lang.String)
+	 * @see jakarta.servlet.ServletContext#getResourceAsStream(java.lang.String)
 	 */
 	public InputStream getResourceAsStream(String relpath) {
 		try {
@@ -142,6 +165,11 @@ public class ServletContextImpl implements ServletContext {
 		throw notSupported("getNamedDispatcher(String name)");
 	}
 
+	@Override
+	public String getContextPath() {
+		return "";
+	}
+
 	public ServletContext getContext(String key) {
 		// TODO ?
 		return this;
@@ -153,7 +181,7 @@ public class ServletContextImpl implements ServletContext {
 	}
 
 	/**
-	 * @see javax.servlet.ServletContext#log(java.lang.String, java.lang.Throwable)
+	 * @see jakarta.servlet.ServletContext#log(java.lang.String, java.lang.Throwable)
 	 */
 	public void log(String msg, Throwable t) {// TODO better
 		if(t==null)System.out.println(msg);
@@ -165,28 +193,28 @@ public class ServletContextImpl implements ServletContext {
 	}
 
 	/**
-	 * @see javax.servlet.ServletContext#log(java.lang.Exception, java.lang.String)
+	 * @see jakarta.servlet.ServletContext#log(java.lang.Exception, java.lang.String)
 	 */
 	public void log(Exception e, String msg) {
 		log(msg,e);
 	}
 
 	/**
-	 * @see javax.servlet.ServletContext#log(java.lang.String)
+	 * @see jakarta.servlet.ServletContext#log(java.lang.String)
 	 */
 	public void log(String msg) {
 		log(msg,null);
 	}
 
 	/**
-	 * @see javax.servlet.ServletContext#removeAttribute(java.lang.String)
+	 * @see jakarta.servlet.ServletContext#removeAttribute(java.lang.String)
 	 */
 	public void removeAttribute(String key) {
 		attributes.remove(key);
 	}
 
 	/**
-	 * @see javax.servlet.ServletContext#setAttribute(java.lang.String, java.lang.Object)
+	 * @see jakarta.servlet.ServletContext#setAttribute(java.lang.String, java.lang.Object)
 	 */
 	public void setAttribute(String key, Object value) {
 		attributes.put(key, value);
@@ -198,6 +226,161 @@ public class ServletContextImpl implements ServletContext {
 	public String getServletContextName() {
 		// can return null
 		return null;
+	}
+
+	@Override
+	public ServletRegistration.Dynamic addServlet(String s, String s1) {
+		return null;
+	}
+
+	@Override
+	public ServletRegistration.Dynamic addServlet(String s, Servlet servlet) {
+		return null;
+	}
+
+	@Override
+	public ServletRegistration.Dynamic addServlet(String s, Class<? extends Servlet> aClass) {
+		return null;
+	}
+
+	@Override
+	public ServletRegistration.Dynamic addJspFile(String s, String s1) {
+		return null;
+	}
+
+	@Override
+	public <T extends Servlet> T createServlet(Class<T> aClass) throws ServletException {
+		return null;
+	}
+
+	@Override
+	public ServletRegistration getServletRegistration(String s) {
+		return null;
+	}
+
+	@Override
+	public Map<String, ? extends ServletRegistration> getServletRegistrations() {
+		return Map.of();
+	}
+
+	@Override
+	public FilterRegistration.Dynamic addFilter(String s, String s1) {
+		return null;
+	}
+
+	@Override
+	public FilterRegistration.Dynamic addFilter(String s, Filter filter) {
+		return null;
+	}
+
+	@Override
+	public FilterRegistration.Dynamic addFilter(String s, Class<? extends Filter> aClass) {
+		return null;
+	}
+
+	@Override
+	public <T extends Filter> T createFilter(Class<T> aClass) throws ServletException {
+		return null;
+	}
+
+	@Override
+	public FilterRegistration getFilterRegistration(String s) {
+		return null;
+	}
+
+	@Override
+	public Map<String, ? extends FilterRegistration> getFilterRegistrations() {
+		return Map.of();
+	}
+
+	@Override
+	public SessionCookieConfig getSessionCookieConfig() {
+		return null;
+	}
+
+	@Override
+	public void setSessionTrackingModes(Set<SessionTrackingMode> set) {
+
+	}
+
+	@Override
+	public Set<SessionTrackingMode> getDefaultSessionTrackingModes() {
+		return Set.of();
+	}
+
+	@Override
+	public Set<SessionTrackingMode> getEffectiveSessionTrackingModes() {
+		return Set.of();
+	}
+
+	@Override
+	public void addListener(String s) {
+
+	}
+
+	@Override
+	public <T extends EventListener> void addListener(T t) {
+
+	}
+
+	@Override
+	public void addListener(Class<? extends EventListener> aClass) {
+
+	}
+
+	@Override
+	public <T extends EventListener> T createListener(Class<T> aClass) throws ServletException {
+		return null;
+	}
+
+	@Override
+	public JspConfigDescriptor getJspConfigDescriptor() {
+		return null;
+	}
+
+	@Override
+	public ClassLoader getClassLoader() {
+		return null;
+	}
+
+	@Override
+	public void declareRoles(String... strings) {
+
+	}
+
+	@Override
+	public String getVirtualServerName() {
+		return "";
+	}
+
+	@Override
+	public int getSessionTimeout() {
+		return 0;
+	}
+
+	@Override
+	public void setSessionTimeout(int i) {
+
+	}
+
+	@Override
+	public String getRequestCharacterEncoding() {
+		return "";
+	}
+
+	@Override
+	public void setRequestCharacterEncoding(String s) {
+
+	}
+
+	@Override
+	public String getResponseCharacterEncoding() {
+		return "";
+	}
+
+	@Override
+	public void setResponseCharacterEncoding(String s) {
+
 	}
 
 	public String getServerInfo() {

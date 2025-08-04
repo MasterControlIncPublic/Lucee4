@@ -21,7 +21,7 @@ package lucee.runtime.tag;
 
 import java.sql.Connection;
 
-import javax.servlet.jsp.JspException;
+import jakarta.servlet.jsp.JspException;
 
 import lucee.runtime.db.DataSourceManager;
 import lucee.runtime.db.DatasourceManagerImpl;

@@ -20,14 +20,14 @@ package lucee.runtime.net.mail;
 
 import java.util.Properties;
 
-import javax.mail.Authenticator;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
+import jakarta.mail.Authenticator;
+import jakarta.mail.MessagingException;
+import jakarta.mail.Session;
+import jakarta.mail.Transport;
 
 import lucee.commons.lang.StringUtil;
 
-import org.apache.commons.mail.DefaultAuthenticator;
+import org.apache.commons.mail2.jakarta.DefaultAuthenticator;
 
 /**
  * SMTP Server verifier

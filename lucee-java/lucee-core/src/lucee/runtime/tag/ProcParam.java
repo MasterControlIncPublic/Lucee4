@@ -18,7 +18,7 @@
  **/
 package lucee.runtime.tag;
 
-import javax.servlet.jsp.tagext.Tag;
+import jakarta.servlet.jsp.tagext.Tag;
 
 import lucee.commons.lang.StringUtil;
 import lucee.runtime.db.SQLCaster;

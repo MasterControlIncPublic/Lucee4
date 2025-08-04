@@ -22,8 +22,8 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
-import javax.servlet.jsp.JspWriter;
-import javax.servlet.jsp.tagext.Tag;
+import jakarta.servlet.jsp.JspWriter;
+import jakarta.servlet.jsp.tagext.Tag;
 
 import lucee.commons.lang.StringUtil;
 import lucee.runtime.Component;

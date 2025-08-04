@@ -21,7 +21,7 @@ package coldfusion.server;
 import java.io.IOException;
 import java.util.Map;
 
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 
 public interface GraphingService extends Service {
 

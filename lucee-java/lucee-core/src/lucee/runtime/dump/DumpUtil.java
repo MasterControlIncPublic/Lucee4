@@ -33,8 +33,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpSession;
 
 import lucee.commons.date.TimeZoneUtil;
 import lucee.commons.io.res.Resource;

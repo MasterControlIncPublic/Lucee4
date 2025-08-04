@@ -51,7 +51,7 @@
 	<classpathentry kind="lib" path="/Lucee-Libs/jacob.jar"/>
 	<classpathentry kind="lib" path="/Lucee-Libs/javaparser.jar"/>
 	<classpathentry kind="lib" path="/Lucee-Libs/javassist.jar"/>
-	<classpathentry kind="lib" path="/Lucee-Libs/javax.servlet.jar"/>
+	<classpathentry kind="lib" path="/Lucee-Libs/jakarta.servlet.jar"/>
 	<classpathentry kind="lib" path="/Lucee-Libs/jcommon.jar"/>
 	<classpathentry kind="lib" path="/Lucee-Libs/jencrypt.jar"/>
 	<classpathentry kind="lib" path="/Lucee-Libs/jffmpeg.jar"/>

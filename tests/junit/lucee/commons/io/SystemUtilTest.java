@@ -4,7 +4,7 @@ import lucee.cli.servlet.ServletContextImpl;
 import org.bouncycastle.jcajce.provider.BouncyCastleFipsProvider;
 import org.junit.jupiter.api.Test;
 
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 
 import java.security.Security;
 

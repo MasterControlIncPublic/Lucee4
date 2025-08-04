@@ -18,7 +18,7 @@
  **/
 package lucee.runtime.listener;
 
-import javax.servlet.ServletException;
+import jakarta.servlet.ServletException;
 
 import lucee.runtime.CFMLFactory;
 import lucee.runtime.PageContext;
