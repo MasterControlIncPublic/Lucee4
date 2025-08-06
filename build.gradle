@@ -88,7 +88,7 @@ dependencies {
 
 
     compile 'commons-io:commons-io:2.1'
-    compile 'commons-lang:commons-lang:2.6'
+    compile 'org.apache.commons:commons-lang3:3.18.0'
     compile 'commons-net:commons-net:3.9.0'
     compile 'oro:oro:2.0.8'
     compile 'org.apache.axis:axis-ant:1.4'
@@ -203,12 +203,24 @@ publishing {
 
 
 build.dependsOn {
+    copyDependencies
     renameFile
 }
 
 //artifactoryPublish.dependsOn {
 //    build
 //}
+
+task copyDependencies(type: Copy) {
+    def destDir = './lucee-java/libs'
+    doLast {
+        file(destDir).list().each { filename ->
+            delete "$destDir/$filename"
+        }
+    }
+    from configurations.compileClasspath
+    into destDir
+}
 
 task renameFile(dependsOn: 'core') {
     doLast {
