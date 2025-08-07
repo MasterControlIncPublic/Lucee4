@@ -94,7 +94,7 @@ import org.apache.axis.types.URI.MalformedURIException;
 import org.apache.axis.types.Year;
 import org.apache.axis.types.YearMonth;
 import org.apache.axis.wsdl.symbolTable.TypeEntry;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import coldfusion.xml.rpc.QueryBean;
 
