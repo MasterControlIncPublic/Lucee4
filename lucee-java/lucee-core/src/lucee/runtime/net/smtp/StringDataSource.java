@@ -24,8 +24,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import jakarta.activation.DataSource;
+import org.apache.commons.lang3.text.WordUtils;
 
-import org.apache.commons.lang.WordUtils;
 
 public class StringDataSource implements DataSource {
 	
@@ -34,7 +34,7 @@ public class StringDataSource implements DataSource {
 	private String charset;
 
 	public StringDataSource(String text, String ct, String charset, int maxLineLength) {
-		this.text=WordUtils.wrap(text, maxLineLength);
+		this.text= WordUtils.wrap(text, maxLineLength);
 		this.ct=ct;
 		this.charset=charset;
 	}
