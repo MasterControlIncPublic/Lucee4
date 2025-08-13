@@ -203,23 +203,12 @@ publishing {
 
 
 build.dependsOn {
-    copyDependencies
     renameFile
 }
 
-//artifactoryPublish.dependsOn {
-//    build
-//}
-
 task copyDependencies(type: Copy) {
-    def destDir = './lucee-java/libs'
-    doLast {
-        file(destDir).list().each { filename ->
-            delete "$destDir/$filename"
-        }
-    }
     from configurations.compileClasspath
-    into destDir
+    into './lucee-java/libs'
 }
 
 task renameFile(dependsOn: 'core') {
