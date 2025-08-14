@@ -24,8 +24,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import jakarta.activation.DataSource;
+import org.apache.commons.lang3.text.WordUtils;
 
-import org.apache.commons.lang.WordUtils;
 
 public class StringDataSource implements DataSource {
 	
