@@ -84,7 +84,7 @@ dependencies {
     compile 'commons-collections:commons-collections:3.2.1'
     compile 'commons-discovery:commons-discovery:0.4'
     // https://mvnrepository.com/artifact/org.apache.commons/commons-fileupload2-jakarta-servlet6
-    compile 'org.apache.commons:commons-fileupload2-jakarta-servlet6:2.0.0-M2'
+    compile 'org.apache.commons:commons-fileupload2-jakarta-servlet6:2.0.0-M4'
 
     compile 'commons-io:commons-io:2.1'
     compile 'org.apache.commons:commons-lang3:3.18.0'
