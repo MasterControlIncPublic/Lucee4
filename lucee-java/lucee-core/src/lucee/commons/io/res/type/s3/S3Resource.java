@@ -40,7 +40,7 @@ import lucee.loader.util.Util;
 import lucee.runtime.exp.PageRuntimeException;
 import lucee.runtime.op.Caster;
 import lucee.runtime.type.Array;
-import org.apache.commons.lang.NotImplementedException;
+import org.apache.commons.lang3.NotImplementedException;
 import software.amazon.awssdk.services.s3.model.NoSuchKeyException;
 
 public final class S3Resource extends ResourceSupport {

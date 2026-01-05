@@ -36,7 +36,7 @@ import lucee.runtime.type.util.KeyConstants;
 import lucee.runtime.type.util.ListUtil;
 
 import org.apache.commons.fileupload2.core.MultipartInput;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 public class MultiPartResponseUtils {
 
