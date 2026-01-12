@@ -48,6 +48,7 @@ import lucee.runtime.type.StructImpl;
 import lucee.runtime.type.util.ComponentProUtil;
 import lucee.runtime.type.util.KeyConstants;
 import lucee.runtime.type.util.ListUtil;
+import org.luceehibernate.JDBCException;
 
 public class ORMUtil {
 
@@ -71,8 +72,15 @@ public class ORMUtil {
 	 * @throws PageException
 	 */
 	public static void resetEngine(PageContext pc, boolean force) throws PageException {
-		ConfigImpl config=(ConfigImpl) pc.getConfig();
-		config.resetORMEngine(pc,force);
+		try {
+			ConfigImpl config=(ConfigImpl) pc.getConfig();
+			config.resetORMEngine(pc,force);
+		} catch (JDBCException exception) {
+			// DDL Export issue is a benign issue
+			if (!exception.getMessage().equalsIgnoreCase("Error during DDL export")) {
+				throw exception;
+			}
+		}
 	}
 	
 	public static void printError(Throwable t, ORMEngine engine) {

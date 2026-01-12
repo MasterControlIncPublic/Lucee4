@@ -94,7 +94,7 @@ dependencies {
     compile 'org.apache.axis:axis-ant:1.4'
     // https://mvnrepository.com/artifact/jakarta.xml.soap/jakarta.xml.soap-api
     implementation 'jakarta.xml.soap:jakarta.xml.soap-api:3.0.2'
-
+    implementation 'io.opentelemetry.instrumentation:opentelemetry-instrumentation-api:2.16.0'
     // https://github.com/nec1704/axis1.4-java-patched
     compile 'org.apache.axis:axis:1.4-20190730-jakarta'
     compile 'xalan:xalan:2.7.0'

@@ -21,6 +21,7 @@ package lucee.commons.io.log.log4j.layout;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import io.opentelemetry.api.trace.Span;
 import lucee.commons.lang.ExceptionUtil;
 import lucee.commons.lang.StringUtil;
 import lucee.runtime.format.DateFormat;
@@ -46,7 +47,7 @@ public class ClassicLayout extends Layout {
 
 	@Override
 	public String getHeader() {
-		return "\"Severity\",\"ThreadID\",\"Date\",\"Time\",\"Application\",\"Message\""+LINE_SEPARATOR;
+		return "\"Severity\",\"ThreadID\",\"Date\",\"Time\",\"Application\",\"TraceId\",\"SpanId\",\"Message\""+LINE_SEPARATOR;
 	}
 
 	@Override
@@ -105,6 +106,20 @@ public class ClassicLayout extends Layout {
         data.append(StringUtil.replace(application,"\"","\"\"",false));
         data.append('"');
         
+        data.append(',');
+
+        // TraceId
+        data.append('"');
+        data.append(Span.current().getSpanContext().getTraceId());
+        data.append('"');
+
+        data.append(',');
+
+        // SpanId
+        data.append('"');
+        data.append(Span.current().getSpanContext().getSpanId());
+        data.append('"');
+
         data.append(',');
         
         // Message
