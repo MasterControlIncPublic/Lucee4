@@ -63,8 +63,30 @@
 		right="#server.coldfusion.rootdir#/WEB-INF/lucee/context")>
 
 <!--- end old test code --->
-	
-		
+
+		<!---
+			Linux cross-platform fix: web-root-relative paths must always resolve against
+			the web root, not the Linux filesystem root. On Linux, /foo is an absolute path
+			so the old code returned /foo literally instead of <webroot>/foo.
+		--->
+
+		<!--- /prefixed path must resolve to webroot, not bare Linux filesystem root --->
+		<cfset local.result = ExpandPath("/linux_compat_nonexistent_dir")>
+		<cfset assertTrue(
+			left(local.result, len(server.coldfusion.rootdir)) eq server.coldfusion.rootdir,
+			"ExpandPath('/...') must start with web root, not a bare Linux path. Got: #local.result#")>
+
+		<!--- backslash path must also resolve to webroot after normalization --->
+		<cfset local.result = ExpandPath("\linux_compat_nonexistent_dir")>
+		<cfset assertTrue(
+			left(local.result, len(server.coldfusion.rootdir)) eq server.coldfusion.rootdir,
+			"ExpandPath('\...') must start with web root after backslash normalization. Got: #local.result#")>
+
+		<!--- .. segments in web-root-relative paths must be normalized --->
+		<cfset valueEquals(
+			left="#ExpandPath("/linux_compat_a/../linux_compat_b")#",
+			right="#server.coldfusion.rootdir#/linux_compat_b")>
+
 		<!--- <cfset assertEquals("","")> --->
 	</cffunction>
 	
