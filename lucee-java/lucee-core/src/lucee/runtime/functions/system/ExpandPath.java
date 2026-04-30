@@ -73,7 +73,7 @@ public final class ExpandPath implements Function {
 	        		}
 	        	}
 	        	
-	        	if(!SystemUtil.isWindows() && !sources[0].exists()) {
+	        	if(!SystemUtil.isWindows() && !sources[0].exists()) { // Linux: /foo is absolute on the OS; fall back to explicit webroot-relative resolution
 	        		res=resolveWebRootRelative(pc, relPath);
 	                if(res != null) {
 	                	return toReturnValue(relPath,res);
@@ -87,7 +87,7 @@ public final class ExpandPath implements Function {
 	        	}
         	}
 
-        	else if(!SystemUtil.isWindows()) {
+        	else if(!SystemUtil.isWindows()) { // Linux: no page sources found; resolve against webroot
         		res=resolveWebRootRelative(pc, relPath);
                 if(res != null) {
                 	return toReturnValue(relPath,res);
@@ -133,10 +133,10 @@ public final class ExpandPath implements Function {
     
     private static Resource resolveWebRootRelative(PageContext pc, String relPath) {
         try {
-            String webRoot = pc.getHttpServletRequest().getServletContext().getRealPath("/");
+            String webRoot = pc.getHttpServletRequest().getServletContext().getRealPath("/"); // filesystem path of the servlet web root
             if (webRoot == null || webRoot.isEmpty()) return null;
-            String stripped = StringUtil.startsWith(relPath, '/') ? relPath.substring(1) : relPath;
-            String resolved = Paths.get(webRoot, stripped).normalize().toString();
+            String stripped = StringUtil.startsWith(relPath, '/') ? relPath.substring(1) : relPath; // strip leading slash so it joins as a relative segment
+            String resolved = Paths.get(webRoot, stripped).normalize().toString(); // join webroot + path and collapse any .. segments
             return pc.getConfig().getResource(resolved);
         } catch (Exception e) {
             return null;
@@ -157,9 +157,9 @@ public final class ExpandPath implements Function {
 
 		if(path.contains("..") || path.contains("./")) {
 			try {
-				boolean hadLeadingSlash = path.startsWith("/");
-				String normalized = Paths.get(path).normalize().toString().replace('\\', '/');
-				if (hadLeadingSlash && !normalized.startsWith("/")) {
+				boolean hadLeadingSlash = path.startsWith("/"); // remember if path was absolute before normalization
+				String normalized = Paths.get(path).normalize().toString().replace('\\', '/'); // use path as-is — prefixing '/' would clamp '../../' to filesystem root
+				if (hadLeadingSlash && !normalized.startsWith("/")) { // restore leading slash if normalize() dropped it (Windows behavior)
 					normalized = "/" + normalized;
 				}
 				path = normalized;
