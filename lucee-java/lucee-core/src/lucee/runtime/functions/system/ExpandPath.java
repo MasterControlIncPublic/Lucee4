@@ -1,4 +1,4 @@
-/**
+﻿/**
  *
  * Copyright (c) 2014, the Railo Company Ltd. All rights reserved.
  *
@@ -74,6 +74,8 @@ public final class ExpandPath implements Function {
 	        	}
 	        	
 	        	if(!SystemUtil.isWindows() && !sources[0].exists()) { // Linux: /foo is absolute on the OS; fall back to explicit webroot-relative resolution
+	        		res=pc.getConfig().getResource(relPath);
+	        		if(res.exists()) return toReturnValue(relPath,res); // absolute filesystem path (e.g. from sitePath()); return directly
 	        		res=resolveWebRootRelative(pc, relPath);
 	                if(res != null) {
 	                	return toReturnValue(relPath,res);
@@ -88,6 +90,8 @@ public final class ExpandPath implements Function {
         	}
 
         	else if(!SystemUtil.isWindows()) { // Linux: no page sources found; resolve against webroot
+        		res=pc.getConfig().getResource(relPath);
+        		if(res.exists()) return toReturnValue(relPath,res); // absolute filesystem path (e.g. from sitePath()); return directly
         		res=resolveWebRootRelative(pc, relPath);
                 if(res != null) {
                 	return toReturnValue(relPath,res);
@@ -158,9 +162,13 @@ public final class ExpandPath implements Function {
 		if(path.contains("..") || path.contains("./")) {
 			try {
 				boolean hadLeadingSlash = path.startsWith("/"); // remember if path was absolute before normalization
+				boolean hadTrailingSlash = path.endsWith("/"); // normalize() drops trailing slash; preserve it so callers that append paths get the separator
 				String normalized = Paths.get(path).normalize().toString().replace('\\', '/'); // use path as-is — prefixing '/' would clamp '../../' to filesystem root
 				if (hadLeadingSlash && !normalized.startsWith("/")) { // restore leading slash if normalize() dropped it (Windows behavior)
 					normalized = "/" + normalized;
+				}
+				if (hadTrailingSlash && !normalized.endsWith("/")) {
+					normalized = normalized + "/";
 				}
 				path = normalized;
 			} catch (Exception e) {
