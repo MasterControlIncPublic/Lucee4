@@ -4,17 +4,17 @@
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
+ * License as published by the Free Software Foundation; either 
  * version 2.1 of the License, or (at your option) any later version.
- *
+ * 
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
+ * 
+ * You should have received a copy of the GNU Lesser General Public 
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * 
  **/
 /**
  * Implements the CFML Function expandpath
@@ -46,9 +46,8 @@ public final class ExpandPath implements Function {
 
 	public static String call(PageContext pc , String relPath) throws PageException {
 		ConfigWeb config=pc.getConfig();
-
 		relPath=prettifyPath(pc,relPath);
-
+		
         String contextPath = pc.getHttpServletRequest().getContextPath();
         if ( !StringUtil.isEmpty( contextPath ) && relPath.startsWith( contextPath ) ) {
             boolean sws=StringUtil.startsWith(relPath, '/');
@@ -58,14 +57,15 @@ public final class ExpandPath implements Function {
         }
 
         Resource res;
-
+        
         if(StringUtil.startsWith(relPath,'/')) {
-
+        	
+        	
         	PageContextImpl pci=(PageContextImpl) pc;
         	ConfigWebImpl cwi=(ConfigWebImpl) config;
-        	PageSource[] sources = cwi.getPageSources(pci, pc.getApplicationContext().getMappings(), relPath,
+        	PageSource[] sources = cwi.getPageSources(pci, pc.getApplicationContext().getMappings(), relPath, 
         			false, pci.useSpecialMappings(), true);
-
+        	
         	if(!ArrayUtil.isEmpty(sources)) {
         		// first check for existing
 	        	for(int i=0;i<sources.length;i++){
@@ -73,7 +73,7 @@ public final class ExpandPath implements Function {
 	        			return toReturnValue(relPath,sources[i].getResource());
 	        		}
 	        	}
-
+	        	
 	        	if(!SystemUtil.isWindows() && !sources[0].exists()) { // Linux: /foo is absolute on the OS; fall back to explicit webroot-relative resolution
 	        		res=pc.getConfig().getResource(relPath);
 	        		if(res.exists()) return toReturnValue(relPath,res); // file already exists at this absolute path; return directly
@@ -100,20 +100,20 @@ public final class ExpandPath implements Function {
                 	return toReturnValue(relPath,res);
                 }
         	}
-
-
+        	
+        	
         	//Resource[] reses = cwi.getPhysicalResources(pc,pc.getApplicationContext().getMappings(),relPath,false,pci.useSpecialMappings(),true);
-
+        	
         }
         relPath=ConfigWebUtil.replacePlaceholder(relPath, config);
         res=pc.getConfig().getResource(relPath);
         if(res.isAbsolute()) return toReturnValue(relPath,res);
-
+        
         res=ResourceUtil.getResource(pc,pc.getBasePageSource());
         if(!res.isDirectory())res=res.getParentResource();
         res = res.getRealResource(relPath);
         return toReturnValue(relPath,res);
-
+        
 	}
 
     /**
@@ -143,17 +143,17 @@ public final class ExpandPath implements Function {
         }
         boolean pathEndsWithSep=StringUtil.endsWith(path,pathChar);
         boolean realEndsWithSep=StringUtil.endsWith(relPath,'/');
-
+        
         if(realEndsWithSep) {
             if(!pathEndsWithSep)path=path+pathChar;
         }
         else if(pathEndsWithSep) {
             path=path.substring(0,path.length()-1);
         }
-
+        
         return path;
     }
-
+    
     private static Resource resolveWebRootRelative(PageContext pc, String relPath) {
         try {
             String webRoot = pc.getHttpServletRequest().getServletContext().getRealPath("/"); // filesystem path of the servlet web root
@@ -168,16 +168,16 @@ public final class ExpandPath implements Function {
 
     private static String prettifyPath(PageContext pc, String path) {
 		if(path==null) return null;
-
+		
 		// UNC Path
 		if(path.startsWith("\\\\") && SystemUtil.isWindows()) {
 			path=path.substring(2);
 			path=path.replace('\\','/');
 			return "//"+StringUtil.replace(path, "//", "/", false);
 		}
-
+		
 		path=path.replace('\\','/');
-
+		
 		if(path.contains("..") || path.contains("./")) {
 			try {
 				boolean hadLeadingSlash = path.startsWith("/"); // remember if path was absolute before normalization
