@@ -4,17 +4,17 @@
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either 
+ * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
- * You should have received a copy of the GNU Lesser General Public 
+ *
+ * You should have received a copy of the GNU Lesser General Public
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  **/
 /**
  * Implements the CFML Function expandpath
@@ -22,6 +22,7 @@
 package lucee.runtime.functions.system;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import lucee.commons.io.SystemUtil;
@@ -45,8 +46,9 @@ public final class ExpandPath implements Function {
 
 	public static String call(PageContext pc , String relPath) throws PageException {
 		ConfigWeb config=pc.getConfig();
+
 		relPath=prettifyPath(pc,relPath);
-		
+
         String contextPath = pc.getHttpServletRequest().getContextPath();
         if ( !StringUtil.isEmpty( contextPath ) && relPath.startsWith( contextPath ) ) {
             boolean sws=StringUtil.startsWith(relPath, '/');
@@ -56,15 +58,14 @@ public final class ExpandPath implements Function {
         }
 
         Resource res;
-        
+
         if(StringUtil.startsWith(relPath,'/')) {
-        	
-        	
+
         	PageContextImpl pci=(PageContextImpl) pc;
         	ConfigWebImpl cwi=(ConfigWebImpl) config;
-        	PageSource[] sources = cwi.getPageSources(pci, pc.getApplicationContext().getMappings(), relPath, 
+        	PageSource[] sources = cwi.getPageSources(pci, pc.getApplicationContext().getMappings(), relPath,
         			false, pci.useSpecialMappings(), true);
-        	
+
         	if(!ArrayUtil.isEmpty(sources)) {
         		// first check for existing
 	        	for(int i=0;i<sources.length;i++){
@@ -72,14 +73,15 @@ public final class ExpandPath implements Function {
 	        			return toReturnValue(relPath,sources[i].getResource());
 	        		}
 	        	}
-	        	
+
 	        	if(!SystemUtil.isWindows() && !sources[0].exists()) { // Linux: /foo is absolute on the OS; fall back to explicit webroot-relative resolution
 	        		res=pc.getConfig().getResource(relPath);
-	        		if(res.exists()) return toReturnValue(relPath,res); // absolute filesystem path (e.g. from sitePath()); return directly
+	        		if(res.exists()) return toReturnValue(relPath,res); // file already exists at this absolute path; return directly
+	        		if(hasExistingAncestor(relPath)) return relPath; // ancestor dir exists on OS -> treat as real absolute path not yet created
 	        		res=resolveWebRootRelative(pc, relPath);
-	                if(res != null) {
-	                	return toReturnValue(relPath,res);
-	                }
+                    if(res != null) {
+                    	return toReturnValue(relPath,res);
+                    }
 	        	}
 	        	for(int i=0;i<sources.length;i++){
 	        		res=sources[i].getResource();
@@ -91,27 +93,44 @@ public final class ExpandPath implements Function {
 
         	else if(!SystemUtil.isWindows()) { // Linux: no page sources found; resolve against webroot
         		res=pc.getConfig().getResource(relPath);
-        		if(res.exists()) return toReturnValue(relPath,res); // absolute filesystem path (e.g. from sitePath()); return directly
+        		if(res.exists()) return toReturnValue(relPath,res); // file already exists at this absolute path; return directly
+        		if(hasExistingAncestor(relPath)) return relPath; // ancestor dir exists on OS -> treat as real absolute path not yet created
         		res=resolveWebRootRelative(pc, relPath);
                 if(res != null) {
                 	return toReturnValue(relPath,res);
                 }
         	}
-        	
-        	
+
+
         	//Resource[] reses = cwi.getPhysicalResources(pc,pc.getApplicationContext().getMappings(),relPath,false,pci.useSpecialMappings(),true);
-        	
+
         }
         relPath=ConfigWebUtil.replacePlaceholder(relPath, config);
         res=pc.getConfig().getResource(relPath);
         if(res.isAbsolute()) return toReturnValue(relPath,res);
-        
+
         res=ResourceUtil.getResource(pc,pc.getBasePageSource());
         if(!res.isDirectory())res=res.getParentResource();
         res = res.getRealResource(relPath);
         return toReturnValue(relPath,res);
-        
+
 	}
+
+    /**
+     * Walk ancestors of path using Java NIO (real OS filesystem, not Lucee's virtual resource
+     * mapping). Returns true if any ancestor directory exists and is not the filesystem root "/".
+     * This distinguishes real absolute OS paths like /opt/myapp/config/app.conf
+     * (whose ancestor /opt/myapp/config exists) from short webroot-relative paths
+     * like /nonexistent_xyz (whose only ancestor is "/").
+     */
+    private static boolean hasExistingAncestor(String path) {
+        java.nio.file.Path p = Paths.get(path).getParent();
+        while (p != null && p.getNameCount() > 0) { // getNameCount()==0 means we have reached the fs root "/"
+            if (Files.exists(p)) return true;
+            p = p.getParent();
+        }
+        return false;
+    }
 
     private static String toReturnValue(String relPath,Resource res) {
         String path;
@@ -124,17 +143,17 @@ public final class ExpandPath implements Function {
         }
         boolean pathEndsWithSep=StringUtil.endsWith(path,pathChar);
         boolean realEndsWithSep=StringUtil.endsWith(relPath,'/');
-        
+
         if(realEndsWithSep) {
             if(!pathEndsWithSep)path=path+pathChar;
         }
         else if(pathEndsWithSep) {
             path=path.substring(0,path.length()-1);
         }
-        
+
         return path;
     }
-    
+
     private static Resource resolveWebRootRelative(PageContext pc, String relPath) {
         try {
             String webRoot = pc.getHttpServletRequest().getServletContext().getRealPath("/"); // filesystem path of the servlet web root
