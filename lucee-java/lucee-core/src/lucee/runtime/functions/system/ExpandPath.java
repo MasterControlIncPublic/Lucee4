@@ -22,6 +22,8 @@
 package lucee.runtime.functions.system;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import lucee.commons.io.SystemUtil;
 import lucee.commons.io.res.Resource;
@@ -72,12 +74,14 @@ public final class ExpandPath implements Function {
 	        		}
 	        	}
 	        	
-	        	// no expand needed
-	        	if(!SystemUtil.isWindows() && !sources[0].exists()) {
+	        	if(!SystemUtil.isWindows() && !sources[0].exists()) { // Linux: /foo is absolute on the OS; fall back to explicit webroot-relative resolution
 	        		res=pc.getConfig().getResource(relPath);
-	                if(res.exists()) {
-	                	return toReturnValue(relPath,res);
-	                }
+	        		if(res.exists()) return toReturnValue(relPath,res); // file already exists at this absolute path; return directly
+	        		if(hasExistingAncestor(relPath)) return relPath; // ancestor dir exists on OS -> treat as real absolute path not yet created
+	        		res=resolveWebRootRelative(pc, relPath);
+                    if(res != null) {
+                    	return toReturnValue(relPath,res);
+                    }
 	        	}
 	        	for(int i=0;i<sources.length;i++){
 	        		res=sources[i].getResource();
@@ -87,10 +91,12 @@ public final class ExpandPath implements Function {
 	        	}
         	}
 
-        	// no expand needed
-        	else if(!SystemUtil.isWindows()) {
+        	else if(!SystemUtil.isWindows()) { // Linux: no page sources found; resolve against webroot
         		res=pc.getConfig().getResource(relPath);
-                if(res.exists()) {
+        		if(res.exists()) return toReturnValue(relPath,res); // file already exists at this absolute path; return directly
+        		if(hasExistingAncestor(relPath)) return relPath; // ancestor dir exists on OS -> treat as real absolute path not yet created
+        		res=resolveWebRootRelative(pc, relPath);
+                if(res != null) {
                 	return toReturnValue(relPath,res);
                 }
         	}
@@ -109,6 +115,22 @@ public final class ExpandPath implements Function {
         return toReturnValue(relPath,res);
         
 	}
+
+    /**
+     * Walk ancestors of path using Java NIO (real OS filesystem, not Lucee's virtual resource
+     * mapping). Returns true if any ancestor directory exists and is not the filesystem root "/".
+     * This distinguishes real absolute OS paths like /opt/myapp/config/app.conf
+     * (whose ancestor /opt/myapp/config exists) from short webroot-relative paths
+     * like /nonexistent_xyz (whose only ancestor is "/").
+     */
+    private static boolean hasExistingAncestor(String path) {
+        java.nio.file.Path p = Paths.get(path).getParent();
+        while (p != null && p.getNameCount() > 0) { // getNameCount()==0 means we have reached the fs root "/"
+            if (Files.exists(p)) return true;
+            p = p.getParent();
+        }
+        return false;
+    }
 
     private static String toReturnValue(String relPath,Resource res) {
         String path;
@@ -132,6 +154,18 @@ public final class ExpandPath implements Function {
         return path;
     }
     
+    private static Resource resolveWebRootRelative(PageContext pc, String relPath) {
+        try {
+            String webRoot = pc.getHttpServletRequest().getServletContext().getRealPath("/"); // filesystem path of the servlet web root
+            if (webRoot == null || webRoot.isEmpty()) return null;
+            String stripped = StringUtil.startsWith(relPath, '/') ? relPath.substring(1) : relPath; // strip leading slash so it joins as a relative segment
+            String resolved = Paths.get(webRoot, stripped).normalize().toString(); // join webroot + path and collapse any .. segments
+            return pc.getConfig().getResource(resolved);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     private static String prettifyPath(PageContext pc, String path) {
 		if(path==null) return null;
 		
@@ -144,6 +178,23 @@ public final class ExpandPath implements Function {
 		
 		path=path.replace('\\','/');
 		
+		if(path.contains("..") || path.contains("./")) {
+			try {
+				boolean hadLeadingSlash = path.startsWith("/"); // remember if path was absolute before normalization
+				boolean hadTrailingSlash = path.endsWith("/"); // normalize() drops trailing slash; preserve it so callers that append paths get the separator
+				String normalized = Paths.get(path).normalize().toString().replace('\\', '/'); // use path as-is — prefixing '/' would clamp '../../' to filesystem root
+				if (hadLeadingSlash && !normalized.startsWith("/")) { // restore leading slash if normalize() dropped it (Windows behavior)
+					normalized = "/" + normalized;
+				}
+				if (hadTrailingSlash && !normalized.endsWith("/")) {
+					normalized = normalized + "/";
+				}
+				path = normalized;
+			} catch (Exception e) {
+				// Fall through to string-based cleanup below
+			}
+		}
+
 		// virtual file system path
 		int index=path.indexOf("://");
 		if(index!=-1) {
